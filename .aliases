@@ -9,9 +9,16 @@ alias cddb="cd ~/Documents/Dropbox"
 alias cddl="cd ~/Downloads"
 alias cddt="cd ~/Desktop"
 alias cdp="cd ~/Documents/Coding/Projects"
+alias dosx="docker-osx start"
+alias dosxstop="docker-osx stop"
+alias enc="open ~/Documents/Encrypted.sparsebundle"
 alias g="git"
 alias h="history"
 alias j="jobs"
+
+# Laravel
+alias art="php artisan"
+alias arto="php artisan optimize"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
