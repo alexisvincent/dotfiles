@@ -34,13 +34,19 @@ install vim --override-system-vi
 install homebrew/dupes/grep
 install homebrew/dupes/screen
 install homebrew/php/php55 --with-gmp
+install homebrew/php/php55-mcrypt
+install mcrypt
 
 # Install other useful binaries
 install ack
 install bfg
+install composer
+install docker
 #install exiv2
 install foremost
 install git
+install git-flow
+install go
 install hashpump
 install imagemagick --with-webp
 install lynx

@@ -4,16 +4,39 @@
 install caskroom/cask/brew-cask
 tap caskroom/versions
 
+cask install alfred 2> /dev/null
+cask install appcleaner 2> /dev/null
+cask install balsamiq-mockups 2> /dev/null
+cask install bittorrent-sync 2> /dev/null
+cask install caffeine 2> /dev/null
+cask install colorpicker 2> /dev/null
+cask install colorpicker-skalacolor 2> /dev/null
 cask install dropbox 2> /dev/null
+cask install flux 2> /dev/null
 cask install google-chrome 2> /dev/null
 cask install google-chrome-canary 2> /dev/null
+cask install google-drive 2> /dev/null
+cask install handbrake 2> /dev/null
+cask install ifunbox 2> /dev/null
+cask install istat-menus 2> /dev/null
 cask install imagealpha 2> /dev/null
 cask install imageoptim 2> /dev/null
+cask install limechat 2> /dev/null
 cask install macvim 2> /dev/null
 cask install miro-video-converter 2> /dev/null
+cask install moom 2> /dev/null
+cask install paw 2> /dev/null
+cask install skype 2> /dev/null
+cask install steam 2> /dev/null
 cask install sublime-text 2> /dev/null
+cask install teamviewer 2> /dev/null
+cask install textmate 2> /dev/null
 cask install the-unarchiver 2> /dev/null
+cask install todoist 2> /dev/null
+cask install totalterminal 2> /dev/null
 cask install transmission 2> /dev/null
-cask install ukelele 2> /dev/null
+cask install transmit 2> /dev/null
 cask install virtualbox 2> /dev/null
+cask install viscosity 2> /dev/null
 cask install vlc 2> /dev/null
+cask install vmware-fusion 2> /dev/null
