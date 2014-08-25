@@ -57,6 +57,19 @@
 	# List contributors with number of commits
 	contributors = shortlog --summary --numbered
 
+	#G2 - https://github.com/orefalo/g2
+	dt = difftool
+	df = diff
+	mt = mergetool
+	ls = ls-files
+	bs = bisect
+	gp = grep
+	tg = tag
+	rt = remote
+	st = status
+	ss = stash
+	sm = submodule
+
 [apply]
 
 	# Detect whitespace errors when applying a patch
@@ -76,6 +89,11 @@
 	# Make `git rebase` safer on OS X
 	# More info: <http://www.git-tower.com/blog/make-git-rebase-safe-on-osx/>
 	trustctime = false
+
+	#G2 - https://github.com/orefalo/g2
+	editor = vim
+	autocrlf = input
+	safecrlf = warn
 
 [color]
 
@@ -102,6 +120,9 @@
 	changed = green
 	untracked = cyan
 
+[credential]
+	helper = osxkeychain
+
 [diff]
 
 	# Detect copies as well as renames
@@ -116,6 +137,9 @@
 
 	# Include summaries of merged commits in newly created merge commit messages
 	log = true
+
+[mergetool]
+	keepBackup = false
 
 [push]
 
@@ -145,3 +169,7 @@
 [url "git://gist.github.com/"]
 
 	insteadOf = "gist:"
+
+[user]
+	name = Alexis Vincent
+	email = alexisjohnvincent@gmail.com
