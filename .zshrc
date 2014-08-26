@@ -4,7 +4,7 @@ ZSH_THEME="bira"
 source $ZSH/oh-my-zsh.sh
 
 # Plugins
-plugins=(git gitfast git-flow osx textmate)
+plugins=(git gitfast git-flow osx textmate laravel4)
 
 # Disable bi-weekly auto-update checks
 DISABLE_AUTO_UPDATE="true"
