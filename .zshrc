@@ -12,14 +12,14 @@ DISABLE_AUTO_UPDATE="true"
 # Aliases
 source ~/.aliases
 
+# Functions
+source ~/.function
+
 # PATH
-export PATH="/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Applications/Server.app/Contents/ServerRoot/usr/bin:/Applications/Server.app/Contents/ServerRoot/usr/sbin"
+export PATH="/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
 
-# Homebrew temp
-export HOMEBREW_TEMP=/usr/local/homebrew_temp
+# Environment
+source $HOME/.env
 
-# Go Path
-export GOPATH="$HOME/.go"
-
-# Docker OSX
+# Set updated docker-osx IP
 eval `docker-osx env`

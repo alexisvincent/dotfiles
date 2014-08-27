@@ -25,6 +25,7 @@ cask install limechat 2> /dev/null
 cask install macvim 2> /dev/null
 cask install miro-video-converter 2> /dev/null
 cask install moom 2> /dev/null
+cask install onepassword 2> /dev/null
 cask install paw 2> /dev/null
 cask install skype 2> /dev/null
 cask install steam 2> /dev/null
