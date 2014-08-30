@@ -13,7 +13,7 @@ DISABLE_AUTO_UPDATE="true"
 source ~/.aliases
 
 # Functions
-source ~/.function
+source ~/.functions
 
 # PATH
 export PATH="/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin"
