@@ -42,6 +42,7 @@ install composer
 install docker
 #install exiv2
 install foremost
+install fig
 install git
 install git-flow
 install go
