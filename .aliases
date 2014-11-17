@@ -5,21 +5,24 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 # Shortcuts
-alias cddb="cd ~/Documents/Dropbox"
 alias cddl="cd ~/Downloads"
 alias cddt="cd ~/Desktop"
 alias cdp="cd ~/Documents/Coding/Projects"
-alias cdm="cd ~/Documents/Shared/Matchlab/Development"
+
 alias dosx="docker-osx start"
 alias dosxstop="docker-osx stop"
-alias enc="open ~/Documents/Encrypted.sparsebundle"
+
+alias enc="open ~/Documents/Documents/Encrypted.sparsebundle"
+
 alias g="git"
 alias h="history"
 alias j="jobs"
 
+alias composer="hhvm -v ResourceLimit.SocketDefaultTimeout=30 -v Http.SlowQueryThreshold=30000 /usr/local/bin/composer"
+
 # Laravel
-alias art="php artisan"
-alias arto="php artisan optimize"
+alias art="hhvm artisan"
+alias arto="hhvm artisan optimize"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
