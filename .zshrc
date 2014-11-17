@@ -16,7 +16,7 @@ source ~/.aliases
 source ~/.functions
 
 # PATH
-export PATH="/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:~/.composer/vendor/bin"
+export PATH="/usr/local/sbin:/usr/local/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:~/.composer/vendor/bin"
 
 # Environment
 source $HOME/.env
