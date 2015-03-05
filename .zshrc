@@ -7,7 +7,7 @@ ZSH_THEME="bira"
 DISABLE_AUTO_UPDATE="true"
 
 # Plugins
-plugins=(gitfast osx textmate brew wd)
+plugins=(gitfast git-extras osx textmate brew wd lol npm python)
 
 source $ZSH/oh-my-zsh.sh
 

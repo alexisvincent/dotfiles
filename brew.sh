@@ -63,6 +63,7 @@ brew install dns2tcp
 brew install fcrackzip
 brew install foremost
 brew install hashpump
+brew install hhvm
 brew install hydra
 brew install john
 brew install knock
@@ -85,23 +86,22 @@ brew install docker
 #brew install exiv2
 brew install foremost
 brew install git
+brew install git-extras
 brew install go
 brew install hashpump
 brew install imagemagick --with-webp
 brew install lynx
 brew install nmap
-
 brew install p7zip
 brew install pigz
 brew install pv
 brew install rename
+brew install speedtest_cli
 brew install sqlmap
 brew install tree
 brew install webkit2png
 brew install zopfli
-
 brew install lua
-brew install speedtest_cli
 
 # Install Node.js. Note: this installs `npm` too, using the recommended
 # installation method.
