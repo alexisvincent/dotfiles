@@ -2,13 +2,14 @@
 ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.oh-my-zsh_custom
 ZSH_THEME="bira"
-source $ZSH/oh-my-zsh.sh
-
-# Plugins
-plugins=(gitfast osx textmate wd)
 
 # Disable bi-weekly auto-update checks
 DISABLE_AUTO_UPDATE="true"
+
+# Plugins
+plugins=(gitfast osx textmate brew wd)
+
+source $ZSH/oh-my-zsh.sh
 
 # Aliases
 source $HOME/.aliases
