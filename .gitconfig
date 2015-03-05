@@ -60,7 +60,7 @@
 	# List contributors with number of commits
 	contributors = shortlog --summary --numbered
 
-<<<<<<< HEAD
+
 	#G2 - https://github.com/orefalo/g2
 	dt = difftool
 	df = diff
@@ -73,7 +73,8 @@
 	st = status
 	ss = stash
 	sm = submodule
-=======
+
+
 	# Merge GitHub pull request on top of the `master` branch
 	mpr = "!f() { \
 		if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
@@ -85,7 +86,6 @@
 			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
 		fi \
 	}; f"
->>>>>>> f646752640dcf1ec9cb453f913dd65ba622fd800
 
 [apply]
 
