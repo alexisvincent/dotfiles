@@ -153,3 +153,8 @@ alias reload="exec $SHELL -l"
 # Easily switch between `io.js` and `Node.js`
 alias use-iojs="brew unlink node && brew link --force iojs"
 alias use-node="brew unlink iojs && brew link --force node"
+
+
+# Flush DNS
+alias flushDNS="sudo discoveryutil mdnsflushcache;sudo discoveryutil udnsflushcaches;"
+
