@@ -63,7 +63,6 @@ brew install dns2tcp
 brew install fcrackzip
 brew install foremost
 brew install hashpump
-brew install hhvm
 brew install hydra
 brew install john
 brew install knock
@@ -109,6 +108,10 @@ brew install node
 
 # Install io.js
 brew install iojs
+
+# Install HHVM
+brew tap mcuadros/homebrew-hhvm
+brew install hhvm
 
 # Remove outdated versions from the cellar.
 brew cleanup
