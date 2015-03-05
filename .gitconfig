@@ -38,6 +38,9 @@
 	# Interactive rebase with the given number of latest commits
 	reb = "!r() { git rebase -i HEAD~$1; }; r"
 
+	# Remove the old tag with this name and tag the latest commit with it.
+	retag = "!r() { git tag -d $1 && git push origin :refs/tags/$1 && git tag $1; }; r"
+
 	# Find branches containing commit
 	fb = "!f() { git branch -a --contains $1; }; f"
 
@@ -57,6 +60,7 @@
 	# List contributors with number of commits
 	contributors = shortlog --summary --numbered
 
+<<<<<<< HEAD
 	#G2 - https://github.com/orefalo/g2
 	dt = difftool
 	df = diff
@@ -69,6 +73,19 @@
 	st = status
 	ss = stash
 	sm = submodule
+=======
+	# Merge GitHub pull request on top of the `master` branch
+	mpr = "!f() { \
+		if [ $(printf \"%s\" \"$1\" | grep '^[0-9]\\+$' > /dev/null; printf $?) -eq 0 ]; then \
+			git fetch origin refs/pull/$1/head:pr/$1 && \
+			git rebase master pr/$1 && \
+			git checkout master && \
+			git merge pr/$1 && \
+			git branch -D pr/$1 && \
+			git commit --amend -m \"$(git log -1 --pretty=%B)\n\nCloses #$1.\"; \
+		fi \
+	}; f"
+>>>>>>> f646752640dcf1ec9cb453f913dd65ba622fd800
 
 [apply]
 
@@ -94,6 +111,10 @@
 	editor = vim
 	autocrlf = input
 	safecrlf = warn
+
+	# Prevent showing files whose names contain non-ASCII symbols as unversioned.
+	# http://michael-kuehnel.de/git/2014/11/21/git-mac-osx-and-german-umlaute.html
+	precomposeunicode = false
 
 [color]
 
