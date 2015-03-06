@@ -9,9 +9,13 @@ alias cddl="cd ~/Downloads"
 alias cddt="cd ~/Desktop"
 alias cdp="cd ~/Documents/Coding/Projects"
 
-alias b2d="boot2docker"
-alias bup="boot2docker up"
-alias bop="boot2docker stop"
+alias m="docker-machine"
+alias mup="docker-machine start"
+alias mop="docker-machine stop"
+
+alias c="docker-compose"
+alias cup="docker-compose start"
+alias cop="docker-compose stop"
 
 alias enc="open ~/Documents/Documents/Encrypted.sparsebundle"
 
