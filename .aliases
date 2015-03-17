@@ -9,11 +9,12 @@ alias cddl="cd ~/Downloads"
 alias cddt="cd ~/Desktop"
 alias cdp="cd ~/Documents/Coding/Projects"
 
-alias m="docker-machine"
-alias mup="docker-machine start"
-alias mop="docker-machine stop"
+alias machine="docker-machine"
+alias mup="docker-machine start dev"
+alias mop="docker-machine stop dev"
+alias abra="$(docker-machine dev env)"
 
-alias c="docker-compose"
+alias compose="docker-compose"
 alias cup="docker-compose start"
 alias cop="docker-compose stop"
 
@@ -23,7 +24,7 @@ alias g="git"
 alias h="history"
 alias j="jobs"
 
-alias composer="hhvm -v ResourceLimit.SocketDefaultTimeout=30 -v Http.SlowQueryThreshold=30000 /usr/local/bin/composer"
+#alias composer="hhvm -v ResourceLimit.SocketDefaultTimeout=30 -v Http.SlowQueryThreshold=30000 /usr/local/bin/composer"
 
 # Laravel
 alias art="hhvm artisan"
