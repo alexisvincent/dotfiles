@@ -12,7 +12,7 @@ alias cdp="cd ~/Documents/Coding/Projects"
 alias machine="docker-machine"
 alias mup="docker-machine start dev"
 alias mop="docker-machine stop dev"
-alias abra="$(docker-machine dev env)"
+alias abra="$(docker-machine env dev)"
 
 alias compose="docker-compose"
 alias cup="docker-compose start"
