@@ -4,6 +4,9 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
+# Vim
+alias vim='mvim -v'
+
 # Shortcuts
 alias cddl="cd ~/Downloads"
 alias cddt="cd ~/Desktop"
