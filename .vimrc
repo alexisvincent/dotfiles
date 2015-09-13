@@ -121,15 +121,25 @@ let NERDTreeShowHidden=1	"Show Hidden files
 
 " }}}
 " Syntastic {{{
-"let g:syntastic_python_flake8_args='--ignore=E501'
-"let g:syntastic_ignore_files = ['.java$']
+let g:syntastic_python_flake8_args='--ignore=E501'
+let g:syntastic_javascript_checkers = ['jshint']
+
+let g:syntastic_ignore_files = ['.java$']
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
 " }}}
 " Launch Config {{{
 "runtime! debian.vim
 "set nocompatible
 call pathogen#infect()
 " }}}
-"" Tmux {{{
+" Tmux {{{
 "if exists('$TMUX') " allows cursor change in tmux mode
 "    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 "    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
