@@ -1,5 +1,43 @@
 " Alexis Vincent .vimrc
 
+" Launch Config {{{ 
+
+" }}}
+" Vundle {{{
+
+set nocompatible
+filetype off
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+Plugin 'bling/vim-airline'
+Plugin 'ctrlpvim/ctrlp.vim'
+Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
+Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'marijnh/tern_for_vim'
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'othree/yajs.vim'
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+" To ignore plugin indent changes, instead use:
+"filetype plugin on
+"
+" Brief help
+" :PluginList       - lists configured plugins
+" :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+" :PluginSearch foo - searches for foo; append `!` to refresh local cache
+" :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+"
+" see :h vundle for more details or wiki for FAQ
+" }}}
 " Colors {{{
 
 syntax enable           " enable syntax processing
@@ -54,6 +92,12 @@ set foldlevelstart=10    " start with fold level of 1
 
 " }}}
 " Line Shortcuts {{{
+
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
 "nnoremap j gj
 "nnoremap k gk
 "nnoremap B ^
@@ -134,11 +178,6 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 " }}}
-" Launch Config {{{
-"runtime! debian.vim
-"set nocompatible
-call pathogen#infect()
-" }}}
 " Tmux {{{
 "if exists('$TMUX') " allows cursor change in tmux mode
 "    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
@@ -152,6 +191,9 @@ call pathogen#infect()
 set guioptions-=r 
 set guioptions-=L
 let macvim_skip_colorscheme = 1
+" }}}
+" Markdown Preview {{{
+filetype plugin on
 " }}}
 " AutoGroups {{{
 "augroup configgroup

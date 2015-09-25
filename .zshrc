@@ -26,5 +26,8 @@ if [ -d "$GHC_DOT_APP" ]; then
     export PATH="${HOME}/.cabal/bin:${GHC_DOT_APP}/Contents/bin:${PATH}"
 fi
 
+# Fix for vim-instant-markdown
+set shell=bash\ -i
+
 # Environment
 source $HOME/.env
