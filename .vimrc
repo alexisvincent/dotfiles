@@ -2,10 +2,11 @@
 
 " Launch Config {{{ 
 
+set nocompatible
+
 " }}}
 " Vundle {{{
 
-set nocompatible
 filetype off
 
 " set the runtime path to include Vundle and initialize
@@ -15,6 +16,7 @@ call vundle#begin()
 " let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 
+" Plugins
 Plugin 'bling/vim-airline'
 Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'suan/vim-instant-markdown', {'rtp': 'after'}
@@ -23,13 +25,20 @@ Plugin 'scrooloose/syntastic'
 Plugin 'marijnh/tern_for_vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'othree/yajs.vim'
+Plugin 'tpope/vim-surround'
+Plugin 'scrooloose/nerdcommenter'
+Plugin 'Chiel92/vim-autoformat'
+Plugin 'elzr/vim-json'
+Plugin 'jiangmiao/auto-pairs'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-session'
+Plugin 'geoffharcourt/one-dark.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
-filetype plugin indent on    " required
-" To ignore plugin indent changes, instead use:
-"filetype plugin on
-"
+
 " Brief help
 " :PluginList       - lists configured plugins
 " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
@@ -37,7 +46,7 @@ filetype plugin indent on    " required
 " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
 "
 " see :h vundle for more details or wiki for FAQ
-" }}}
+ "}}}
 " Colors {{{
 
 syntax enable           " enable syntax processing
@@ -50,13 +59,17 @@ set ttyfast                     " faster redraw
 set backspace=indent,eol,start
 set exrc	"Allow Project specific .vimrc
 
+" Autoreload vimrc
+augroup reload_vimrc
+    autocmd!
+    autocmd BufWritePost .vimrc source %
+augroup END 
 " }}}
 " Spaces & Tabs {{{
 
-set tabstop=4           " 4 space tab
-"set expandtab           " use spaces for tabs
-set softtabstop=4       " 4 space tab
-set shiftwidth=4
+set tabstop=2           " 4 space tab
+set softtabstop=2       " 4 space tab
+set shiftwidth=2
 set modelines=1
 filetype indent on
 filetype plugin on
@@ -71,7 +84,7 @@ set nocursorline          " highlight current line
 set wildmenu
 set lazyredraw
 set showmatch           " higlight matching parenthesis
-set guifont=Monaco:h14  " Use 14pt Monaco
+set guifont=Menlo:h14  " Use 14pt Monaco
 set linespace=8			" Better line-height
 
 " }}}
@@ -115,8 +128,18 @@ noremap <Right> <NOP>
 "onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
 "xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
 " }}}
+" Shortcuts {{{
+
+noremap <Up> <NOP>
+noremap <Down> <NOP>
+noremap <Left> <NOP>
+noremap <Right> <NOP>
+
+noremap <D-r> :TernRename<CR>
+
+" }}}
 " Leader Shortcuts {{{
-"let mapleader=","
+let mapleader=","
 "nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 "nnoremap <leader>w :NERDTree<CR>
 "nnoremap <leader>u :GundoToggle<CR>
@@ -138,11 +161,8 @@ noremap <Right> <NOP>
 "vmap <C-v> <Plug>(expand_region_shrink)
 "inoremap jk <esc>
 " }}}
-" Powerline {{{
+" Airline {{{
 "set encoding=utf-8
-"python from powerline.vim import setup as powerline_setup
-"python powerline_setup()
-"python del powerline_setup
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_left_sep = ''
@@ -150,6 +170,7 @@ let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
 set laststatus=2
+let g:airline_theme='bubblegum'
 " }}}
 " CtrlP {{{
 "let g:ctrlp_match_window = 'bottom,order:ttb'
@@ -164,9 +185,16 @@ map <C-n> :NERDTreeToggle<CR>	" Toggle NERDTree with CTRL-n
 let NERDTreeShowHidden=1	"Show Hidden files
 
 " }}}
+" Session {{{
+let g:session_autosave = 'yes'
+" }}}
+" YouCompleteMe {{{
+let g:ycm_key_list_select_completion=[]
+let g:ycm_key_list_previous_completion=[]
+" }}}
 " Syntastic {{{
 let g:syntastic_python_flake8_args='--ignore=E501'
-let g:syntastic_javascript_checkers = ['jshint']
+let g:syntastic_javascript_checkers = ['eslint']
 
 let g:syntastic_ignore_files = ['.java$']
 set statusline+=%#warningmsg#
@@ -178,7 +206,7 @@ let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 " }}}
-" Tmux {{{
+" Tmux {{{   
 "if exists('$TMUX') " allows cursor change in tmux mode
 "    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
 "    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
@@ -187,6 +215,34 @@ let g:syntastic_check_on_wq = 0
 "    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 "endif
 "" }}}
+" UltiSnips {{{
+
+" UltiSnips completion function that tries to expand a snippet. If there's no
+" snippet for expanding, it checks for completion window and if it's
+" shown, selects first element. If there's no completion window it tries to
+" jump to next placeholder. If there's no placeholder it just returns TAB key 
+function! g:UltiSnips_Complete()
+  call UltiSnips#ExpandSnippetOrJump()
+  if g:ulti_expand_or_jump_res == 0
+    if pumvisible()
+      return "\<C-N>"
+    else
+      return "\<TAB>"
+    endif
+  endif
+
+  return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsListSnippets="<c-e>"
+" this mapping Enter key to <C-y> to chose the current highlight item 
+" and close the selection list, same as other IDEs.
+" CONFLICT with some plugins like tpope/Endwise
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+" }}}
 " MacVim {{{
 set guioptions-=r 
 set guioptions-=L
