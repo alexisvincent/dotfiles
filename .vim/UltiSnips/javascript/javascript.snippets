@@ -1,0 +1,20 @@
+snippet lambda "Expands a lamdba function" b
+(${1}) => {
+	${2}
+}
+endsnippet
+
+snippet class "An ES6 class" b
+${1:export ${2:default }}class ${3:ClassName}${4: extends ${5:Parent}} {
+	constructor(${6}) {
+		${7:super()}
+		${8}
+	}
+}
+endsnippet
+
+snippet method "Expands an es6 class method" b
+${1:foo}(${2}) {
+	${3}
+}
+endsnippet

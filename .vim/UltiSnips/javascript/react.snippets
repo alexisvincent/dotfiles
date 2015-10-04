@@ -1,0 +1,22 @@
+snippet rcomp "React Component Boilerplate" b
+import React, {Component} from 'react';
+import styles from './$1.css';
+import CSSModules from 'react-css-modules';
+
+let div = React.DOM.div;
+
+@CSSModules(styles)
+export class ${1:`!p snip.rv = snip.fn.replace('.js', '')`} extends Component {
+	render() {
+		return (
+			div({styleName: ''}, ${2})
+		)
+	}
+}
+
+export default React.createFactory($1);
+endsnippet
+
+snippet relem "A react component tag" b
+${1:div}({${2:styleName: '${3:$1}'}}, ${4:"$1 test"})
+endsnippet

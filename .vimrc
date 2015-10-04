@@ -35,6 +35,10 @@ Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-session'
 Plugin 'geoffharcourt/one-dark.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'autoswap.vim'
+Plugin 'moll/vim-node'
+Bundle 'ervandew/supertab'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -71,8 +75,7 @@ set tabstop=2           " 4 space tab
 set softtabstop=2       " 4 space tab
 set shiftwidth=2
 set modelines=1
-filetype indent on
-filetype plugin on
+filetype plugin indent on
 set autoindent
 
 " }}}
@@ -100,7 +103,7 @@ set hlsearch            " highlight all matches
 set foldmethod=marker   " fold based on marker
 set foldnestmax=10      " max 10 depth
 set foldenable          " don't fold files by default on open
-nnoremap <space> za
+nnoremap f za
 set foldlevelstart=10    " start with fold level of 1
 
 " }}}
@@ -162,7 +165,7 @@ let mapleader=","
 "inoremap jk <esc>
 " }}}
 " Airline {{{
-"set encoding=utf-8
+set encoding=utf-8
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_left_sep = ''
@@ -189,8 +192,12 @@ let NERDTreeShowHidden=1	"Show Hidden files
 let g:session_autosave = 'yes'
 " }}}
 " YouCompleteMe {{{
-let g:ycm_key_list_select_completion=[]
-let g:ycm_key_list_previous_completion=[]
+" http://stackoverflow.com/questions/14896327/ultisnips-and-youcompleteme
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" }}}
+" SuperTab {{{
+let g:SuperTabDefaultCompletionType = '<C-n>'
 " }}}
 " Syntastic {{{
 let g:syntastic_python_flake8_args='--ignore=E501'
@@ -221,27 +228,35 @@ let g:syntastic_check_on_wq = 0
 " snippet for expanding, it checks for completion window and if it's
 " shown, selects first element. If there's no completion window it tries to
 " jump to next placeholder. If there's no placeholder it just returns TAB key 
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippetOrJump()
-  if g:ulti_expand_or_jump_res == 0
-    if pumvisible()
-      return "\<C-N>"
-    else
-      return "\<TAB>"
-    endif
-  endif
+"function! g:UltiSnips_Complete()
+  "call UltiSnips#ExpandSnippetOrJump()
+  "if g:ulti_expand_or_jump_res == 0
+    "if pumvisible()
+      "return "\<C-N>"
+    "else
+      "return "\<TAB>"
+    "endif
+  "endif
 
-  return ""
-endfunction
+  "return ""
+"endfunction
 
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+"au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsListSnippets="<c-e>"
+"let g:UltiSnipsExpandTrigger="<D-Enter>"
+"let g:UltiSnipsListSnippets="<c-e>"
 " this mapping Enter key to <C-y> to chose the current highlight item 
 " and close the selection list, same as other IDEs.
 " CONFLICT with some plugins like tpope/Endwise
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+"inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<C-g>u\<CR>"
+
+
+"http://stackoverflow.com/questions/14896327/ultisnips-and-youcompleteme
+" better key bindings for UltiSnipsExpandTrigger
+let g:UltiSnipsExpandTrigger = "<tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+
 " }}}
 " MacVim {{{
 set guioptions-=r 
