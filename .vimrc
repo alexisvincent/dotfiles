@@ -29,7 +29,7 @@ Plugin 'tpope/vim-surround'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'elzr/vim-json'
-Plugin 'jiangmiao/auto-pairs'
+Plugin 'Raimondi/delimitMate'
 Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'xolox/vim-misc'
@@ -38,7 +38,13 @@ Plugin 'geoffharcourt/one-dark.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'autoswap.vim'
 Plugin 'moll/vim-node'
-Bundle 'ervandew/supertab'
+Plugin 'ervandew/supertab'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'Shougo/vimproc.vim' " Remember to make
+Plugin 'Shougo/unite.vim'
+Plugin 'm2mdas/phpcomplete-extended'
+Plugin 'm2mdas/phpcomplete-extended-laravel'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -63,6 +69,8 @@ set ttyfast                     " faster redraw
 set backspace=indent,eol,start
 set exrc	"Allow Project specific .vimrc
 
+autocmd  FileType  php setlocal omnifunc=phpcomplete_extended#CompletePHP
+
 " Autoreload vimrc
 augroup reload_vimrc
     autocmd!
@@ -71,9 +79,10 @@ augroup END
 " }}}
 " Spaces & Tabs {{{
 
-set tabstop=2           " 4 space tab
-set softtabstop=2       " 4 space tab
-set shiftwidth=2
+set expandtab
+set tabstop=4           " 4 space tab
+set softtabstop=0       " 4 space tab
+set shiftwidth=4
 set modelines=1
 filetype plugin indent on
 set autoindent

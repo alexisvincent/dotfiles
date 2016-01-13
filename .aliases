@@ -5,21 +5,26 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 # Vim
-alias vim='mvim -v'
+alias vim='mvim '
 
+alias devbox='docker run -v $(pwd):/root -it devbox '
+
+alias connectNarga='sshfs 18680666@open.narga.sun.ac.za:/home/student/18680666 ~/Documents/Code/Projects/narga/'
+alias disconnectNarga='umount /Users/alexisvincent/Documents/Code/Projects/narga'
 # Shortcuts
 alias cddl="cd ~/Downloads"
 alias cddt="cd ~/Desktop"
 alias cdp="cd ~/Documents/Coding/Projects"
 
 alias machine="docker-machine"
-alias mup="docker-machine start dev"
-alias mop="docker-machine stop dev"
-alias abra="$(docker-machine env dev)"
+alias mstart="docker-machine start dev"
+alias mstop="docker-machine stop dev"
+alias menv="eval $(docker-machine env dev)"
 
-alias compose="docker-compose"
-alias cup="docker-compose start"
-alias cop="docker-compose stop"
+alias dstart="docker-compose start"
+alias dstop="docker-compose stop"
+alias drun="docker-compose run"
+alias dup="docker-compose run"
 
 alias enc="open ~/Documents/Documents/Encrypted.sparsebundle"
 

@@ -4,6 +4,7 @@ cd "$(dirname "${BASH_SOURCE}")";
 
 rsync \
 	--exclude ".git/" \
+	--exclude ".gitmodules" \
 	--exclude ".DS_Store" \
 	--exclude "bootstrap.sh" \
 	--exclude "README.md" \

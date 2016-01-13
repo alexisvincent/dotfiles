@@ -1,3 +1,6 @@
 [submodule ".oh-my-zsh"]
 	path = .oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh.git
+[submodule "config/atom-one-dark-terminal"]
+	path = config/atom-one-dark-terminal
+	url = https://github.com/nathanbuchar/atom-one-dark-terminal.git
