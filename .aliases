@@ -5,7 +5,7 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 # Vim
-alias vim='mvim '
+#alias vim='mvim '
 
 alias devbox='docker run -v $(pwd):/root -it devbox '
 
@@ -16,27 +16,14 @@ alias cddl="cd ~/Downloads"
 alias cddt="cd ~/Desktop"
 alias cdp="cd ~/Documents/Coding/Projects"
 
-alias machine="docker-machine"
-alias mstart="docker-machine start dev"
-alias mstop="docker-machine stop dev"
-alias menv="eval $(docker-machine env dev)"
+alias dm="docker-machine "
+alias dmenv="eval $(docker-machine env dev)"
 
-alias dstart="docker-compose start"
-alias dstop="docker-compose stop"
-alias drun="docker-compose run"
-alias dup="docker-compose run"
-
-alias enc="open ~/Documents/Documents/Encrypted.sparsebundle"
+alias dc="docker-compose "
 
 alias g="git"
 alias h="history"
 alias j="jobs"
-
-#alias composer="hhvm -v ResourceLimit.SocketDefaultTimeout=30 -v Http.SlowQueryThreshold=30000 /usr/local/bin/composer"
-
-# Laravel
-alias art="hhvm artisan"
-alias arto="hhvm artisan optimize"
 
 # Detect which `ls` flavor is in use
 if ls --color > /dev/null 2>&1; then # GNU `ls`
@@ -74,9 +61,6 @@ alias update='sudo softwareupdate -i -a; brew update; brew upgrade; brew cleanup
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias localip="ipconfig getifaddr en0"
 alias ips="ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
-
-# Flush Directory Service cache
-alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
 # Clean up LaunchServices to remove duplicates in the “Open With” menu
 alias lscleanup="/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -kill -r -domain local -domain system -domain user && killall Finder"
@@ -163,11 +147,5 @@ alias afk="/System/Library/CoreServices/Menu\ Extras/User.menu/Contents/Resource
 # Reload the shell (i.e. invoke as a login shell)
 alias reload="exec $SHELL -l"
 
-# Easily switch between `io.js` and `Node.js`
-alias use-iojs="brew unlink node && brew link --force iojs"
-alias use-node="brew unlink iojs && brew link --force node"
-
-
 # Flush DNS
 alias flushDNS="sudo discoveryutil mdnsflushcache;sudo discoveryutil udnsflushcaches;"
-

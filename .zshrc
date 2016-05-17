@@ -7,7 +7,10 @@ ZSH_THEME="bira"
 DISABLE_AUTO_UPDATE="true"
 
 # Plugins
-plugins=(gitfast git-extras osx textmate brew wd lol npm python)
+plugins=(gitfast git-extras osx zsh-completions brew wd lol npm python)
+
+# For zsh-completions
+autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
 

@@ -4,3 +4,6 @@
 [submodule "config/atom-one-dark-terminal"]
 	path = config/atom-one-dark-terminal
 	url = https://github.com/nathanbuchar/atom-one-dark-terminal.git
+[submodule "config/idea-one-dark-theme"]
+	path = config/idea-one-dark-theme
+	url = https://github.com/yurtaev/idea-one-dark-theme.git
