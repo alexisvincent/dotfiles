@@ -5,9 +5,10 @@ alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
 # Vim
-#alias vim='mvim '
+alias vim='mvim '
 
 alias devbox='docker run -v $(pwd):/root -it devbox '
+alias dinghyenv='eval $(dinghy env)'
 
 alias connectNarga='sshfs 18680666@open.narga.sun.ac.za:/home/student/18680666 ~/Documents/Code/Projects/narga/'
 alias disconnectNarga='umount /Users/alexisvincent/Documents/Code/Projects/narga'
@@ -17,7 +18,6 @@ alias cddt="cd ~/Desktop"
 alias cdp="cd ~/Documents/Coding/Projects"
 
 alias dm="docker-machine "
-alias dmenv="eval $(docker-machine env dev)"
 
 alias dc="docker-compose "
 
