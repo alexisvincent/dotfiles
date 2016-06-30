@@ -1,17 +1,14 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
-cd "$(dirname "${BASH_SOURCE}")";	
+dotfiles=$(cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd)
 
-rsync \
-	--exclude ".git/" \
-	--exclude ".gitmodules" \
-	--exclude ".DS_Store" \
-	--exclude "bootstrap.sh" \
-	--exclude "README.md" \
-	--exclude "brew.sh" \
-	--exclude "bin/" \
-	--exclude "init.sh" \
-	--exclude "geektool/" \
-	--exclude ".osx" \
-	--exclude "config/" \
-	--exclude "LICENSE-MIT.txt" -avh --no-perms . ~;
+cd $dotfiles
+rm -rf $dotfiles/trash
+mkdir -p $dotfiles/trash
+
+for file in $(ls -A src); do
+  mv ~/$file $dotfiles/trash/$file
+
+  echo "Symlink ~/$file -> $dotfiles/src/$file"
+  ln -s $dotfiles/src/$file ~/$file
+done

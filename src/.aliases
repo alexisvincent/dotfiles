@@ -21,6 +21,9 @@ alias dm="docker-machine "
 
 alias dc="docker-compose "
 
+alias tectonic='kubectl get pods -l tectonic-app=console -o template --template="{{range.items}}{{.metadata.name}}{{end}}" | xargs -I{} kubectl port-forward {} 9000'
+
+
 alias g="git"
 alias h="history"
 alias j="jobs"
