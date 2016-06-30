@@ -21,7 +21,7 @@ if has("gui_running") " all this for gui use
     set guioptions-=e
     set novisualbell     "Visual Bell Looks really ghetto on Windows GVim.
     set guioptions-=m
-    set guifont=Lucida\ Console:h10.00
+    set guifont=Inconsolata-dz\ for\ Powerline:h14
     " Needed to NOT break symlinks on windows! Will write to new file instead of
     " original symlinked file if you do not inclue the following line:
     " Doesn't seem to fix the issue - always go to the source when editing files!
@@ -42,7 +42,7 @@ if has("gui_running") " all this for gui use
     let macvim_skip_colorscheme = 1
     set transparency=0
     set fuoptions=maxvert,maxhorz
-    set guifont=Menlo:h14
+    set guifont=Inconsolata-dz\ for\ Powerline:h14
     set nolazyredraw
     " Change to `1` if your font is patched with webdev icons.
     let g:webdevicons_enable = 0
