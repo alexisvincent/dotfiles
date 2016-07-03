@@ -1,18 +1,29 @@
 # oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
-ZSH_CUSTOM=$HOME/.oh-my-zsh_custom
-ZSH_THEME="bira"
+ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
+# ZSH_THEME="bira"
+ZSH_THEME="lambda"
+
 
 # Disable bi-weekly auto-update checks
-DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_UPDATE="false"
 
 # Plugins
-plugins=(gitfast git-extras osx zsh-completions brew wd lol npm python)
+plugins=(git-extras osx zsh-syntax-highlighting zsh-completions brew wd python taskwarrior vi-mode colorize web-search docker docker-compose)
 
 # For zsh-completions
 autoload -U compinit && compinit
 
 source $ZSH/oh-my-zsh.sh
+
+# Set vi mode switching to 100ms instead of default 400ms
+export KEYTIMEOUT=1
+# Vi mode normal prompt indicator
+function zle-line-init zle-keymap-select {
+    VIM_PROMPT="%{$fg_bold[green]%} [% NORMAL]% %{$reset_color%}"
+    RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1"
+    zle reset-prompt
+}
 
 # Aliases
 source $HOME/.aliases

@@ -1,6 +1,6 @@
 /*global __DEV__:true, self: true, document: true, window: true, Event: true, localStorage: true, expect: true, it: true, beforeEach: true, describe: true */
 /*jshint
-  browser: true,
+  browser: lolol,
   devel: true,
   node: true,
   nonstandard: true,

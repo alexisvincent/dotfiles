@@ -74,7 +74,7 @@ autocmd  FileType  php setlocal omnifunc=phpcomplete_extended#CompletePHP
 " Autoreload vimrc
 augroup reload_vimrc
     autocmd!
-    autocmd BufWritePost .vimrc source %
+    autocmd BufWritePost .vimrc source $MYVIMRC
 augroup END 
 " }}}
 " Spaces & Tabs {{{

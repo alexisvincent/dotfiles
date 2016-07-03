@@ -73,7 +73,10 @@ nmap S ddO
 
 " ==== Window and split navigation ===
 "Tab through your splits! (Shift tab won't ever work on terminal :( )
-set winwidth=1
+if has("vim_starting")
+  set winwidth=1
+endif
+
 nmap <Tab> <c-w><c-w>
 nmap <s-Tab> <c-w><s-w>
 
@@ -120,7 +123,7 @@ endfunction
 
 
 
-command -nargs=* DoUnhighlightEverything :call UnhighlightMerlinIfDefined(<f-args>)
+command! -nargs=* DoUnhighlightEverything :call UnhighlightMerlinIfDefined(<f-args>)
 if has('gui_running')
   nnoremap <silent> <esc>  :nohlsearch<return>:DoUnhighlightEverything<return><esc>
 else
@@ -141,27 +144,6 @@ vmap <F5> :sort ui<Cr>
 map <Space> gt
 " shift-space backwards - doesn't work on terminal, I believe
 map <s-Space> gT
-
-if has('gui_win32')
-  " space through your tabs!
-  map <M-}> gt
-  " shift-space backwards - doesn't work on terminal, I believe
-  map <M-{> gT
-  imap <M-}> <Esc>gt
-  " shift-space backwards - doesn't work on terminal, I believe
-  imap <M-{> <Esc>gT
-
-  nmap <F13> :q<Cr>
-  imap <F13> <Esc>:q<Cr>
-  nmap <F14> :qall<Cr>
-  imap <F14> <Esc>:qall<Cr>
-  nmap <F17> :tabnew<Cr>
-  imap <F17> <Esc> :tabnew<Cr>
-  vmap <F17> <Esc> :tabnew<Cr>
-  nmap <F16> :w<Cr>
-  imap <F16> <Esc>:w<Cr>l
-  vmap <F16> <Esc>:w<Cr>
-endif
 
 "Emacs keybindings while inserting.
 imap <C-a> <Esc>I
@@ -198,71 +180,63 @@ nmap <D-M> :call Preserve("normal gg=G")<CR>
 nnoremap <expr> <c-s> ':%s/\<'.expand('<cword>').'\>/'.expand('<cword>').'/g<Left><Left>'
 
 
-" auto change directory of file. (really nice, but not always wanted)
-" autocmd BufEnter * execute "chdir ".escape(expand("%:p:h"), ' ')
-if has("gui_running") " all this for gui use
-    "set number
-    if has("gui_macvim")
-        " =====================================================================
-        " Macy key bindings.
-        " =====================================================================
-        " macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
-        " This is bound in ~/.vim/.bundlesVimRc
-        " http://lifehacker.com/5280456/hide-your-mac-menu-bar-and-dock-for-a-cleaner-desktop
+" =====================================================================
+" Macy key bindings.
+" =====================================================================
+" macmenu Window.Toggle\ Full\ Screen\ Mode key=<D-CR>
+" This is bound in ~/.vim/.bundlesVimRc
+" http://lifehacker.com/5280456/hide-your-mac-menu-bar-and-dock-for-a-cleaner-desktop
 
-        " Since it makes sense to make c-d match the mac ox/emacs style forward
-        " delete, c-d can't be (shift left in insert mode). Given that, we can
-        " make a better mac os x combo for indenting and unindenting in insert
-        " mode. That frees up c-t
-        inoremap <D-]> <c-t>
-        inoremap <D-[> <c-d>
+" Since it makes sense to make c-d match the mac ox/emacs style forward
+" delete, c-d can't be (shift left in insert mode). Given that, we can
+" make a better mac os x combo for indenting and unindenting in insert
+" mode. That frees up c-t
+inoremap <D-]> <c-t>
+inoremap <D-[> <c-d>
 
-        " Awesome visual selection maintained when indenting.
-        vmap <D-]> >gv
-        vmap <D-[> <gv
-        " Map Command-# to switch tabs
-        map  <D-0> 0gt
-        imap <D-0> <Esc>0gt
-        map  <D-1> 1gt
-        imap <D-1> <Esc>1gt
-        map  <D-2> 2gt
-        imap <D-2> <Esc>2gt
-        map  <D-3> 3gt
-        imap <D-3> <Esc>3gt
-        map  <D-4> 4gt
-        imap <D-4> <Esc>4gt
-        map  <D-5> 5gt
-        imap <D-5> <Esc>5gt
-        map  <D-6> 6gt
-        imap <D-6> <Esc>6gt
-        map  <D-7> 7gt
-        imap <D-7> <Esc>7gt
-        map  <D-8> 8gt
-        imap <D-8> <Esc>8gt
-        map  <D-9> 9gt
-        imap <D-9> <Esc>9gt
+" Awesome visual selection maintained when indenting.
+vmap <D-]> >gv
+vmap <D-[> <gv
+" Map Command-# to switch tabs
+map  <D-0> 0gt
+imap <D-0> <Esc>0gt
+map  <D-1> 1gt
+imap <D-1> <Esc>1gt
+map  <D-2> 2gt
+imap <D-2> <Esc>2gt
+map  <D-3> 3gt
+imap <D-3> <Esc>3gt
+map  <D-4> 4gt
+imap <D-4> <Esc>4gt
+map  <D-5> 5gt
+imap <D-5> <Esc>5gt
+map  <D-6> 6gt
+imap <D-6> <Esc>6gt
+map  <D-7> 7gt
+imap <D-7> <Esc>7gt
+map  <D-8> 8gt
+imap <D-8> <Esc>8gt
+map  <D-9> 9gt
+imap <D-9> <Esc>9gt
 
 
 
-        " Some Textmatey Shortcuts:
-        imap <D-S-Enter> <End>;<Cr>
-        imap <D-A> <End>;
+" Some Textmatey Shortcuts:
+imap <D-S-Enter> <End>;<Cr>
+imap <D-A> <End>;
 
-        " Toggle Spell Check Easily:
-        imap <D-P> <Esc>l:set spell!<Cr>
-        nmap <D-P> :set spell!<Cr>
+" Toggle Spell Check Easily:
+imap <D-P> <Esc>l:set spell!<Cr>
+nmap <D-P> :set spell!<Cr>
 
-        " Building:
-        " map <D-b> :w<Cr>:!./build.sh<Cr>
-        " imap <D-b> <Esc>:w<Cr>:!./build.sh<Cr>
+" Building:
+" map <D-b> :w<Cr>:!./build.sh<Cr>
+" imap <D-b> <Esc>:w<Cr>:!./build.sh<Cr>
 
-        " CmdRB to save current file and build silently - then refresh browser.
-        " macmenu &Tools.Make key=<nop>
-        " Interferes with ctrlp mappings.
-        " map <D-r> :w<Cr>:RRB<Cr>
-        " imap <D-r> <Esc>:w<Cr>:RRB<Cr>
-    endif
-endif
-
+" CmdRB to save current file and build silently - then refresh browser.
+" macmenu &Tools.Make key=<nop>
+" Interferes with ctrlp mappings.
+" map <D-r> :w<Cr>:RRB<Cr>
+" imap <D-r> <Esc>:w<Cr>:RRB<Cr>
 
 

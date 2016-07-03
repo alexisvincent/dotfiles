@@ -6,6 +6,7 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 let g:NERDTreeDirArrows = 1
 " not so much cruft
 let g:NERDTreeMinimalUI = 1
+let NERDTreeShowHidden=1
 let g:NERDTreeShowBookmarks = 1
 hi def link NERDTreeRO Normal
 hi def link NERDTreePart StatusLine

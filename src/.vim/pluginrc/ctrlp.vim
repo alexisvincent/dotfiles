@@ -4,36 +4,21 @@ set splitright
 "jump to existing buffer on ANY open command (split/tab/etc).
 let g:ctrlp_switch_buffer="ETVH"
 
-" Assumes autohotkey mappings
-if has("gui_win32")
-  " Open ctrlp with cmd+p
-  let g:ctrlp_map = '<F12>'
+" Open ctrlp with cmd+p
+let g:ctrlp_map = '<D-p>'
+" Open goto symbol on current buffer
+" Not mapping D-r like sublime/etc so we can use it for refreshing an app.
+" nmap <D-r> :MyCtrlPTag<cr>
+" imap <D-r> <esc>:MyCtrlPTag<cr>
+" Open goto symbol on all buffers
+" nmap <D-R> :CtrlPBufTagAll<cr>
+" imap <D-R> <esc>:CtrlPBufTagAll<cr>
+" Open goto file
+" nmap <D-t> :CtrlPBuffer<cr>
+" imap <D-t> <esc>:CtrlPBuffer<cr>
 
-  " Open goto symbol on current buffer
-  nmap <F9> :MyCtrlPTag<cr>
-  imap <F9> <esc>:MyCtrlPTag<cr>
-
-  " Open goto symbol on all buffers
-  nmap <F10> :CtrlPBufTagAll<cr>
-  imap <F10> <esc>:CtrlPBufTagAll<cr>
-
-  " Open goto file
-  nmap <F8> :CtrlP<cr>
-  imap <F8> <esc>:CtrlP<cr>
-else
-  " Open ctrlp with cmd+p
-  let g:ctrlp_map = '<D-p>'
-  " Open goto symbol on current buffer
-  " Not mapping D-r like sublime/etc so we can use it for refreshing an app.
-  " nmap <D-r> :MyCtrlPTag<cr>
-  " imap <D-r> <esc>:MyCtrlPTag<cr>
-  " Open goto symbol on all buffers
-  " nmap <D-R> :CtrlPBufTagAll<cr>
-  " imap <D-R> <esc>:CtrlPBufTagAll<cr>
-  " Open goto file
-  " nmap <D-t> :CtrlPBuffer<cr>
-  " imap <D-t> <esc>:CtrlPBuffer<cr>
-endif
+" Open in vertical split
+" imap <D-d> <C-v>
 
 " search anything (in files, buffers and MRU files at the same time.)
 let g:ctrlp_cmd = 'CtrlPMixed'
@@ -44,7 +29,7 @@ let g:ctrlp_match_window_bottom = 1
 " maxiumum height of match window
 " See other match window setting
 " let g:ctrlp_max_height = 10
-let g:ctrlp_match_window = 'bottom,order:btt,min:13,max:13'
+let g:ctrlp_match_window = 'bottom,order:ttb,min:3,max:13'
 " enable caching
 let g:ctrlp_use_caching = 1
 " speed up by not removing clearing cache evertime

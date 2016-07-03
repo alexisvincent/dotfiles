@@ -1,34 +1,9 @@
-set runtimepath+=~/.vim/bundle/neobundle.vim/
-
-" Required:
-call neobundle#begin(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" Required:
-NeoBundleFetch 'Shougo/neobundle.vim'
-
-" ------------------- Plugins ---------------------
-
-" Defaults everyone can agree on
-NeoBundle "tpope/vim-sensible"
-
 " Collection of Clean Vim ColorSchemes With Airline Themes
-NeoBundle "jordwalke/VimCleanColors"
-
-" Asks to create directories in Vim when needed
-NeoBundle "jordwalke/VimAutoMakeDirectory"
+" NeoBundle "jordwalke/VimCleanColors"
 
 "Always have a nice view for vim split windows
-NeoBundle 'zhaocai/GoldenView.Vim'
-let g:goldenview__enable_default_mapping = 0 " Disable mappings
-
-" Allow plugins to tap into repeating
-NeoBundle "tpope/vim-repeat"
-
-
-
-" SANATIZE THIS
-
+" NeoBundle 'zhaocai/GoldenView.Vim'
+" let g:goldenview__enable_default_mapping = 0 " Disable mappings
 
 " ==============================================================================
 NeoBundle "tpope/vim-fugitive"
@@ -75,7 +50,7 @@ NeoBundle "tpope/vim-surround"
 "       \ }
 "
 " NeoBundle "Shougo/unite.vim"
-" source ~/.vim/pluginRc/uniteVimRc
+" source ~/.vim/pluginrc/vimrc.unite
 
 " =============================== Thumbnail ====================================
 " NeoBundle "itchyny/thumbnail.vim"
@@ -96,27 +71,23 @@ let g:session_autoload = 'no'
 " Make sure to save sessions outside of your dotfiles in case you publish your
 " dotfiles to github etc.
 " The Session Directory
-let g:session_directory="~/vim_sessions"
+let g:session_directory="~/.vim_sessions"
 " ==============================================================================
 
 " My custom session management GUI tools (in menu bar) Based on one of the
 " other session managers.
-set runtimepath+=~/.vim/localBundle/sessions
-set runtimepath+=~/.vim/localBundle/wowcamldebug
+set runtimepath+=~/.vim/bundle_local/sessions
+set runtimepath+=~/.vim/bundle_local/wowcamldebug
 
 " ================================ VimJSDocSnippets ============================
 NeoBundle 'jordwalke/VimJSDocSnippets'
-if has('gui_win32')
-  let g:JSDocSnippetsMapping='<S-M-c>'
-else
-  let g:JSDocSnippetsMapping='<D-C>'
-endif
+let g:JSDocSnippetsMapping='<D-C>'
 " ==============================================================================
 
 
 " ==================== Best Pair Tool Ever =====================================
 NeoBundle "MartinLafreniere/vim-PairTools"
-source ~/.vim/pluginRc/pairToolsVimRc
+source ~/.vim/pluginrc/pairtools.vim
 " ==============================================================================
 
 
@@ -144,11 +115,11 @@ NeoBundle "jordwalke/VimCloser"
 " NeoBundle "xolox/vim-colorscheme-switcher"
 
 " =============================== SmartGUITabs =================================
-NeoBundle "jordwalke/MacVimSmartGUITabs"
+" NeoBundle "jordwalke/MacVimSmartGUITabs"*/
 " Make sure to have `set guioptions+=e` in your `.gvimrc`.
-map <D-Cr> :SmartGUITabsToggleFullScreen<CR>
-imap <D-Cr> <Esc>:SmartGUITabsToggleFullScreen<CR>
-nmap <D-Cr> <Esc>:SmartGUITabsToggleFullScreen<CR>
+" map <D-Cr> :SmartGUITabsToggleFullScreen<CR>
+" imap <D-Cr> <Esc>:SmartGUITabsToggleFullScreen<CR>
+" nmap <D-Cr> <Esc>:SmartGUITabsToggleFullScreen<CR>
 " ==============================================================================
 
 
@@ -156,15 +127,15 @@ nmap <D-Cr> <Esc>:SmartGUITabsToggleFullScreen<CR>
 " Q : How can I open a NERDTree automatically when vim starts up if no files
 " were specified?  A : NerdTreeTabs handles this
 NeoBundle "scrooloose/nerdtree"
-source ~/.vim/pluginRc/nerdTreeVimRc
-" Also see ~/.vim/nerdtree_plugin/myMappings.vim (NERDTree requires mappings
+source ~/.vim/pluginrc/nerdtree.vim
+" Also see ~/.vim/nerdtree_plugin/mappings.vim (NERDTree requires mappings
 " exist there)
 " ==============================================================================
 
 
 " ============================= NERDTreeSideBar ================================
 NeoBundle "jistr/vim-nerdtree-tabs"
-source ~/.vim/pluginRc/nerdTreeTabsVimRc
+source ~/.vim/pluginrc/nerdtreetabs.vim
 " ==============================================================================
 
 
@@ -185,8 +156,8 @@ if !empty(system('which opam'))
   " Set the log file and restart:
   " let $MERLIN_LOG = '/Users/you/merlinlogfile'
   let s:ocamlmerlin=substitute(system('opam config var share'),'\n$','','') . "/merlin"
-  execute "set rtp+=".s:ocamlmerlin."/vim"
-  execute "set rtp+=".s:ocamlmerlin."/vimbufsync"
+"    execute "set rtp+=".s:ocamlmerlin."/vim"
+"    execute "set rtp+=".s:ocamlmerlin."/vimbufsync"
   let g:syntastic_ocaml_checkers=['merlin']
 else
   " TODO: figure out opam for windows
@@ -221,14 +192,6 @@ let Grep_Skip_Files = '*.byte *.depends *.cmi *.cmx *.orig *.back *.cmo *.o *~'
 let Grep_Skip_Dirs = 'RCS CVS SCCS _build .git'
 " =============================================================================
 
-" =================== Web Dev Icons ===========================================
-NeoBundle "ryanoasis/vim-webdevicons"
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:WebDevIconsUnicodeGlyphDoubleWidth = 1
-let g:WebDevIconsNerdTreeAfterGlyphPadding = '  '
-" Doesn't work
-" let g:WebDevIconsUnicodeDecorateFolderNodeDefaultSymbol = ' '
-" =============================================================================
 
 " ======================= A lighterweight Powerline ============================
 NeoBundle "jordwalke/vim-airline"
@@ -258,8 +221,8 @@ let g:syntastic_javascript_checkers=['flow']
 " highlight link SyntasticStyleWarningLine Spellbad
 " For OCaml (which uses syntastic + merlin) always show the sign gutter
 " otherwise it's jarring when it appears.
-" autocmd FileType ocaml sign define dummy
-" autocmd FileType ocaml execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')
+" autocmd FileType ocaml sign define dummy*/
+" autocmd FileType ocaml execute 'sign place 9999 line=1 name=dummy buffer=' . bufnr('')*/
 " ==============================================================================
 
 
@@ -325,12 +288,6 @@ let g:solarized_visibility="high"
 " ==============================================================================
 
 
-" ================================= Ctrl-p =====================================
-" See ~/.gvimrc as well
-" Using the new official ctrlp (switched project maintainers)
-NeoBundle "ctrlpvim/ctrlp.vim"
-source ~/.vim/pluginRc/ctrlPVimRc
-" ==============================================================================
 
 " ================================== Headlights ================================
 " Shows all plugin options as menu items like textmate bundles!
@@ -352,10 +309,10 @@ let g:acp_ignorecaseOption = 1
 NeoBundle "SirVer/ultisnips"
 if has('gui_win32')
   let g:UltiSnipsSnippetsDir=$HOME
-  let g:UltiSnipsSnippetDirectories=["myUltiSnippets"]
+  let g:UltiSnipsSnippetDirectories=["ultisnips"]
 else
   let g:UltiSnipsSnippetsDir="~/.vim"
-  let g:UltiSnipsSnippetDirectories=["myUltiSnippets"]
+  let g:UltiSnipsSnippetDirectories=["ultisnips"]
 endif
 
 
@@ -365,9 +322,6 @@ endif
 NeoBundle "jordwalke/VimCompleteLikeAModernEditor"
 " ==============================================================================
 
-" ============================= Commenter ======================================
-NeoBundle "tomtom/tcomment_vim"
-" ==============================================================================
 
 
 " =============================Javascript-Indent================================
@@ -420,16 +374,3 @@ let g:gundo_close_on_revert=1
 NeoBundle "AndrewRadev/undoquit.vim"
 map <D-T> <Esc>:Undoquit<CR>
 " ==============================================================================
-
-
-
-
-
-
-" -------------------------------------------------
-
-call neobundle#end()
-
-" If there are uninstalled bundles found on startup,
-" this will conveniently prompt you to install them.
-NeoBundleCheck

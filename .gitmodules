@@ -4,3 +4,9 @@
 [submodule "config/idea-one-dark-theme"]
 	path = config/idea-one-dark-theme
 	url = https://github.com/yurtaev/idea-one-dark-theme.git
+[submodule "src/.oh-my-zsh-custom/plugins/zsh-syntax-highlighting"]
+	path = src/.oh-my-zsh-custom/plugins/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
+[submodule "config/gruvbox-idea"]
+	path = config/gruvbox-idea
+	url = https://github.com/caleb/gruvbox-idea
