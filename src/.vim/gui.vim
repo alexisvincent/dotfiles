@@ -15,7 +15,6 @@ if has("gui_running") " all this for gui use
 endif
 
 syntax enable
-set transparency=0
 set cursorline
 " set nolazyredraw
 set encoding=utf8

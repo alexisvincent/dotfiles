@@ -1,9 +1,8 @@
 source ~/.vim/mappings.vimbox.vim
 
-autocmd! bufwritepost *vim* source $MYVIMRC
 
 let mapleader = ","
 
-nmap <D-/> ,c<space>
+nmap <D-/> ,c<space><cr>
 vmap <D-/> ,c<space>
-imap <D-/> <esc>,c<space>i*/
+imap <D-/> <esc>,c<space>i

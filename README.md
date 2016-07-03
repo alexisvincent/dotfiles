@@ -24,8 +24,15 @@ source bootstrap.sh
 # Download oh-my-zsh (It will update itself)
 git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
 
-# Download Vim NeoBundle (It will update itself)
-git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
+# Download Dein Plugin Manager (It will manage itself)
+git clone https://github.com/Shougo/dein.vim ~/.vim/bundle/repos/github.com/Shougo/dein.vim
+
+# Install YouCompleteMe
+rm -rf .vim/bundle/repos/github.com/Valloric/YouCompleteMe
+git clone --recursive https://github.com/Valloric/YouCompleteMe.git ".vim/bundle/repos/github.com/Valloric/YouCompleteMe"
+cd .vim/bundle/repos/github.com/Valloric/YouCompleteMe
+./install.py --clang-completer --tern-completer
+
 ```
 
 ### Install Font
