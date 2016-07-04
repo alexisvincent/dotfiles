@@ -19,6 +19,7 @@ To update, `cd` into your local `dotfiles` repository and then:
 source bootstrap.sh
 ```
 
+
 ### Install Dependencies
 ```bash
 # Download oh-my-zsh (It will update itself)
@@ -32,7 +33,13 @@ rm -rf .vim/bundle/repos/github.com/Valloric/YouCompleteMe
 git clone --recursive https://github.com/Valloric/YouCompleteMe.git ".vim/bundle/repos/github.com/Valloric/YouCompleteMe"
 cd .vim/bundle/repos/github.com/Valloric/YouCompleteMe
 ./install.py --clang-completer --tern-completer
+pip install future
+#Future Dependencies
+pip install importlib       # for future.standard_library.import_ function only
+pip install unittest2       # to run the test suite
+pip install argparse        # for the backported http.server module from Py3.3
 
+pip install frozendict
 ```
 
 ### Install Font

@@ -59,8 +59,6 @@ imap <C-o> <Esc>O
 imap <S-Enter> <End><Cr>
 
 
-" Huge saver! Why do you need to press shift when executing a command?
-nnoremap ; :
 
 " fast scrolling using control when in command mode (keeping the j/k paradigm)
 map <C-j> <C-d>
@@ -77,9 +75,6 @@ if has("vim_starting")
   set winwidth=1
 endif
 
-nmap <Tab> <c-w><c-w>
-nmap <s-Tab> <c-w><s-w>
-
 
 imap <c-Tab> <Esc>:tabnext<Cr>
 imap <c-S-Tab> <Esc>:tabprev<Cr>
@@ -92,9 +87,9 @@ nmap <D->> :vertical resize +10<CR>
 nmap <D-<> :vertical resize -10<CR>
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsJumpForwardTrigger="<tab>"
+"let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 
 " Clear search highlight when escape is pressed.
@@ -140,10 +135,6 @@ end
 vmap <F5> :sort ui<Cr>
 
 
-" space through your tabs!
-map <Space> gt
-" shift-space backwards - doesn't work on terminal, I believe
-map <s-Space> gT
 
 "Emacs keybindings while inserting.
 imap <C-a> <Esc>I
@@ -194,40 +185,12 @@ nnoremap <expr> <c-s> ':%s/\<'.expand('<cword>').'\>/'.expand('<cword>').'/g<Lef
 inoremap <D-]> <c-t>
 inoremap <D-[> <c-d>
 
-" Awesome visual selection maintained when indenting.
-vmap <D-]> >gv
-vmap <D-[> <gv
-" Map Command-# to switch tabs
-map  <D-0> 0gt
-imap <D-0> <Esc>0gt
-map  <D-1> 1gt
-imap <D-1> <Esc>1gt
-map  <D-2> 2gt
-imap <D-2> <Esc>2gt
-map  <D-3> 3gt
-imap <D-3> <Esc>3gt
-map  <D-4> 4gt
-imap <D-4> <Esc>4gt
-map  <D-5> 5gt
-imap <D-5> <Esc>5gt
-map  <D-6> 6gt
-imap <D-6> <Esc>6gt
-map  <D-7> 7gt
-imap <D-7> <Esc>7gt
-map  <D-8> 8gt
-imap <D-8> <Esc>8gt
-map  <D-9> 9gt
-imap <D-9> <Esc>9gt
-
 
 
 " Some Textmatey Shortcuts:
 imap <D-S-Enter> <End>;<Cr>
 imap <D-A> <End>;
 
-" Toggle Spell Check Easily:
-imap <D-P> <Esc>l:set spell!<Cr>
-nmap <D-P> :set spell!<Cr>
 
 " Building:
 " map <D-b> :w<Cr>:!./build.sh<Cr>
