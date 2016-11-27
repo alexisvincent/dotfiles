@@ -37,7 +37,7 @@ call dein#add("myusuf3/numbers.vim")
 " ===================================================================[ Gruvbox Color 
 call dein#add("morhetz/gruvbox")
 " ========================================================[ Experimental Tag Support 
-call dein#add('ludovicchabant/vim-gutentags')
+"call dein#add('ludovicchabant/vim-gutentags')
 " ==============================================================[ Javascript Support 
 call dein#add('pangloss/vim-javascript')
 "NeoBundle 'othree/yajs.vim'
@@ -57,8 +57,7 @@ let $PATH=$PATH . ':' . expand('~/.composer/vendor/bin')
 let g:padawan#composer_command = "composer"
 " ===============================================================[ Autocomplete test
 call dein#add("Shougo/neocomplete.vim")
-"set completeopt=menu,menuone
-"
+set completeopt=menu,menuone,preview
 
 let g:neocomplete#enable_at_startup = 1
 let g:neocomplete#enable_smart_case = 1
@@ -69,6 +68,7 @@ let g:neocomplete#enable_auto_close_preview = 1
 "let g:neocomplete#min_keyword_length = 1
 let g:neocomplete#auto_completion_start_length = 1
 let g:neocomplete#max_list = 15
+set pumheight=15
 
 let g:neocomplete#force_omni_input_patterns = {}
 let g:neocomplete#force_omni_input_patterns.php = '\h\w*\|[^- \t]->\w*'
@@ -84,7 +84,6 @@ let g:UltiSnipsExpandTrigger="<D-CR>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<S-tab>"
 
-
 inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
 inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
 inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
@@ -93,6 +92,8 @@ inoremap <expr> <Tab>      pumvisible() ? "\<Down>": "\<tab>"
 inoremap <expr> <S-Tab>    pumvisible() ? "\<Up>": "\<tab>"
 
 inoremap <expr> <C-space>  pumvisible() ? "\<C-e>" : neocomplete#start_manual_complete(). ""
+
+set splitbelow
 
 " =====================================================================[ Finish Dein 
 call dein#end()

@@ -4,12 +4,11 @@ ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
 # ZSH_THEME="bira"
 ZSH_THEME="lambda"
 
-
 # Disable bi-weekly auto-update checks
 DISABLE_AUTO_UPDATE="false"
 
 # Plugins
-plugins=(git-extras osx zsh-syntax-highlighting zsh-completions brew wd python taskwarrior vi-mode colorize web-search docker docker-compose)
+plugins=(git-extras osx zsh-syntax-highlighting zsh-completions brew wd python taskwarrior vi-mode colorize docker docker-compose)
 
 # For zsh-completions
 autoload -U compinit && compinit
@@ -31,14 +30,24 @@ source $HOME/.aliases
 # Functions
 source $HOME/.functions
 
-# PATH
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/local/opt/gettext/bin:$PATH:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:$HOME/.composer/vendor/bin"
+eval $(thefuck --alias)
 
-# Add GHC 7.8.4 to the PATH, via http://ghcformacosx.github.io/
-export GHC_DOT_APP="/Applications/ghc-7.8.4.app"
-if [ -d "$GHC_DOT_APP" ]; then
-    export PATH="${HOME}/.cabal/bin:${GHC_DOT_APP}/Contents/bin:${PATH}"
-fi
+# PATH
+PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin/
+# envsubst
+PATH=$PATH:/usr/local/opt/gettext/bin
+# Composer libs
+PATH=$PATH:$HOME/.composer/vendor/bin
+# Latex
+PATH=$PATH:/Library/TeX/Root/bin/x86_64-darwin/
+# Haskell
+PATH=$PATH:$HOME/.stack/programs/x86_64-osx/ghc-7.10.3/bin/
+PATH=$PATH:$HOME/.local/bin
+PATH=$PATH:$HOME/.cabal/bin/
+PATH=$PATH:$HOME/.yarn/bin/
+
+
+export PATH=$PATH
 
 # Setup nvm - for node
 export NVM_DIR=~/.nvm
