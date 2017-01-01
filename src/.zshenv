@@ -1,4 +1,3 @@
-
 # Make vim the default editor.
 export EDITOR='vim'
 
@@ -6,7 +5,7 @@ export EDITOR='vim'
 export KEYTIMEOUT=1
 
 # PATH
-PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$HOME/.local/bin/
+PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 # envsubst
 PATH=$PATH:/usr/local/opt/gettext/bin
 # Composer libs
@@ -14,16 +13,18 @@ PATH=$PATH:$HOME/.composer/vendor/bin
 # Latex
 PATH=$PATH:/Library/TeX/Root/bin/x86_64-darwin/
 # Haskell
-PATH=$PATH:$HOME/.stack/programs/x86_64-osx/ghc-7.10.3/bin/
+# PATH=$PATH:$HOME/.stack/programs/x86_64-osx/ghc-7.10.3/bin/
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin/
 PATH=$PATH:$HOME/.yarn/bin/
 
-
 export PATH=$PATH
 
-# Tell gcloud to use macs python
-export CLOUDSDK_PYTHON=/usr/bin/python
+# Setup nvm - for node
+export NVM_DIR=~/.nvm
+source $(brew --prefix nvm)/nvm.sh
+
+nvm use --silent default
 
 # Increase Bash history size. Allow 32³ entries; the default is 500.
 export HISTSIZE='32768';
@@ -48,7 +49,7 @@ export GREP_OPTIONS='--color=auto';
 export HOMEBREW_TEMP=/usr/local/homebrew_temp
 
 # Go Path
-export GOPATH="$HOME/.go"
+export GOPATH=$HOME/.go
 
 # Stop tmux renameing windows
 DISABLE_AUTO_TITLE=true

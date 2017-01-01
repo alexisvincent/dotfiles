@@ -1,3 +1,4 @@
+
 ;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
@@ -37,14 +38,16 @@ values."
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
      helm
+     python
      auto-completion
      better-defaults
      emacs-lisp
+     docker
      git
      yaml
      javascript
      html
-     markdown
+     (markdown :variables markdown-live-preview-engine 'vmd)
      haskell
      clojure
      php
@@ -136,16 +139,19 @@ values."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(gruvbox
                          darktooth
+                         doom-one
                          brin
+                         material
                          flatland
-                         spacemacs-light)
+                         leuven
+                         )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
 
 
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Menlo"
+   dotspacemacs-default-font '("Fira Code"
                                :size 13
                                :weight normal
                                :width normal
@@ -312,17 +318,34 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
+  ;; Straight lines in powerline
   (setq powerline-default-separator nil)
+
+  ;;Javascript formatting
   (setq-default js2-basic-offset 2)
   (setq-default js-indent-level 2)
   (setq js2-node-externs t)
 
+  ;;ligature support
+  (mac-auto-operator-composition-mode)
+  ;;fancy symbols for clojure
+  (setq clojure-enable-fancify-symbols t)
 
-  ;; (setq mouse-wheel-scroll-amount '(1 ((shift) . 1)))
-  ;; (setq mouse-wheel-progressive-speed t)
-  ;; (setq mouse-wheel-follow-mouse t)
+  ;;support for reloaded behaviour
+  (defun nrepl-reset ()
+    (interactive)
+    (cider-interactive-eval "(require 'user) (user/reset)"))
 
-  ;; (fset 'evil-visual-update-x-selection 'ignore)
+  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "s !" 'nrepl-reset)
+  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "!" 'nrepl-reset)
+
+
+  ;;(setq mouse-wheel-scroll-amount '(5))
+  ;;(setq mouse-wheel-progressive-speed nil)
+  ;;(setq mouse-wheel-follow-mouse t)
+
+  ;;(fset 'evil-visual-update-x-selection 'ignore)
   
   )
 
@@ -340,9 +363,31 @@ you should place your code here."
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (flatland-theme sublime-themes darktooth-theme parent-mode flx goto-chg f diminish pkg-info epl bind-map bind-key packed dash popup package-build web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode company-emacs-eclim eclim clojure-snippets clj-refactor inflections edn cider paredit peg cider-eval-sexp-fu seq queue clojure-mode yaml-mode powerline spinner hydra projectile iedit highlight anzu smartparens evil undo-tree helm helm-core avy s async intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic dockerfile-mode docker tablist docker-tramp material-theme doom-themes vmd-mode flatland-theme sublime-themes darktooth-theme parent-mode flx goto-chg f diminish pkg-info epl bind-map bind-key packed dash popup package-build web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode company-emacs-eclim eclim clojure-snippets clj-refactor inflections edn cider paredit peg cider-eval-sexp-fu seq queue clojure-mode yaml-mode powerline spinner hydra projectile iedit highlight anzu smartparens evil undo-tree helm helm-core avy s async intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(pos-tip-background-color "#36473A")
- '(pos-tip-foreground-color "#FFFFC8"))
+ '(pos-tip-foreground-color "#FFFFC8")
+ '(vc-annotate-background "#181e26")
+ '(vc-annotate-color-map
+   (quote
+    ((20 . "#98be65")
+     (40 . "#b4be6c")
+     (60 . "#d0be73")
+     (80 . "#ECBE7B")
+     (100 . "#e6ab6a")
+     (120 . "#e09859")
+     (140 . "#da8548")
+     (160 . "#d38079")
+     (180 . "#cc7cab")
+     (200 . "#c678dd")
+     (220 . "#d974b7")
+     (240 . "#ec7091")
+     (260 . "#ff6c6b")
+     (280 . "#d6696a")
+     (300 . "#ad6769")
+     (320 . "#836468")
+     (340 . "#5B6268")
+     (360 . "#5B6268"))))
+ '(vc-annotate-very-old-color nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
