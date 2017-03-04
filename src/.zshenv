@@ -6,6 +6,9 @@ export KEYTIMEOUT=1
 
 # PATH
 PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+PATH=$PATH:$(yarn global bin)
+PATH=$PATH:$HOME/.npm-global/bin
+
 # envsubst
 PATH=$PATH:/usr/local/opt/gettext/bin
 # Composer libs
@@ -16,15 +19,18 @@ PATH=$PATH:/Library/TeX/Root/bin/x86_64-darwin/
 # PATH=$PATH:$HOME/.stack/programs/x86_64-osx/ghc-7.10.3/bin/
 PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin/
-PATH=$PATH:$HOME/.yarn/bin/
+PATH=$PATH:$HOME/.nvm/versions/node/v7.3.0/bin
 
 export PATH=$PATH
 
-# Setup nvm - for node
-export NVM_DIR=~/.nvm
-source $(brew --prefix nvm)/nvm.sh
+export NPM_CONFIG_PREFIX=$HOME/.npm-global
 
-nvm use --silent default
+# Setup nvm - for node too slow :( so I've set it manually
+# export NVM_DIR=~/.nvm
+# source $(brew --prefix nvm)/nvm.sh
+
+# nvm use --silent default
+
 
 # Increase Bash history size. Allow 32³ entries; the default is 500.
 export HISTSIZE='32768';
