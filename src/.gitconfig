@@ -108,7 +108,7 @@
 	trustctime = false
 
 	#G2 - https://github.com/orefalo/g2
-	editor = vim
+	editor = "emacsclient -c"
 	autocrlf = input
 	safecrlf = warn
 
@@ -193,4 +193,4 @@
 
 [user]
 	name = Alexis Vincent
-	email = alexisjohnvincent@gmail.com
+	email = alexis@alexisvincent.io

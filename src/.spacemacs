@@ -1,5 +1,3 @@
-
-;; -*- mode: emacs-lisp -*-
 ;; This file is loaded by Spacemacs at startup.
 ;; It must be stored in your home directory.
 
@@ -32,12 +30,8 @@ values."
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
+     typescript
      vimscript
-     ;; ----------------------------------------------------------------
-     ;; Example of useful layers you may want to use right away.
-     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
-     ;; <M-m f e R> (Emacs style) to install them.
-     ;; ----------------------------------------------------------------
      helm
      python
      auto-completion
@@ -54,7 +48,7 @@ values."
      (c-c++ :variables c-c++-enable-clang-support t)
      php
      java
-     ;; org
+     org
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -67,7 +61,10 @@ values."
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages
+   '(
+     all-the-icons
+    )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -123,7 +120,7 @@ values."
    ;; directory. A string value must be a path to an image format supported
    ;; by your Emacs build.
    ;; If the value is nil then no banner is displayed. (default 'official)
-   dotspacemacs-startup-banner 'official
+   dotspacemacs-startup-banner 'random
    ;; List of items to show in startup buffer or an association list of
    ;; the form `(list-type . list-size)`. If nil then it is disabled.
    ;; Possible values for list-type are:
@@ -139,13 +136,13 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(gruvbox
-                         darktooth
+   dotspacemacs-themes '(
                          doom-one
+                         darktooth
+                         gruvbox
+                         flatland
                          brin
                          material
-                         flatland
-                         leuven
                          )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
 
@@ -157,7 +154,7 @@ values."
                                :size 13
                                :weight normal
                                :width normal
-                               :powerline-scale 1.2)
+                               :powerline-scale 1.1)
    ;; The leader key
    dotspacemacs-leader-key "SPC"
    ;; The key used for Emacs commands (M-x) (after pressing on the leader key).
@@ -262,7 +259,7 @@ values."
    ;; If non nil show the color guide hint for transient state keys. (default t)
    dotspacemacs-show-transient-state-color-guide t
    ;; If non nil unicode symbols are displayed in the mode line. (default t)
-   dotspacemacs-mode-line-unicode-symbols t
+   dotspacemacs-mode-line-unicode-symbols nil
    ;; If non nil smooth scrolling (native-scrolling) is enabled. Smooth
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
@@ -287,7 +284,7 @@ values."
    dotspacemacs-highlight-delimiters 'all
    ;; If non nil, advise quit functions to keep server open when quitting.
    ;; (default nil)
-   dotspacemacs-persistent-server nil
+   dotspacemacs-persistent-server t
    ;; List of search tool executable names. Spacemacs uses the first installed
    ;; tool of the list. Supported tools are `ag', `pt', `ack' and `grep'.
    ;; (default '("ag" "pt" "ack" "grep"))
@@ -323,18 +320,30 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;;nicer neo-theme icons
+  (setq neo-theme 'icons) 
+
   ;; Straight lines in powerline
   (setq powerline-default-separator nil)
+
+  ;;doom-one theme settings
+  (require 'doom-neotree) 
+  (setq doom-enable-bold t    ; if nil, bolding are universally disabled
+        doom-enable-italic t  ; if nil, italics are universally disabled
+
+        ;; doom-one specific settings
+        doom-one-brighter-modeline t
+        doom-one-brighter-comments t
+        )
+  ;; brighter source buffers (that represent files)
+  ;; (add-hook 'find-file-hook 'doom-buffer-mode-maybe)
+  ;; Enable nlinum line highlighting
+  (require 'doom-nlinum)     ; requires nlinum and hl-line-mode
 
   ;;Javascript formatting
   (setq-default js2-basic-offset 2)
   (setq-default js-indent-level 2)
   (setq js2-node-externs t)
-
-  ;;ligature support
-  (mac-auto-operator-composition-mode)
-  ;;fancy symbols for clojure
-  (setq clojure-enable-fancify-symbols t)
 
   ;;support for reloaded behaviour
   (defun nrepl-reset ()
@@ -344,8 +353,44 @@ you should place your code here."
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "s !" 'nrepl-reset)
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "!" 'nrepl-reset)
 
+  ;; Fira code ligature support
+  ;; (when (window-system)
+  ;;   (set-default-font "Fira Code"))
+  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+                (35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
+                (36 . ".\\(?:>\\)")
+                (37 . ".\\(?:\\(?:%%\\)\\|%\\)")
+                (38 . ".\\(?:\\(?:&&\\)\\|&\\)")
+                (42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
+                (43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
+                (45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
+                ;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
+                (47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
+                (48 . ".\\(?:x[a-zA-Z]\\)")
+                (58 . ".\\(?:::\\|[:=]\\)")
+                (59 . ".\\(?:;;\\|;\\)")
+                (60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
+                (61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
+                (62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
+                (63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
+                (91 . ".\\(?:]\\)")
+                (92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
+                (94 . ".\\(?:=\\)")
+                (119 . ".\\(?:ww\\)")
+                (123 . ".\\(?:-\\)")
+                (124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
+                (126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)")
+                )
+              ))
+    (dolist (char-regexp alist)
+      (set-char-table-range composition-function-table (car char-regexp)
+                            `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
-  ;;(setq mouse-wheel-scroll-amount '(5))
+
+  ;;fancy symbols for clojure
+  (setq clojure-enable-fancify-symbols t)
+
+  ;; (setq mouse-wheel-scroll-amount '(2))
   ;;(setq mouse-wheel-progressive-speed nil)
   ;;(setq mouse-wheel-follow-mouse t)
 
@@ -360,14 +405,17 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#3C3836" "#FB4934" "#84BB26" "#FABD2F" "#83A598" "#D3869B" "#3FD7E5" "#EBDBB2"])
  '(cider-enlighten-mode t)
  '(evil-want-Y-yank-to-eol nil)
+ '(hl-sexp-background-color "#1c1f26")
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (vimrc-mode dactyl-mode disaster company-c-headers cmake-mode clang-format yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic dockerfile-mode docker tablist docker-tramp material-theme doom-themes vmd-mode flatland-theme sublime-themes darktooth-theme parent-mode flx goto-chg f diminish pkg-info epl bind-map bind-key packed dash popup package-build web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode company-emacs-eclim eclim clojure-snippets clj-refactor inflections edn cider paredit peg cider-eval-sexp-fu seq queue clojure-mode yaml-mode powerline spinner hydra projectile iedit highlight anzu smartparens evil undo-tree helm helm-core avy s async intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (all-the-icons font-lock+ org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot tide typescript-mode vimrc-mode dactyl-mode disaster company-c-headers cmake-mode clang-format yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic dockerfile-mode docker tablist docker-tramp material-theme doom-themes vmd-mode flatland-theme sublime-themes darktooth-theme parent-mode flx goto-chg f diminish pkg-info epl bind-map bind-key packed dash popup package-build web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode company-emacs-eclim eclim clojure-snippets clj-refactor inflections edn cider paredit peg cider-eval-sexp-fu seq queue clojure-mode yaml-mode powerline spinner hydra projectile iedit highlight anzu smartparens evil undo-tree helm helm-core avy s async intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(vc-annotate-background "#181e26")

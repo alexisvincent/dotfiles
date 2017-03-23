@@ -1,5 +1,5 @@
-# Make vim the default editor.
-export EDITOR='vim'
+# Make emacs the default editor.
+export EDITOR='e'
 
 # Set vi mode switching to 100ms instead of default 400ms
 export KEYTIMEOUT=1

@@ -10,7 +10,7 @@ ZSH_THEME="lambda"
 DISABLE_AUTO_UPDATE="false"
 
 # Plugins
-plugins=(git-extras osx zsh-syntax-highlighting emacs yarn zsh-completions brew wd python vi-mode colorize docker docker-compose)
+plugins=(git-extras osx zsh-syntax-highlighting yarn zsh-completions brew wd python vi-mode colorize docker docker-compose)
 
 # For zsh-completions
 autoload -U compinit && compinit
