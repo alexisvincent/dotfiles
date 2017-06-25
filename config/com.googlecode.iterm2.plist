@@ -1500,7 +1500,7 @@
 	<key>HideFromDockAndAppSwitcher</key>
 	<true/>
 	<key>HideMenuBarInFullscreen</key>
-	<true/>
+	<false/>
 	<key>HideScrollbar</key>
 	<false/>
 	<key>HideTab</key>
@@ -1582,7 +1582,7 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>660 33 659 77 0 0 1440 878 </string>
+	<string>768 416 659 77 0 0 1440 878 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>294 404 606 456 0 0 1440 877 </string>
 	<key>NSWindow Frame SUAutomaticUpdateAlert</key>
@@ -1590,11 +1590,11 @@
 	<key>NSWindow Frame SessionsPreferences</key>
 	<string>269 76 618 519 0 0 1440 877 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>329 449 770 429 0 0 1440 878 </string>
+	<string>244 389 796 473 0 0 1440 878 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>99 293 592 584 0 0 1440 877 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 0 1440 900 0 0 1440 878 </string>
+	<string>0 0 1440 878 0 0 1440 878 </string>
 	<key>NeverWarnAboutShortLivedSessions_FBAF8B5A-3AE8-4EA7-B734-55C7D570C2A5</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_FBAF8B5A-3AE8-4EA7-B734-55C7D570C2A5_selection</key>
@@ -2580,7 +2580,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-03-21T12:43:46Z</date>
+	<date>2017-05-17T21:50:11Z</date>
 	<key>SavePasteHistory</key>
 	<false/>
 	<key>Show Toolbelt</key>
@@ -2626,7 +2626,7 @@
 	<key>UseCompactLabel</key>
 	<true/>
 	<key>UseLionStyleFullscreen</key>
-	<true/>
+	<false/>
 	<key>WebKitDefaultFontSize</key>
 	<integer>11</integer>
 	<key>WebKitStandardFont</key>

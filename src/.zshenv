@@ -1,12 +1,14 @@
+# This file needs to be really quick, since, for some completely wacked
+# reason, evil evaluates it everytime you run dd or something similar
+
 # Make emacs the default editor.
-export EDITOR='e'
+export EDITOR='emacsclient -c'
 
 # Set vi mode switching to 100ms instead of default 400ms
 export KEYTIMEOUT=1
 
 # PATH
 PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
-PATH=$PATH:$(yarn global bin)
 PATH=$PATH:$HOME/.npm-global/bin
 
 # envsubst
