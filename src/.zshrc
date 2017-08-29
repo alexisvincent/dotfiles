@@ -4,6 +4,7 @@ ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
 # ZSH_THEME="bira"
 ZSH_THEME="lambda"
 
+
 [[ $EMACS = t ]] && unsetopt zle
 
 # Disable bi-weekly auto-update checks
