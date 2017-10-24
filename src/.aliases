@@ -23,8 +23,6 @@ e() {
     then emacs --daemon
     fi
     emacsclient -c "$@" &
-    sleep 1
-    open -a Emacs
 }
 
 colorflag="-G"

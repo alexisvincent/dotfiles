@@ -10,3 +10,6 @@
 [submodule "config/gruvbox-idea"]
 	path = config/gruvbox-idea
 	url = https://github.com/caleb/gruvbox-idea
+[submodule "src/.hyper_plugins/local/hyperterm-gruvbox-dark"]
+	path = src/.hyper_plugins/local/hyperterm-gruvbox-dark
+	url = https://github.com/alexisvincent/hyperterm-gruvbox-dark.git

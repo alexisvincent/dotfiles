@@ -26,7 +26,7 @@ values."
    ;; If non-nil layers with lazy install support are lazy installed.
    ;; List of additional paths where to look for configuration layers.
    ;; Paths must have a trailing slash (i.e. `~/.mycontribs/')
-   dotspacemacs-configuration-layer-path '()
+   dotspacemacs-configuration-layer-path '("~/.spacemacs.private/layers/")
    ;; List of configuration layers to load.
    dotspacemacs-configuration-layers
    '(
@@ -139,11 +139,11 @@ values."
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(
                          doom-one
-                         darktooth
-                         gruvbox
-                         flatland
-                         brin
-                         material
+                         ;; darktooth
+                         ;; gruvbox
+                         ;; flatland
+                         ;; brin
+                         ;; material
                          )
    ;; If non nil the cursor color matches the state color in GUI Emacs.
 
@@ -322,8 +322,22 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+        doom-themes-enable-italic t) ; if nil, italics is universally disabled
+
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
+
+  ;; Enable custom neotree theme
+  (doom-themes-neotree-config)  ; all-the-icons fonts must be installed!
+
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+
   ;;nicer neo-theme icons
-  (setq neo-theme 'icons) 
+  ;; (setq neo-theme 'icons) 
+
 
   ;;make neotree update the root based on projectile switching
   ;; (setq projectile-switch-project-action 'neotree-projectile-action)
@@ -331,8 +345,10 @@ you should place your code here."
   ;; Straight lines in powerline
   (setq powerline-default-separator nil)
 
+  (setq doom-neotree-enable-file-icons 'simple)
+
   ;;doom-one theme settings
-  (require 'doom-neotree) 
+  ;; (require 'doom-neotree) 
   (setq doom-enable-bold t    ; if nil, bolding are universally disabled
         doom-enable-italic t  ; if nil, italics are universally disabled
 
@@ -437,7 +453,7 @@ you should place your code here."
  '(linum-format " %5i ")
  '(package-selected-packages
    (quote
-    (memoize stickyfunc-enhance srefactor winum unfill fuzzy doom-dark-theme all-the-icons font-lock+ org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot tide typescript-mode vimrc-mode dactyl-mode disaster company-c-headers cmake-mode clang-format yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic dockerfile-mode docker tablist docker-tramp material-theme doom-themes vmd-mode flatland-theme sublime-themes darktooth-theme parent-mode flx goto-chg f diminish pkg-info epl bind-map bind-key packed dash popup package-build web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode company-emacs-eclim eclim clojure-snippets clj-refactor inflections edn cider paredit peg cider-eval-sexp-fu seq queue clojure-mode yaml-mode powerline spinner hydra projectile iedit highlight anzu smartparens evil undo-tree helm helm-core avy s async intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
+    (org-category-capture memoize stickyfunc-enhance srefactor winum unfill fuzzy doom-dark-theme all-the-icons font-lock+ org-projectile org-present org-pomodoro alert log4e gntp org-download htmlize gnuplot tide typescript-mode vimrc-mode dactyl-mode disaster company-c-headers cmake-mode clang-format yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic dockerfile-mode docker tablist docker-tramp material-theme doom-themes vmd-mode flatland-theme sublime-themes darktooth-theme parent-mode flx goto-chg f diminish pkg-info epl bind-map bind-key packed dash popup package-build web-mode tagedit slim-mode scss-mode sass-mode pug-mode less-css-mode helm-css-scss haml-mode emmet-mode company-web web-completion-data phpunit phpcbf php-extras php-auto-yasnippets drupal-mode php-mode company-emacs-eclim eclim clojure-snippets clj-refactor inflections edn cider paredit peg cider-eval-sexp-fu seq queue clojure-mode yaml-mode powerline spinner hydra projectile iedit highlight anzu smartparens evil undo-tree helm helm-core avy s async intero hlint-refactor hindent helm-hoogle haskell-snippets flycheck-haskell company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode web-beautify livid-mode skewer-mode simple-httpd json-mode json-snatcher json-reformat js2-refactor multiple-cursors js2-mode js-doc company-tern dash-functional tern coffee-mode xterm-color shell-pop multi-term git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter eshell-z eshell-prompt-extras esh-help diff-hl reveal-in-osx-finder pbcopy osx-trash osx-dictionary launchctl smeargle orgit org mwim mmm-mode markdown-toc markdown-mode magit-gitflow helm-gitignore helm-company helm-c-yasnippet gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck evil-magit magit magit-popup git-commit with-editor company-statistics company auto-yasnippet yasnippet auto-dictionary ac-ispell auto-complete ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spacemacs-theme spaceline restart-emacs request rainbow-delimiters quelpa popwin persp-mode pcre2el paradox org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hungry-delete hl-todo highlight-parentheses highlight-numbers highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state evil-indent-plus evil-iedit-state evil-exchange evil-escape evil-ediff evil-args evil-anzu eval-sexp-fu elisp-slime-nav dumb-jump define-word column-enforce-mode clean-aindent-mode auto-highlight-symbol auto-compile aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line)))
  '(pos-tip-background-color "#36473A")
  '(pos-tip-foreground-color "#FFFFC8")
  '(vc-annotate-background "#181e26")
