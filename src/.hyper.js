@@ -57,32 +57,27 @@ module.exports = {
       hotkeys: ['Control+`'],
       position: 'bottom',
       primaryDisplay: false,
-      resizable: true,
+      resizable: false,
       startAlone: true,
       startup: true,
       size: 1.0,
       tray: false,
       unique: true
-    }
+    },
   },
 
   // a list of plugins to fetch and install from npm
   // format: [@org/]project[#version]
-  // examples:
-  //   `hyperpower`
-  //   `@company/project`
-  //   `project#1.0.1`
   plugins: [
-    // "hyperterm-atom-dark",
+    "hyperterm-atom-dark",
     'hyperterm-overlay',
-    'hyper-startup',
-    'gitrocket'
+    'hyper-startup'
   ],
 
   // in development, you can create a directory under
   // `~/.hyper_plugins/local/` and include it here
   // to load it and avoid it being `npm install`ed
   localPlugins: [
-    "hyperterm-gruvbox-dark",
+    // "hyperterm-gruvbox-dark",
   ]
 };

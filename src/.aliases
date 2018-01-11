@@ -19,10 +19,11 @@ alias g="git"
 
 alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs"
 e() {
-    if ! emacsclient -e 0 >&/dev/null
-    then emacs --daemon
+    if ! emacsclient -e 0 >&/dev/null; then
+        emacs "$@" &
+    else
+        emacsclient -n -c "$@" &
     fi
-    emacsclient -c "$@" &
 }
 
 colorflag="-G"
