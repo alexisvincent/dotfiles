@@ -9,6 +9,7 @@ export KEYTIMEOUT=1
 
 # PATH
 PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+PATH=$PATH:$HOME/.bin
 PATH=$PATH:$HOME/.npm-global/bin
 
 # envsubst
@@ -64,3 +65,6 @@ DISABLE_AUTO_TITLE=true
 
 #Android Development
 export ANDROID_HOME=/usr/local/opt/android-sdk
+
+# Use Java 8 by default
+export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
