@@ -47,7 +47,10 @@ This function should only modify configuration layer settings."
          shell-default-position 'bottom)
        spell-checking
        syntax-checking
-       version-control
+			 (version-control :variables
+				 version-control-diff-side 'left
+				 version-control-global-margin t
+         version-control-diff-tool 'git-gutter)
 
        ;; org
        ;; terraform
@@ -59,11 +62,13 @@ This function should only modify configuration layer settings."
        html
        (markdown :variables markdown-live-preview-engine 'vmd)
        ;; haskell
-       clojure
+			 (clojure :variables
+         clojure-enable-sayid t
+         clojure-enable-clj-refactor t)
        parinfer
        ;; (c-c++ :variables c-c++-enable-clang-support t)
        ;; php
-       java)
+			 (java :variables java-backend 'lsp))
 
     ;; List of additional packages that will be installed without being
     ;; wrapped in a layer. If you need some configuration for these
@@ -78,7 +83,7 @@ This function should only modify configuration layer settings."
     dotspacemacs-frozen-packages '()
 
     ;; A list of packages that will not be installed and loaded.
-    dotspacemacs-excluded-packages '(company ac-ispell)
+    dotspacemacs-excluded-packages '()
 
     ;; Defines the behaviour of Spacemacs when installing packages.
     ;; Possible values are `used-only', `used-but-keep-unused' and `all'.
@@ -195,12 +200,9 @@ It should only modify the values of Spacemacs settings."
 		;; List of themes, the first of the list is loaded when spacemacs starts.
 		;; Press `SPC T n' to cycle to the next theme in the list (works great
 		;; with 2 themes variants, one dark and one light)
-		dotspacemacs-themes '(doom-one)
-		;; darktooth
-		;; gruvbox
-		;; flatland
-		;; brin
-		;; material
+		dotspacemacs-themes '(doom-vibrant
+													 ;; doom-one
+													 doom-tomorrow-night)
 
 		;; Set the theme for the Spaceline. Supported themes are `spacemacs',
 		;; `all-the-icons', `custom', `vim-powerline' and `vanilla'. The first three
@@ -209,7 +211,7 @@ It should only modify the values of Spacemacs settings."
 		;; to create your own spaceline theme. Value can be a symbol or list with\
 		;; additional properties.
 		;; (default '(spacemacs :separator wave :separator-scale 1.5))
-		dotspacemacs-mode-line-theme '(spacemacs :separator wave :separator-scale 1.5)
+		dotspacemacs-mode-line-theme '(spacemacs :separator nil :separator-scale 1.5)
 
 		;; If non-nil the cursor color matches the state color in GUI Emacs.
 		;; (default t)
@@ -452,15 +454,15 @@ See the header of this file for more information."
 This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
-If you are unsure, try setting them in `dotspacemacs/user-config' first."
-  )
+If you are unsure, try setting them in `dotspacemacs/user-config' first.")
+
 
 (defun dotspacemacs/user-load ()
   "Library to load while dumping.
 This function is called only while dumping Spacemacs configuration. You can
 `require' or `load' the libraries of your choice that will be included in the
-dump."
-  )
+dump.")
+
 
 (defun dotspacemacs/user-config ()
   "Configuration for user code:
@@ -471,24 +473,41 @@ before packages are loaded."
 
   (global-company-mode)
 
-	;; Global settings (defaults)
-	(setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
-		doom-themes-enable-italic t ; if nil, italics is universally disabled
-		doom-neotree-enable-file-icons nil)
+  ;; Perform highlighting on-the-fly.
+  ;; (diff-hl-flydiff-mode '(:global t))
 
-	;; Enable flashing mode-line on errors
-	(doom-themes-visual-bell-config)
+  ;; --- DOOM ---------------------------------------------------------------------
+  ;; Global settings (defaults)
+  (setq doom-themes-enable-bold t    ; if nil, bold is universally disabled
+    doom-themes-enable-italic t ; if nil, italics is universally disabled
+    doom-neotree-enable-file-icons nil)
 
-	;; Enable custom neotree theme (all-the-icons must be installed!)
-	(doom-themes-neotree-config)
+  ;; Enable flashing mode-line on errors
+  (doom-themes-visual-bell-config)
 
-	;; Corrects (and improves) org-mode's native fontification.
-	(doom-themes-org-config)
+  ;; Enable custom neotree theme (all-the-icons must be installed!)
+  (doom-themes-neotree-config)
 
+  ;; Corrects (and improves) org-mode's native fontification.
+  (doom-themes-org-config)
+
+  ;; --- JavaScript ---------------------------------------------------------------
   ;;Javascript formatting
   (setq-default js2-basic-offset 2)
   (setq-default js-indent-level 2)
   (setq js2-node-externs t)
+
+  ;; --- Clojure ------------------------------------------------------------------
+
+  ;; --- Parinfer ---
+	(add-hook 'clojure-mode-hook #'parinfer-mode)
+	(add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+	(add-hook 'common-lisp-mode-hook #'parinfer-mode)
+	(add-hook 'scheme-mode-hook #'parinfer-mode)
+	(add-hook 'lisp-mode-hook #'parinfer-mode)
+
+
+  ;; --- Reloaded Workflow ---
 
   ;;support for reloaded behaviour
   (defun nrepl-reset ()
@@ -509,9 +528,11 @@ before packages are loaded."
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "@" 'nrepl-halt)
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "s #" 'shadow-cljs-repl)
 
+  ;; --- UI Tweaks ------------------------------------------------------------------
+
   (setq cider-font-lock-dynamically nil)
 
-	(let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
+  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
 									(35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
 									(36 . ".\\(?:>\\)")
 									(37 . ".\\(?:\\(?:%%\\)\\|%\\)")
@@ -537,13 +558,13 @@ before packages are loaded."
 									(126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)"))))
 
 
-		(dolist (char-regexp alist)
-			(set-char-table-range composition-function-table (car char-regexp)
-				`([,(cdr char-regexp) 0 font-shape-gstring]))))
+    (dolist (char-regexp alist)
+      (set-char-table-range composition-function-table (car char-regexp)
+        `([,(cdr char-regexp) 0 font-shape-gstring]))))
 
   ;;fancy symbols for clojure
-  (setq clojure-enable-fancify-symbols t)
-	)
+  (setq clojure-enable-fancify-symbols t))
+
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -552,29 +573,29 @@ before packages are loaded."
 This is an auto-generated function, do not modify its content directly, use
 Emacs customize menu instead.
 This function is called at the very end of Spacemacs initialization."
+	(custom-set-variables
+		;; custom-set-variables was added by Custom.
+		;; If you edit it by hand, you could mess it up, so be careful.
+		;; Your init file should contain only one such instance.
+		;; If there is more than one, they won't work right.
+		'(package-selected-packages
+			 (quote
+				 (sayid yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))))
+	(custom-set-faces
+		;; custom-set-faces was added by Custom.
+		;; If you edit it by hand, you could mess it up, so be careful.
+		;; Your init file should contain only one such instance.
+		;; If there is more than one, they won't work right.
+		)
+	)
 (custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yasnippet-snippets web-beautify tern symon string-inflection spaceline-all-the-icons rjsx-mode prettier-js password-generator parinfer overseer mvn meghanada maven-test-mode magit-svn livid-mode skewer-mode json-navigator hierarchy js2-refactor js2-mode js-doc impatient-mode htmlize simple-httpd helm-xref helm-purpose window-purpose imenu-list helm-git-grep groovy-mode groovy-imports pcache gradle-mode gitignore-templates treepy graphql evil-lion evil-goggles evil-cleverparens ensime sbt-mode scala-mode editorconfig doom-modeline eldoc-eval shrink-path all-the-icons memoize counsel-projectile counsel swiper ivy clojure-cheatsheet centered-cursor-mode browse-at-remote dotenv-mode yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))))
+	;; custom-set-variables was added by Custom.
+	;; If you edit it by hand, you could mess it up, so be careful.
+	;; Your init file should contain only one such instance.
+	;; If there is more than one, they won't work right.
+	'(package-selected-packages
+		 (quote
+			 (yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
