@@ -49,3 +49,7 @@ export BOOT_JVM_OPTIONS='
 	-Xmx2g
 	-XX:+CMSClassUnloadingEnabled
 	-Xverify:none'
+
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+fi
