@@ -491,6 +491,11 @@ before packages are loaded."
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
 
+  ;; faster search
+  (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
+	(custom-set-variables
+		’(helm-ag-base-command “rg --vimgrep --no-heading --smart-case”))
+
   ;; --- JavaScript ---------------------------------------------------------------
   ;;Javascript formatting
   (setq-default js2-basic-offset 2)
