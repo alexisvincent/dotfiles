@@ -494,7 +494,7 @@ before packages are loaded."
   ;; faster search
   (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
 	(custom-set-variables
-		’(helm-ag-base-command “rg --vimgrep --no-heading --smart-case”))
+		'(helm-ag-base-command "rg --vimgrep --no-heading --smart-case"))
 
   ;; --- JavaScript ---------------------------------------------------------------
   ;;Javascript formatting
