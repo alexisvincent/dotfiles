@@ -77,7 +77,12 @@ This function should only modify configuration layer settings."
     ;; To use a local version of a package, use the `:location' property:
     ;; '(your-package :location "~/path/to/your-package/")
     ;; Also include the dependencies as they will not be resolved automatically.
-    dotspacemacs-additional-packages '()
+    dotspacemacs-additional-packages '(github-browse-file
+																				flycheck-joker
+																				helm-rg
+																				projectile-ripgrep
+																				helm-cider-history
+																				(highlight-sexp :location (recipe :fetcher github :repo "daimrod/highlight-sexp")))
 
     ;; A list of packages that cannot be updated.
     dotspacemacs-frozen-packages '()
@@ -472,6 +477,21 @@ Put your configuration code here, except for variables that should be set
 before packages are loaded."
 
   (global-company-mode)
+  (setq sesman-use-friendly-sessions 't)
+
+  (use-package flycheck-joker)
+
+  (setq hl-sexp-background-color "#111")
+
+  ;; https://github.com/rksm/clj-suitable
+  ;; This project is a code completion backend for interactive repls and editors that use runtime
+  ;; introspection to provide "intellisense" support. This can be extremely useful and productive
+  ;; if you're experimenting around with unknown APIs.
+  ;; For example you work with DOM objects but can't remember how to query for child elements.
+  ;; Type (.| js/document) (with | marking the postion of your cursor) and press TAB. Methods and
+  ;; properties of js/document will appear.
+  (cider-add-to-alist 'cider-jack-in-cljs-dependencies "org.rksm/suitable" "0.1.2")
+  (add-to-list 'cider-jack-in-cljs-nrepl-middlewares "suitable.middleware/wrap-complete")
 
   ;; Perform highlighting on-the-fly.
   ;; (diff-hl-flydiff-mode '(:global t))
@@ -491,10 +511,12 @@ before packages are loaded."
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
 
+  (doom-modeline-mode t)
+
   ;; faster search
   (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
-	(custom-set-variables
-		'(helm-ag-base-command "rg --vimgrep --no-heading --smart-case"))
+  (custom-set-variables
+    '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case"))
 
   ;; --- JavaScript ---------------------------------------------------------------
   ;;Javascript formatting
@@ -505,11 +527,11 @@ before packages are loaded."
   ;; --- Clojure ------------------------------------------------------------------
 
   ;; --- Parinfer ---
-	(add-hook 'clojure-mode-hook #'parinfer-mode)
-	(add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
-	(add-hook 'common-lisp-mode-hook #'parinfer-mode)
-	(add-hook 'scheme-mode-hook #'parinfer-mode)
-	(add-hook 'lisp-mode-hook #'parinfer-mode)
+  (add-hook 'clojure-mode-hook #'parinfer-mode)
+  (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+  (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+  (add-hook 'scheme-mode-hook #'parinfer-mode)
+  (add-hook 'lisp-mode-hook #'parinfer-mode)
 
 
   ;; --- Reloaded Workflow ---
@@ -517,11 +539,11 @@ before packages are loaded."
   ;;support for reloaded behaviour
   (defun nrepl-reset ()
     (interactive)
-    (cider-interactive-eval "(in-ns 'user) (reset)"))
+    (cider-interactive-eval "(require 'dev) (in-ns 'dev) (reset)"))
 
   (defun nrepl-halt ()
     (interactive)
-    (cider-interactive-eval "(in-ns 'user) (halt)"))
+    (cider-interactive-eval "(require 'dev) (in-ns 'dev) (halt)"))
 
   (defun shadow-cljs-repl ()
     (interactive)
@@ -583,9 +605,10 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
  '(package-selected-packages
    (quote
-    (yasnippet-snippets writeroom-mode visual-fill-column symon string-inflection spaceline-all-the-icons sayid rjsx-mode prettier-js password-generator parinfer overseer nameless mvn meghanada maven-test-mode magit-svn json-navigator hierarchy impatient-mode htmlize helm-xref helm-purpose window-purpose imenu-list helm-git-grep groovy-mode groovy-imports pcache gradle-mode gitignore-templates evil-lion evil-goggles evil-cleverparens ensime sbt-mode scala-mode editorconfig doom-modeline eldoc-eval shrink-path all-the-icons memoize counsel-projectile counsel swiper ivy centered-cursor-mode browse-at-remote font-lock+ dotenv-mode web-beautify livid-mode skewer-mode simple-httpd js2-refactor js2-mode js-doc company-web web-completion-data company-tern dash-functional tern company-emacs-eclim coffee-mode ac-ispell yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))))
+    (highlight-sexp web-beautify livid-mode skewer-mode simple-httpd js2-refactor js2-mode js-doc company-web web-completion-data company-tern dash-functional tern company-emacs-eclim coffee-mode ac-ispell yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
