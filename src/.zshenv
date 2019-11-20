@@ -28,6 +28,8 @@ PATH=$PATH:$HOME/.local/bin
 PATH=$PATH:$HOME/.cabal/bin/
 PATH=$PATH:$HOME/.nvm/versions/node/v7.3.0/bin
 
+PATH=$PATH:$HOME/.krew/bin
+
 export PATH=$PATH
 
 export NPM_CONFIG_PREFIX=$HOME/.npm-global

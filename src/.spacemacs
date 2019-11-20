@@ -33,7 +33,9 @@ This function should only modify configuration layer settings."
 
     ;; List of configuration layers to load.
     dotspacemacs-configuration-layers
-    '(react
+    '(nginx
+			 go
+			 react
        helm
        (auto-completion :variables
          auto-completion-enable-sort-by-usage t
@@ -52,7 +54,7 @@ This function should only modify configuration layer settings."
 				 version-control-global-margin t
          version-control-diff-tool 'git-gutter)
 
-       ;; org
+       org
        ;; terraform
        osx
        docker
@@ -63,6 +65,7 @@ This function should only modify configuration layer settings."
        (markdown :variables markdown-live-preview-engine 'vmd)
        ;; haskell
 			 (clojure :variables
+				 clojure-enable-linters '(clj-kondo joker)
          clojure-enable-sayid t
          clojure-enable-clj-refactor t)
        parinfer
@@ -78,7 +81,6 @@ This function should only modify configuration layer settings."
     ;; '(your-package :location "~/path/to/your-package/")
     ;; Also include the dependencies as they will not be resolved automatically.
     dotspacemacs-additional-packages '(github-browse-file
-																				flycheck-joker
 																				helm-rg
 																				projectile-ripgrep
 																				helm-cider-history
@@ -479,7 +481,8 @@ before packages are loaded."
   (global-company-mode)
   (setq sesman-use-friendly-sessions 't)
 
-  (use-package flycheck-joker)
+  ;; fix issue: https://github.com/syl20bnr/spacemacs/issues/12201
+  (setq-default with-editor-emacsclient-executable "emacsclient")
 
   (setq hl-sexp-background-color "#111")
 
@@ -490,8 +493,10 @@ before packages are loaded."
   ;; For example you work with DOM objects but can't remember how to query for child elements.
   ;; Type (.| js/document) (with | marking the postion of your cursor) and press TAB. Methods and
   ;; properties of js/document will appear.
-  (cider-add-to-alist 'cider-jack-in-cljs-dependencies "org.rksm/suitable" "0.1.2")
-  (add-to-list 'cider-jack-in-cljs-nrepl-middlewares "suitable.middleware/wrap-complete")
+  (defun suitable-setup ()
+    (interactive)
+    (cider-add-to-alist 'cider-jack-in-cljs-dependencies "org.rksm/suitable" "0.1.2")
+    (add-to-list 'cider-jack-in-cljs-nrepl-middlewares "suitable.middleware/wrap-complete"))
 
   ;; Perform highlighting on-the-fly.
   ;; (diff-hl-flydiff-mode '(:global t))
@@ -555,43 +560,76 @@ before packages are loaded."
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "@" 'nrepl-halt)
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "s #" 'shadow-cljs-repl)
 
+  ;; --- WORKSPACES ------------------------------------------------------------------------------------
+
+  (defun goto-and-jack-in-clj (file)
+    (interactive)
+    (with-current-buffer (find-file file)
+      (call-interactively #'cider-jack-in)))
+
+  (defun goto-and-jack-in-cljs (file)
+    (interactive)
+    (with-current-buffer (find-file file)
+      (call-interactively #'cider-jack-in-cljs)))
+
+  ;; completions
+  (defvar cecil-candidates
+    (list
+      (list "[austenbrook] engine <clj>"
+        (lambda ()
+          (goto-and-jack-in-clj "~/Code/edenanalytics/austenbrook/engine/src/austenbrook/core.clj")))
+
+      (list "[austenbrook] portal <cljs>"
+        (lambda ()
+          (goto-and-jack-in-clj "~/Code/edenanalytics/austenbrook/portal/src/austenbrook/portal/core.cljs")))
+
+      (list "[allstreet] asimov <clj>"
+        (lambda ()
+          (goto-and-jack-in-clj "~/Code/allstreet/cecil/asimov/app/src/allstreet/asimov_app/main.clj")))
+
+      (list "[allstreet] asimov <cljs>"
+        (lambda ()
+          (goto-and-jack-in-cljs "~/Code/allstreet/cecil/asimov/client/src/allstreet/asimov_client/core.cljs")))
+
+      (list "[allstreet] writer <clj>"
+        (lambda ()
+          (goto-and-jack-in-clj "~/Code/allstreet/cecil/writer/server/src/allstreet/writer/server/main.clj")))
+
+      (list "[allstreet] writer <cljs>"
+        (lambda ()
+          (goto-and-jack-in-cljs "~/Code/allstreet/cecil/writer/client/src/allstreet/writer/client/core.cljs")))
+
+      (list "[allstreet] editor <clj>"
+        (lambda ()
+          (goto-and-jack-in-clj "~/Code/allstreet/cecil/editor/server/src/allstreet/editor/server/core.clj")))
+
+      (list "[allstreet] editor <cljs>"
+        (lambda ()
+          (goto-and-jack-in-cljs "~/Code/allstreet/cecil/editor/client/src/allstreet/editor/client/core.cljs")))
+
+      (list "[allstreet] sevva <clj>"
+        (lambda ()
+          (goto-and-jack-in-clj "~/Code/allstreet/cecil/sevva/server/src/allstreet/sevva/server/main.clj")))))
+
+  (defun workspaces ()
+    (interactive)
+    (helm
+      :sources (helm-build-sync-source "Workspaces"
+                 :candidates (map 'list #'car cecil-candidates)
+                 :action (lambda (candidate)
+                           (dolist (c (helm-marked-candidates))
+                             (message "starting [%s]" (helm-marked-candidates))
+                             (funcal
+                               (car
+                                 (alist-get c cecil-candidates nil nil #'equal))))))
+
+      :buffer "*helm jack-in*"))
+
+  (spacemacs/set-leader-keys "," 'workspaces)
+
   ;; --- UI Tweaks ------------------------------------------------------------------
-
-  (setq cider-font-lock-dynamically nil)
-
-  (let ((alist '((33 . ".\\(?:\\(?:==\\|!!\\)\\|[!=]\\)")
-									(35 . ".\\(?:###\\|##\\|_(\\|[#(?[_{]\\)")
-									(36 . ".\\(?:>\\)")
-									(37 . ".\\(?:\\(?:%%\\)\\|%\\)")
-									(38 . ".\\(?:\\(?:&&\\)\\|&\\)")
-									(42 . ".\\(?:\\(?:\\*\\*/\\)\\|\\(?:\\*[*/]\\)\\|[*/>]\\)")
-									(43 . ".\\(?:\\(?:\\+\\+\\)\\|[+>]\\)")
-									(45 . ".\\(?:\\(?:-[>-]\\|<<\\|>>\\)\\|[<>}~-]\\)")
-									;; (46 . ".\\(?:\\(?:\\.[.<]\\)\\|[.=-]\\)")
-									(47 . ".\\(?:\\(?:\\*\\*\\|//\\|==\\)\\|[*/=>]\\)")
-									(48 . ".\\(?:x[a-zA-Z]\\)")
-									(58 . ".\\(?:::\\|[:=]\\)")
-									(59 . ".\\(?:;;\\|;\\)")
-									(60 . ".\\(?:\\(?:!--\\)\\|\\(?:~~\\|->\\|\\$>\\|\\*>\\|\\+>\\|--\\|<[<=-]\\|=[<=>]\\||>\\)\\|[*$+~/<=>|-]\\)")
-									(61 . ".\\(?:\\(?:/=\\|:=\\|<<\\|=[=>]\\|>>\\)\\|[<=>~]\\)")
-									(62 . ".\\(?:\\(?:=>\\|>[=>-]\\)\\|[=>-]\\)")
-									(63 . ".\\(?:\\(\\?\\?\\)\\|[:=?]\\)")
-									(91 . ".\\(?:]\\)")
-									(92 . ".\\(?:\\(?:\\\\\\\\\\)\\|\\\\\\)")
-									(94 . ".\\(?:=\\)")
-									(119 . ".\\(?:ww\\)")
-									(123 . ".\\(?:-\\)")
-									(124 . ".\\(?:\\(?:|[=|]\\)\\|[=>|]\\)")
-									(126 . ".\\(?:~>\\|~~\\|[>=@~-]\\)"))))
-
-
-    (dolist (char-regexp alist)
-      (set-char-table-range composition-function-table (car char-regexp)
-        `([,(cdr char-regexp) 0 font-shape-gstring]))))
-
-  ;;fancy symbols for clojure
-  (setq clojure-enable-fancify-symbols t))
-
+  ;; ligatures
+  (mac-auto-operator-composition-mode))
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
@@ -606,9 +644,23 @@ This function is called at the very end of Spacemacs initialization."
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
- '(package-selected-packages
-   (quote
-    (highlight-sexp web-beautify livid-mode skewer-mode simple-httpd js2-refactor js2-mode js-doc company-web web-completion-data company-tern dash-functional tern company-emacs-eclim coffee-mode ac-ispell yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))))
+	'(package-selected-packages
+		 (quote
+			 (flycheck-joker nginx-mode web-beautify livid-mode skewer-mode simple-httpd js2-refactor js2-mode js-doc company-web web-completion-data company-tern dash-functional tern company-emacs-eclim coffee-mode ac-ispell yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash)))
+	'(safe-local-variable-values
+		 (quote
+			 ((cider-preferred-build-tool . "lein")
+				 (cider-default-cljs-repl . "shadow")
+				 (cider-preferred-build-tool . "shadow-cljs")
+				 (cider-shadow-cljs-default-options . dev)
+				 (cider-shadow-cljs-default-options . ":dev")
+				 (cider-shadow-cljs-default-options . "dev")
+				 (typescript-backend . tide)
+				 (typescript-backend . lsp)
+				 (javascript-backend . tern)
+				 (javascript-backend . lsp)
+				 (go-backend . go-mode)
+				 (go-backend . lsp)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
