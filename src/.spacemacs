@@ -481,9 +481,6 @@ before packages are loaded."
   (global-company-mode)
   (setq sesman-use-friendly-sessions 't)
 
-  ;; fix issue: https://github.com/syl20bnr/spacemacs/issues/12201
-  (setq-default with-editor-emacsclient-executable "emacsclient")
-
   (setq hl-sexp-background-color "#111")
 
   ;; https://github.com/rksm/clj-suitable
