@@ -1,0 +1,115 @@
+/*
+ * Your Stylesheet
+ *
+ * This stylesheet is loaded when Atom starts up and is reloaded automatically
+ * when it is changed and saved.
+ *
+ * Add your own CSS or Less to fully customize Atom.
+ * If you are unfamiliar with Less, you can read more about it here:
+ * http://lesscss.org
+ */
+
+
+/*
+ * Examples
+ * (To see them, uncomment and save)
+ */
+
+// style the background color of the tree view
+.tree-view {
+    min-width: auto !important;
+  // background-color: #300a24;
+}
+
+//.tree-view li {
+//  padding: 0px;
+//  tab-size: 1px;
+//  margin-left: -10px;
+//}
+//span.name.icon.icon-file-directory {
+//  margin: 0px;
+//}
+//ol.entries.list-tree {
+//  padding: 0px;
+//  tab-size: 1px;
+//  margin-left: -10px;
+//}
+// style the background and foreground colors on the atom-text-editor-element itself
+atom-text-editor {
+  // color: white;
+  // background-color: #300a24;
+  // text-rendering: optimizeLegibility;
+}
+
+atom-text-editor .gutter {
+    min-width: auto !important;
+}
+// style UI elements inside atom-text-editor
+atom-text-editor .cursor {
+  // border-color: #99ff66;
+}
+atom-text-editor .tab-bar {
+  // background-color: white;
+}
+.title-bar {
+  background-color: orange;
+}
+.tab-bar .tab[data-type="TextEditor"] {
+  // background-color: #3f0d30;
+}
+.tab-bar .tab.active[data-type$="Editor"] {
+  // background-color: rgb(173,128,252);
+  // background-color: rgb(229,63,115);
+  // background-color: rgb(166,130,246);
+  background-color: #b4184a;
+  // background-color: grey;
+  // background-color: #3f0d30;
+}
+.inset-panel {
+  // background-color: #3f0d30;
+}
+.flexbox-repaint-hack {
+  // background-color: #3f0d30;
+}
+.tab-bar .tab.active[data-type$="SettingsView"] {
+  // background-color: #3f0d30;
+}
+atom-text-editor.editor > div > .scroll-view > div,
+atom-text-editor.editor > div > .gutter-container > div {
+    transition: -webkit-transform .15s ease;
+}
+.item-views {
+  // background-color: #300a24;
+  color: white;
+}
+.custom-decorations {
+  // background-color: #3f0d30;
+}
+.gutter .line-number.cursor-line, atom-text-editor .gutter .line-number.cursor-line {
+  //ubuntu light aubergine
+  background-color: #77216F;
+}
+.sb-table.linter tbody{
+  // background-color: #3f0d30;
+}
+.sb-table.linter thead{
+  // background-color: #3f0d30;
+}
+.sb-table.linter td{
+  // background-color: #3f0d30;
+}
+.sb-table.linter th{
+  // background-color: #3f0d30;
+}
+.find-and-replace {
+  // background-color: #3f0d30;
+}
+.find-and-replace .line{
+  // background-color: #300a24;
+}
+.settings-view.pane-item .config-menu {
+  // background-color: #3f0d30;
+}
+.settings-view.pane-item .panels {
+  // background-color: #300a24;
+}
