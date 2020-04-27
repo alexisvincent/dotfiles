@@ -142,8 +142,8 @@
 	changed = green
 	untracked = cyan
 
-[credential]
-	helper = osxkeychain
+#[credential]
+#	helper = osxkeychain
 
 [diff]
 
