@@ -108,7 +108,8 @@
 	trustctime = false
 
 	#G2 - https://github.com/orefalo/g2
-	editor = "emacsclient -c"
+	#editor = "emacsclient -c"
+	editor = "vim"
 	autocrlf = input
 	safecrlf = warn
 

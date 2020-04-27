@@ -2,7 +2,8 @@
 # reason, evil evaluates it everytime you run dd or something similar
 
 # Make emacs the default editor.
-export EDITOR='emacsclient -c'
+# export EDITOR='emacsclient -c'
+export EDITOR='vim'
 
 # Set vi mode switching to 100ms instead of default 400ms
 export KEYTIMEOUT=1

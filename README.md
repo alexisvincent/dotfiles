@@ -1,4 +1,4 @@
-# Alexis’ dotfiles
+# Ollies’ dotfiles
 
 ## Installation
 
@@ -8,7 +8,7 @@ You can clone the repository wherever you want (I like to keep it in `~/.dotfile
 
 ```bash
 cd ~
-git clone https://github.com/alexisvincent/dotfiles.git .dotfiles
+git clone https://github.com/olliegilbey/dotfiles.git .dotfiles
 cd .dotfiles
 source bootstrap.sh
 ```
@@ -41,15 +41,15 @@ My `~/.extra` looks something like this:
 ```bash
 # Git credentials
 # Not in the repository, to prevent people from accidentally committing under my name
-GIT_AUTHOR_NAME="Alexis Vincent"
+GIT_AUTHOR_NAME="Oliver Gilbey"
 GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
 git config --global user.name "$GIT_AUTHOR_NAME"
-GIT_AUTHOR_EMAIL="alexis@alexisvincent.io"
+GIT_AUTHOR_EMAIL="olliegilbey@gmail.com"
 GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
 git config --global user.email "$GIT_AUTHOR_EMAIL"
 ```
 
-You could also use `~/.extra` to override settings, functions and aliases from my dotfiles repository. It’s probably better to [fork this repository](https://github.com/alexisvincent/dotfiles/fork) instead, though.
+You could also use `~/.extra` to override settings, functions and aliases from my dotfiles repository. It’s probably better to [fork this repository](https://github.com/olliegilbey/dotfiles/fork) instead, though.
 
 
 ### Install Homebrew formulae

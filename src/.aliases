@@ -7,24 +7,7 @@ alias .....="cd ../../../.."
 # Vim
 # alias vim='mvim '
 
-alias devbox='docker run --privileged --rm -v "$(pwd)":/root/mnt -it alexisvincent/devbox '
-alias dockerssh='docker run -it --privileged --pid=host debian nsenter -t 1 -m -u -n -i sh'
-
-alias connectNarga='sshfs 18680666@open.narga.sun.ac.za:/home/student/18680666 ~/Documents/Code/Projects/narga/'
-alias disconnectNarga='umount /Users/alexisvincent/Documents/Code/Projects/narga'
-
-alias tectonic='kubectl get pods -l tectonic-app=console -o template --template="{{range.items}}{{.metadata.name}}{{end}}" | xargs -I{} kubectl port-forward {} 9000'
-
 alias g="git"
-
-alias emacs="/Applications/Emacs.app/Contents/MacOS/Emacs"
-e() {
-    if ! emacsclient -e 0 >&/dev/null; then
-        emacs "$@" &
-    else
-        emacsclient -n -c "$@" &
-    fi
-}
 
 colorflag="-G"
 

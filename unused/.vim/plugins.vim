@@ -15,6 +15,46 @@ call dein#add("jistr/vim-nerdtree-tabs") | source ~/.vim/pluginrc/nerdtreetabs.v
 " ==================================================================[ Nerd Commenter 
 call dein#add('scrooloose/nerdcommenter')
 " ===========================================================[ Ask To Make Directory 
+call dein#add("jordwalke/VimAutoMakeDirectory")
+" ==============================================================[ Revision Visulizer 
+call dein#add("sjl/gundo.vim")
+nnoremap <D-U> :GundoToggle<CR>
+let g:gundo_close_on_revert=1
+" ===========================================================[ Plugin Repeat Support 
+call dein#add("tpope/vim-repeat")
+" ===============================================================[ Better Tab Titles
+call dein#add("mkitt/tabline.vim") | source ~/.vim/pluginrc/tabline.vim
+" ======================================================================[ Easymotion
+call dein#add('easymotion/vim-easymotion') | source ~/.vim/pluginrc/easymotion.vim
+" =======================================================================[ Vim Shell
+call dein#add("Shougo/vimshell.vim")
+" ==========================================================================[ Ctrl-p 
+call dein#add("ctrlpvim/ctrlp.vim") | source ~/.vim/pluginrc/ctrlp.vim
+" ==========================================================================[ VimBox 
+source ~/.vim/plugins.vimbox.vim
+" =========================================================================[ Numbers 
+call dein#add("myusuf3/numbers.vim")
+" ===================================================================[ Gruvbox Color 
+call dein#add("morhetz/gruvbox")
+" ========================================================[ Experimental Tag Support 
+"call dein#add('ludovicchabant/vim-gutentags')
+" ==============================================================[ Javascript Support 
+call dein#add('pangloss/vim-javascript')
+"NeoBundle 'othree/yajs.vim'
+"NeoBundle 'othree/es.next.syntax.vim'
+call dein#add('othree/jspc.vim')
+call dein#add('mxw/vim-jsx')
+let g:jsx_ext_required = 0 " Support for JSX in .js ext
+call dein#add('othree/javascript-libraries-syntax.vim')
+let g:used_javascript_libs = 'react,underscore'
+" =============================================================[ Tern for Javascript 
+call dein#add('ternjs/tern_for_vim', { 'build' : '/usr/local/bin/npm install' })
+" ====================================================================[ JSON Support 
+call dein#add('elzr/vim-json')
+" ===========================================================[ Padawan - PHP Support 
+call dein#add('mkusher/padawan.vim')
+let $PATH=$PATH . ':' . expand('~/.composer/vendor/bin')
+let g:padawan#composer_command = "composer"
 " ===============================================================[ Autocomplete test
 call dein#add("Shougo/neocomplete.vim")
 set completeopt=menu,menuone,preview
