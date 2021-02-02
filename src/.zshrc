@@ -2,10 +2,10 @@ fpath=( "$HOME/.zfunctions" $fpath )
 # oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
-# ZSH_THEME="bira"
 ZSH_THEME="lambda"
 
-alias look_busy="docker run -it --rm svenstaro/genact"
+alias kepler="clj -A:kepler-console -X:kepler-console :option"
+alias antq="clojure -Sdeps '{:deps {antq/antq {:mvn/version \"RELEASE\"}}}' -m antq.core"
 
 [[ $EMACS = t ]] && unsetopt zle
 
@@ -13,7 +13,7 @@ alias look_busy="docker run -it --rm svenstaro/genact"
 DISABLE_AUTO_UPDATE="false"
 
 # Plugins
-plugins=(git-extras osx zsh-syntax-highlighting yarn zsh-completions brew wd python vi-mode colorize docker docker-compose)
+plugins=(git-extras osx zsh-syntax-highlighting zsh-completions brew wd python vi-mode colorize docker docker-compose)
 
 # For zsh-completions
 autoload -U compinit && compinit
@@ -53,3 +53,12 @@ export BOOT_JVM_OPTIONS='
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
+
+export ANDROID_HOME=$HOME/Library/Android/sdk
+PATH=$PATH:$ANDROID_HOME/emulator
+PATH=$PATH:$ANDROID_HOME/tools
+PATH=$PATH:$ANDROID_HOME/tools/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+# export PATH=$PATH:$(yarn global bin)
+
+export GOOGLE_APPLICATION_CREDENTIALS=$(gcloud auth application-default print-access-token)

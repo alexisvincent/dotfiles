@@ -30,6 +30,16 @@ PATH=$PATH:$HOME/.nvm/versions/node/v7.3.0/bin
 
 PATH=$PATH:$HOME/.krew/bin
 
+export ANDROID_HOME=$HOME/Library/Android/sdk
+PATH=$PATH:$ANDROID_HOME/emulator
+PATH=$PATH:$ANDROID_HOME/tools
+PATH=$PATH:$ANDROID_HOME/tools/bin
+PATH=$PATH:$ANDROID_HOME/platform-tools
+
+# include graalvm utils in path
+PATH=$PATH:$(/usr/libexec/java_home -v 11)/bin
+
+export TELEPRESENCE_ROOT=/tmp/tel_root
 export PATH=$PATH
 
 export NPM_CONFIG_PREFIX=$HOME/.npm-global
@@ -73,4 +83,5 @@ DISABLE_AUTO_TITLE=true
 export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # Use Java 8 by default
-export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+# export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
+export JAVA_HOME=$(/usr/libexec/java_home -v 11)

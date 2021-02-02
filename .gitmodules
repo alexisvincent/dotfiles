@@ -13,3 +13,6 @@
 [submodule "src/.hyper_plugins/local/hyperterm-gruvbox-dark"]
 	path = src/.hyper_plugins/local/hyperterm-gruvbox-dark
 	url = https://github.com/alexisvincent/hyperterm-gruvbox-dark.git
+[submodule "y"]
+	path = src/.oh-my-zsh-custom/plugins/zsh-completions
+	url = https://github.com/zsh-users/zsh-completions

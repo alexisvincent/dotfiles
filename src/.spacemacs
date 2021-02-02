@@ -33,9 +33,10 @@ This function should only modify configuration layer settings."
 
     ;; List of configuration layers to load.
     dotspacemacs-configuration-layers
-    '(nginx
-			 go
-			 react
+    '(csv
+       nginx
+       go
+       react
        helm
        (auto-completion :variables
          auto-completion-enable-sort-by-usage t
@@ -49,29 +50,45 @@ This function should only modify configuration layer settings."
          shell-default-position 'bottom)
        spell-checking
        syntax-checking
-			 (version-control :variables
-				 version-control-diff-side 'left
-				 version-control-global-margin t
+       (version-control :variables
+         version-control-diff-side 'left
+         version-control-global-margin t
          version-control-diff-tool 'git-gutter)
 
-       org
+       (org :variables org-enable-github-support t)
        ;; terraform
        osx
        docker
-       typescript
        yaml
        semantic
+       prettier
+       (lsp :variables
+         lsp-signature-auto-activate nil
+         lsp-modeline-diagnostics-enable t
+         lsp-ui-doc-position 'top
+         lsp-ui-doc-show-with-cursor nil
+         lsp-ui-doc-alignment 'window
+				 lsp-modeline-code-actions-enable nil
+				 lsp-headerline-breadcrumb-enable nil
+         lsp-lens-enable nil)
+       (javascript :variables
+         javascript-backend 'lsp)
+       (typescript :variables
+         typescript-backend 'lsp
+         typescript-fmt-on-save t
+         typescript-fmt-tool 'prettier)
        html
        (markdown :variables markdown-live-preview-engine 'vmd)
        ;; haskell
-			 (clojure :variables
-				 clojure-enable-linters '(clj-kondo joker)
-         clojure-enable-sayid t
-         clojure-enable-clj-refactor t)
+       (clojure :variables
+         ;; clojure-enable-linters '(clj-kondo joker)
+         clojure-backend 'lsp
+         clojure-enable-sayid nil
+         clojure-enable-clj-refactor nil)
        parinfer
        ;; (c-c++ :variables c-c++-enable-clang-support t)
        ;; php
-			 (java :variables java-backend 'lsp))
+       (java :variables java-backend 'lsp))
 
     ;; List of additional packages that will be installed without being
     ;; wrapped in a layer. If you need some configuration for these
@@ -81,10 +98,15 @@ This function should only modify configuration layer settings."
     ;; '(your-package :location "~/path/to/your-package/")
     ;; Also include the dependencies as they will not be resolved automatically.
     dotspacemacs-additional-packages '(github-browse-file
-																				helm-rg
-																				projectile-ripgrep
-																				helm-cider-history
-																				(highlight-sexp :location (recipe :fetcher github :repo "daimrod/highlight-sexp")))
+                                        jetbrains
+																				ghub
+                                        bazel-mode
+                                        doom-themes
+																				doom-modeline
+                                        helm-rg
+                                        projectile-ripgrep
+                                        helm-cider-history
+                                        (highlight-sexp :location (recipe :fetcher github :repo "daimrod/highlight-sexp")))
 
     ;; A list of packages that cannot be updated.
     dotspacemacs-frozen-packages '()
@@ -328,7 +350,7 @@ It should only modify the values of Spacemacs settings."
 		;; If non-nil the frame is maximized when Emacs starts up.
 		;; Takes effect only if `dotspacemacs-fullscreen-at-startup' is nil.
 		;; (default nil) (Emacs 24.4+ only)
-		dotspacemacs-maximized-at-startup t
+		dotspacemacs-maximized-at-startup nil
 
 		;; A value from the range (0..100), in increasing opacity, which describes
 		;; the transparency level of a frame when it's active or selected.
@@ -461,7 +483,13 @@ See the header of this file for more information."
 This function is called immediately after `dotspacemacs/init', before layer
 configuration.
 It is mostly for variables that should be set before packages are loaded.
-If you are unsure, try setting them in `dotspacemacs/user-config' first.")
+If you are unsure, try setting them in `dotspacemacs/user-config' first."
+	(add-to-list 'configuration-layer-elpa-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
+	;; (add-to-list 'package-pinned-packages '(clj-refactor . "melpa-stable") t)
+	;; (add-to-list 'package-pinned-packages '(cider . "melpa-stable") t)
+	(setq dotspacemacs-mode-line-unicode-symbols nil)
+	(setq cider-font-lock-dynamically nil)
+	)
 
 
 (defun dotspacemacs/user-load ()
@@ -477,6 +505,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+	(setq x-select-enable-clipboard 't)
 
   (global-company-mode)
   (setq sesman-use-friendly-sessions 't)
@@ -510,10 +539,16 @@ before packages are loaded."
   ;; Enable custom neotree theme (all-the-icons must be installed!)
   (doom-themes-neotree-config)
 
+	(setq doom-themes-treemacs-theme "doom-colors") ; use the colorful treemacs theme
+	(doom-themes-treemacs-config)
+
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
-
-  (doom-modeline-mode t)
+	(use-package doom-modeline
+		:ensure t
+		:init (doom-modeline-mode 1))
+	(setq doom-modeline-github t)
+	(setq doom-modeline-bar-width 6)
 
   ;; faster search
   (evil-leader/set-key "/" 'spacemacs/helm-project-do-ag)
@@ -528,6 +563,10 @@ before packages are loaded."
 
   ;; --- Clojure ------------------------------------------------------------------
 
+  (setq cider-clojure-cli-global-options "-A:dev")
+  (setq cider-offer-to-open-cljs-app-in-browser nil)
+	(setq cider-font-lock-reader-conditionals nil)
+
   ;; --- Parinfer ---
   (add-hook 'clojure-mode-hook #'parinfer-mode)
   (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
@@ -535,13 +574,17 @@ before packages are loaded."
   (add-hook 'scheme-mode-hook #'parinfer-mode)
   (add-hook 'lisp-mode-hook #'parinfer-mode)
 
+	(add-hook 'clojure-mode-hook 'lsp)
+	(add-hook 'clojurescript-mode-hook 'lsp)
+	(add-hook 'clojurec-mode-hook 'lsp)
+
 
   ;; --- Reloaded Workflow ---
 
   ;;support for reloaded behaviour
   (defun nrepl-reset ()
     (interactive)
-    (cider-interactive-eval "(require 'dev) (in-ns 'dev) (reset)"))
+    (cider-interactive-eval "(require 'dev) (dev/reset)"))
 
   (defun nrepl-halt ()
     (interactive)
@@ -551,8 +594,8 @@ before packages are loaded."
     (interactive)
     (cider-interactive-eval "(println)"))
 
-  (setq cider-cljs-lein-repl "(do (use 'figwheel-sidecar.repl-api) (start-figwheel!) (cljs-repl))")
-
+  (spacemacs/set-leader-keys-for-major-mode 'clojurescript-mode "!" 'nrepl-reset)
+  (spacemacs/set-leader-keys-for-major-mode 'clojurescript-mode "@" 'nrepl-halt)
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "!" 'nrepl-reset)
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "@" 'nrepl-halt)
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "s #" 'shadow-cljs-repl)
@@ -572,6 +615,10 @@ before packages are loaded."
   ;; completions
   (defvar cecil-candidates
     (list
+      (list "[butterfly]"
+        (lambda ()
+					(butterfly)))
+
       (list "[austenbrook] engine <clj>"
         (lambda ()
           (goto-and-jack-in-clj "~/Code/edenanalytics/austenbrook/engine/src/austenbrook/core.clj")))
@@ -640,24 +687,29 @@ This function is called at the very end of Spacemacs initialization."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(evil-want-Y-yank-to-eol nil)
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
 	'(package-selected-packages
-		 (quote
-			 (flycheck-joker nginx-mode web-beautify livid-mode skewer-mode simple-httpd js2-refactor js2-mode js-doc company-web web-completion-data company-tern dash-functional tern company-emacs-eclim coffee-mode ac-ispell yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash)))
+		 '(doom-modeline web-beautify livid-mode skewer-mode simple-httpd js2-refactor js2-mode js-doc company-web web-completion-data company-tern dash-functional tern company-emacs-eclim coffee-mode ac-ispell yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))
 	'(safe-local-variable-values
-		 (quote
-			 ((cider-preferred-build-tool . "lein")
-				 (cider-default-cljs-repl . "shadow")
-				 (cider-preferred-build-tool . "shadow-cljs")
-				 (cider-shadow-cljs-default-options . dev)
-				 (cider-shadow-cljs-default-options . ":dev")
-				 (cider-shadow-cljs-default-options . "dev")
-				 (typescript-backend . tide)
-				 (typescript-backend . lsp)
-				 (javascript-backend . tern)
-				 (javascript-backend . lsp)
-				 (go-backend . go-mode)
-				 (go-backend . lsp)))))
+		 '((cider-offer-to-open-app-in-browser)
+				(cider-repl-display-help-banner)
+				(cider-connect-sibling-cljs . "shadow")
+				(cider-repl-type "shadow")
+				(cider-jack-in-default . "cider-jack-in-cljs")
+				(cider-clojure-cli-global-options . -A:dev)
+				(cider-preferred-build-tool . "lein")
+				(cider-default-cljs-repl . "shadow")
+				(cider-preferred-build-tool . "shadow-cljs")
+				(cider-shadow-cljs-default-options . dev)
+				(cider-shadow-cljs-default-options . ":dev")
+				(cider-shadow-cljs-default-options . "dev")
+				(typescript-backend . tide)
+				(typescript-backend . lsp)
+				(javascript-backend . tern)
+				(javascript-backend . lsp)
+				(go-backend . go-mode)
+				(go-backend . lsp))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
