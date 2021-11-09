@@ -33,9 +33,9 @@ This function should only modify configuration layer settings."
 
     ;; List of configuration layers to load.
     dotspacemacs-configuration-layers
-    '(csv
+    '(
+			 csv
        nginx
-       go
        react
        helm
        (auto-completion :variables
@@ -70,6 +70,8 @@ This function should only modify configuration layer settings."
          lsp-ui-doc-alignment 'window
 				 lsp-modeline-code-actions-enable nil
 				 lsp-headerline-breadcrumb-enable nil
+				 lsp-enable-indentation nil
+				 lsp-enable-on-type-formatting nil
          lsp-lens-enable nil)
        (javascript :variables
          javascript-backend 'lsp)
@@ -88,7 +90,10 @@ This function should only modify configuration layer settings."
        parinfer
        ;; (c-c++ :variables c-c++-enable-clang-support t)
        ;; php
-       (java :variables java-backend 'lsp))
+       (java :variables java-backend 'lsp)
+			 (csharp :variables csharp-backend 'lsp)
+			 (go :variables go-backend 'lsp)
+			 )
 
     ;; List of additional packages that will be installed without being
     ;; wrapped in a layer. If you need some configuration for these
@@ -102,7 +107,6 @@ This function should only modify configuration layer settings."
 																				ghub
                                         bazel-mode
                                         doom-themes
-																				doom-modeline
                                         helm-rg
                                         projectile-ripgrep
                                         helm-cider-history
@@ -240,7 +244,8 @@ It should only modify the values of Spacemacs settings."
 		;; to create your own spaceline theme. Value can be a symbol or list with\
 		;; additional properties.
 		;; (default '(spacemacs :separator wave :separator-scale 1.5))
-		dotspacemacs-mode-line-theme '(spacemacs :separator nil :separator-scale 1.5)
+		dotspacemacs-mode-line-theme '(doom)
+		;; '(spacemacs :separator nil :separator-scale 1.5)
 
 		;; If non-nil the cursor color matches the state color in GUI Emacs.
 		;; (default t)
@@ -505,6 +510,7 @@ This function is called at the very end of Spacemacs startup, after layer
 configuration.
 Put your configuration code here, except for variables that should be set
 before packages are loaded."
+	(setq-default indent-tabs-mode nil)
 	(setq x-select-enable-clipboard 't)
 
   (global-company-mode)
@@ -544,9 +550,6 @@ before packages are loaded."
 
   ;; Corrects (and improves) org-mode's native fontification.
   (doom-themes-org-config)
-	(use-package doom-modeline
-		:ensure t
-		:init (doom-modeline-mode 1))
 	(setq doom-modeline-github t)
 	(setq doom-modeline-bar-width 6)
 
@@ -577,7 +580,14 @@ before packages are loaded."
 	(add-hook 'clojure-mode-hook 'lsp)
 	(add-hook 'clojurescript-mode-hook 'lsp)
 	(add-hook 'clojurec-mode-hook 'lsp)
+	(setq lsp-enable-indentation nil)
 
+  ;; (dolist (dir '(
+	;; 								"[/\\\\]\\.shadow-cljs$"
+	;; 								"[/\\\\]dist$"
+	;; 								"[/\\\\].git$"
+	;; 								))
+  ;;   (push dir lsp-file-watch-ignored))
 
   ;; --- Reloaded Workflow ---
 
@@ -590,84 +600,10 @@ before packages are loaded."
     (interactive)
     (cider-interactive-eval "(require 'dev) (in-ns 'dev) (halt)"))
 
-  (defun shadow-cljs-repl ()
-    (interactive)
-    (cider-interactive-eval "(println)"))
-
   (spacemacs/set-leader-keys-for-major-mode 'clojurescript-mode "!" 'nrepl-reset)
   (spacemacs/set-leader-keys-for-major-mode 'clojurescript-mode "@" 'nrepl-halt)
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "!" 'nrepl-reset)
   (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "@" 'nrepl-halt)
-  (spacemacs/set-leader-keys-for-major-mode 'clojure-mode "s #" 'shadow-cljs-repl)
-
-  ;; --- WORKSPACES ------------------------------------------------------------------------------------
-
-  (defun goto-and-jack-in-clj (file)
-    (interactive)
-    (with-current-buffer (find-file file)
-      (call-interactively #'cider-jack-in)))
-
-  (defun goto-and-jack-in-cljs (file)
-    (interactive)
-    (with-current-buffer (find-file file)
-      (call-interactively #'cider-jack-in-cljs)))
-
-  ;; completions
-  (defvar cecil-candidates
-    (list
-      (list "[butterfly]"
-        (lambda ()
-					(butterfly)))
-
-      (list "[austenbrook] engine <clj>"
-        (lambda ()
-          (goto-and-jack-in-clj "~/Code/edenanalytics/austenbrook/engine/src/austenbrook/core.clj")))
-
-      (list "[austenbrook] portal <cljs>"
-        (lambda ()
-          (goto-and-jack-in-clj "~/Code/edenanalytics/austenbrook/portal/src/austenbrook/portal/core.cljs")))
-
-      (list "[allstreet] asimov <clj>"
-        (lambda ()
-          (goto-and-jack-in-clj "~/Code/allstreet/cecil/asimov/app/src/allstreet/asimov_app/main.clj")))
-
-      (list "[allstreet] asimov <cljs>"
-        (lambda ()
-          (goto-and-jack-in-cljs "~/Code/allstreet/cecil/asimov/client/src/allstreet/asimov_client/core.cljs")))
-
-      (list "[allstreet] writer <clj>"
-        (lambda ()
-          (goto-and-jack-in-clj "~/Code/allstreet/cecil/writer/server/src/allstreet/writer/server/main.clj")))
-
-      (list "[allstreet] writer <cljs>"
-        (lambda ()
-          (goto-and-jack-in-cljs "~/Code/allstreet/cecil/writer/client/src/allstreet/writer/client/core.cljs")))
-
-      (list "[allstreet] editor <clj>"
-        (lambda ()
-          (goto-and-jack-in-clj "~/Code/allstreet/cecil/editor/server/src/allstreet/editor/server/core.clj")))
-
-      (list "[allstreet] editor <cljs>"
-        (lambda ()
-          (goto-and-jack-in-cljs "~/Code/allstreet/cecil/editor/client/src/allstreet/editor/client/core.cljs")))
-
-      (list "[allstreet] sevva <clj>"
-        (lambda ()
-          (goto-and-jack-in-clj "~/Code/allstreet/cecil/sevva/server/src/allstreet/sevva/server/main.clj")))))
-
-  (defun workspaces ()
-    (interactive)
-    (helm
-      :sources (helm-build-sync-source "Workspaces"
-                 :candidates (map 'list #'car cecil-candidates)
-                 :action (lambda (candidate)
-                           (dolist (c (helm-marked-candidates))
-                             (message "starting [%s]" (helm-marked-candidates))
-                             (funcal
-                               (car
-                                 (alist-get c cecil-candidates nil nil #'equal))))))
-
-      :buffer "*helm jack-in*"))
 
   (spacemacs/set-leader-keys "," 'workspaces)
 
@@ -690,7 +626,7 @@ This function is called at the very end of Spacemacs initialization."
  '(evil-want-Y-yank-to-eol nil)
  '(helm-ag-base-command "rg --vimgrep --no-heading --smart-case")
 	'(package-selected-packages
-		 '(doom-modeline web-beautify livid-mode skewer-mode simple-httpd js2-refactor js2-mode js-doc company-web web-completion-data company-tern dash-functional tern company-emacs-eclim coffee-mode ac-ispell yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))
+		 '(helm-gtags godoctor go-tag go-rename go-impl go-guru go-gen-test go-fill-struct go-eldoc ggtags flycheck-golangci-lint counsel-gtags counsel swiper ivy company-go go-mode web-beautify livid-mode skewer-mode simple-httpd js2-refactor js2-mode js-doc company-web web-completion-data company-tern dash-functional tern company-emacs-eclim coffee-mode ac-ispell yaml-mode xterm-color ws-butler winum which-key web-mode volatile-highlights vmd-mode vi-tilde-fringe uuidgen use-package unfill toc-org tide typescript-mode tagedit stickyfunc-enhance srefactor spaceline powerline smeargle slim-mode shell-pop scss-mode sass-mode reveal-in-osx-finder restart-emacs rainbow-delimiters pug-mode popwin persp-mode pcre2el pbcopy paradox osx-trash osx-dictionary orgit org-plus-contrib org-bullets open-junk-file neotree mwim multi-term move-text mmm-mode markdown-toc markdown-mode magit-gitflow macrostep lorem-ipsum linum-relative link-hint less-css-mode launchctl indent-guide hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile helm-gitignore request helm-flx helm-descbinds helm-css-scss helm-company helm-c-yasnippet helm-ag haml-mode google-translate golden-ratio gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link git-gutter-fringe+ git-gutter-fringe fringe-helper git-gutter+ git-gutter gh-md fuzzy flyspell-correct-helm flyspell-correct flycheck-pos-tip pos-tip flycheck flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-magit magit git-commit ghub let-alist with-editor evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eshell-z eshell-prompt-extras esh-help emmet-mode elisp-slime-nav eclim dumb-jump f dockerfile-mode docker json-mode tablist magit-popup docker-tramp json-snatcher json-reformat diminish diff-hl company-statistics company column-enforce-mode clojure-snippets clj-refactor hydra inflections edn multiple-cursors paredit s peg clean-aindent-mode cider-eval-sexp-fu eval-sexp-fu highlight cider sesman seq spinner queue pkg-info clojure-mode epl bind-map bind-key auto-yasnippet yasnippet auto-highlight-symbol auto-dictionary auto-complete auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async doom-themes dash))
 	'(safe-local-variable-values
 		 '((cider-offer-to-open-app-in-browser)
 				(cider-repl-display-help-banner)

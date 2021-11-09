@@ -201,3 +201,5 @@
 	clean = git-lfs clean -- %f
 [hub]
 	protocol = https
+[init]
+	defaultBranch = master

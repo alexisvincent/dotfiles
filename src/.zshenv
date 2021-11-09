@@ -15,6 +15,9 @@ fi
 PATH=/usr/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
 PATH=$PATH:$HOME/.bin
 PATH=$PATH:$HOME/.npm-global/bin
+PATH=$PATH:$HOME/.go/bin
+PATH=$PATH:$HOME/opt/metasploit-framework/bin
+
 
 # envsubst
 PATH=$PATH:/usr/local/opt/gettext/bin

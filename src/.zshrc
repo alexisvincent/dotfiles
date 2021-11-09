@@ -1,11 +1,21 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 fpath=( "$HOME/.zfunctions" $fpath )
 # oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
-ZSH_THEME="lambda"
+# ZSH_THEME="lambda"
 
 alias kepler="clj -A:kepler-console -X:kepler-console :option"
 alias antq="clojure -Sdeps '{:deps {antq/antq {:mvn/version \"RELEASE\"}}}' -m antq.core"
+alias p=pnpm
+alias set-doom="echo \"doom\" > ~/.emacs-profile"
+alias set-spacemacs="echo \"spacemacs\" > ~/.emacs-profile"
 
 [[ $EMACS = t ]] && unsetopt zle
 
@@ -13,7 +23,7 @@ alias antq="clojure -Sdeps '{:deps {antq/antq {:mvn/version \"RELEASE\"}}}' -m a
 DISABLE_AUTO_UPDATE="false"
 
 # Plugins
-plugins=(git-extras osx zsh-syntax-highlighting zsh-completions brew wd python vi-mode colorize docker docker-compose)
+plugins=(git-extras macos zsh-syntax-highlighting zsh-completions brew wd python vi-mode colorize docker docker-compose)
 
 # For zsh-completions
 autoload -U compinit && compinit
@@ -58,7 +68,12 @@ export ANDROID_HOME=$HOME/Library/Android/sdk
 PATH=$PATH:$ANDROID_HOME/emulator
 PATH=$PATH:$ANDROID_HOME/tools
 PATH=$PATH:$ANDROID_HOME/tools/bin
+PATH=$PATH:$HOME/.doom.emacs.d/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 # export PATH=$PATH:$(yarn global bin)
 
-export GOOGLE_APPLICATION_CREDENTIALS=$(gcloud auth application-default print-access-token)
+# export GOOGLE_APPLICATION_CREDENTIALS=$(gcloud auth application-default print-access-token)
+source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
