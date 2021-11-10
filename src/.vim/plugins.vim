@@ -1,5 +1,5 @@
-set runtimepath^=~/.vim/bundle/repos/github.com/Shougo/dein.vim
-call dein#begin(expand('~/.vim/bundle'))
+set runtimepath^=~/.vim/bundles/repos/github.com/Shougo/dein.vim
+call dein#begin(expand('~/.vim/bundles'))
 " ============================================================================[ Dein
 call dein#add('Shougo/dein.vim')
 " ========================================================[ Vim Proc - Async Support

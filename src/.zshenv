@@ -40,12 +40,14 @@ PATH=$PATH:$ANDROID_HOME/tools/bin
 PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # include graalvm utils in path
-PATH=$PATH:$(/usr/libexec/java_home -v 11)/bin
+PATH=$PATH:$(/usr/libexec/java_home -v 17)/bin
+
+PATH=$PATH:$NVM_BIN
 
 export TELEPRESENCE_ROOT=/tmp/tel_root
 export PATH=$PATH
 
-export NPM_CONFIG_PREFIX=$HOME/.npm-global
+# export NPM_CONFIG_PREFIX=$HOME/.npm-global
 
 # Setup nvm - for node too slow :( so I've set it manually
 # export NVM_DIR=~/.nvm

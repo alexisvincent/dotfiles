@@ -39,16 +39,14 @@ function zle-line-init zle-keymap-select {
 
 source $HOME/.aliases
 
-eval $(thefuck --alias)
-
 # Fix for vim-instant-markdown
 set shell=bash\ -i
 
 # The next line updates PATH for the Google Cloud SDK.
-source '/Applications/google-cloud-sdk/path.zsh.inc'
+source '/Users/alexisvincent/.local/google-cloud-sdk/path.zsh.inc'
 
 # The next line enables shell command completion for gcloud.
-source '/Applications/google-cloud-sdk/completion.zsh.inc'
+source '/Users/alexisvincent/.local/google-cloud-sdk/completion.zsh.inc'
 
 export BOOT_CLOJURE_VERSION=1.9.0
 export BOOT_VERSION=2.8.0-SNAPSHOT
@@ -71,6 +69,10 @@ PATH=$PATH:$ANDROID_HOME/tools/bin
 PATH=$PATH:$HOME/.doom.emacs.d/bin
 export PATH=$PATH:$ANDROID_HOME/platform-tools
 # export PATH=$PATH:$(yarn global bin)
+#
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # export GOOGLE_APPLICATION_CREDENTIALS=$(gcloud auth application-default print-access-token)
 source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
