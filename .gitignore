@@ -5,3 +5,5 @@ trash/*
 src/.vim/bundle/*
 src/.vim/Fonts
 /src/.vim/bundles/
+/.clj-kondo/
+/.lsp/
