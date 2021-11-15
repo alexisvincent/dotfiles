@@ -81,6 +81,5 @@
 (setq cider-offer-to-open-cljs-app-in-browser nil)
 (setq cider-font-lock-reader-conditionals nil)
 
-
-;; -- Projectile ----
-(setq projectile-project-search-path '("~/Code"))
+;; -- Private Config ----
+(load "~/.doom.d/private/config.el")
