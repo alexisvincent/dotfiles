@@ -5,6 +5,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# For zsh-completions
+autoload -U compinit && compinit
+
 fpath=( "$HOME/.zfunctions" $fpath )
 # oh-my-zsh configuration.
 ZSH=$HOME/.oh-my-zsh
@@ -17,18 +20,21 @@ alias p=pnpm
 alias set-doom="echo \"doom\" > ~/.emacs-profile"
 alias set-spacemacs="echo \"spacemacs\" > ~/.emacs-profile"
 
+source <(kubectl completion zsh)
+echo 'alias k=kubectl' >>~/.zshrc
+echo 'complete -F __start_kubectl k' >>~/.zshrc
+
 [[ $EMACS = t ]] && unsetopt zle
 
 # Disable bi-weekly auto-update checks
 DISABLE_AUTO_UPDATE="false"
 
 # Plugins
-plugins=(git-extras macos zsh-syntax-highlighting zsh-completions brew wd python vi-mode colorize docker docker-compose)
-
-# For zsh-completions
-autoload -U compinit && compinit
+plugins=(git-extras macos zsh-syntax-highlighting zsh-autosuggestions brew wd python vi-mode colorize docker docker-compose)
 
 source $ZSH/oh-my-zsh.sh
+
+export ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#aaaaaa"
 
 # Vi mode normal prompt indicator
 function zle-line-init zle-keymap-select {
@@ -79,3 +85,37 @@ source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k
+alias k=kubectl
+complete -F __start_kubectl k

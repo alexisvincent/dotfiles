@@ -82,4 +82,4 @@
 (setq cider-font-lock-reader-conditionals nil)
 
 ;; -- Private Config ----
-(load "~/.doom.d/private/config.el")
+(load! "private/config.el")

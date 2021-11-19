@@ -2,8 +2,11 @@
 .DS_Store
 Desktop.ini
 trash/*
+
 src/.vim/bundle/*
 src/.vim/Fonts
-/src/.vim/bundles/
-/.clj-kondo/
-/.lsp/
+src/.vim/bundles/
+
+.clj-kondo
+.cpcache
+.lsp

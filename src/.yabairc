@@ -11,12 +11,12 @@ yabai -m config window_shadow float
 defaults write com.apple.finder DisableAllAnimations -bool true
 
 # borders
-yabai -m config window_border on
-yabai -m config window_border_width 4
-yabai -m config active_window_border_color 0xff746da8
-yabai -m config normal_window_border_color   0xff444444
-yabai -m config insert_window_border_color   0xffFFFFAF
-yabai -m signal --add event=application_front_switched action="~/.yabai/border-color-only-multiple-windows.sh"
+yabai -m config window_border off
+# yabai -m config window_border_width 4
+# yabai -m config active_window_border_color 0xff746da8
+# yabai -m config normal_window_border_color   0xff444444
+# yabai -m config insert_window_border_color   0xffFFFFAF
+# yabai -m signal --add event=application_front_switched action="~/.yabai/border-color-only-multiple-windows.sh"
 
 yabai -m rule --add app=Terminal border=off
 yabai -m rule --add app=iTerm border=off manage=off
