@@ -50,11 +50,3 @@ git config --global user.email "$GIT_AUTHOR_EMAIL"
 ```
 
 You could also use `~/.extra` to override settings, functions and aliases from my dotfiles repository. It’s probably better to [fork this repository](https://github.com/alexisvincent/dotfiles/fork) instead, though.
-
-
-### Install Homebrew formulae
-
-Install [Homebrew](http://brew.sh/) formulae (after installing Homebrew, of course):
-```bash
-./brew.sh
-```
