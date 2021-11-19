@@ -10,3 +10,4 @@ src/.vim/bundles/
 .clj-kondo
 .cpcache
 .lsp
+/src/.oh-my-zsh-custom/plugins/zsh-autosuggestions/
