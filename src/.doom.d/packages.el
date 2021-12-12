@@ -50,3 +50,4 @@
 ;(unpin! t)
 
 (package! ob-http)
+(package! evil-lisp-state)

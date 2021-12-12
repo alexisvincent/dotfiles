@@ -22,3 +22,6 @@ Thumbs.db
 /config/idea
 
 .#*
+
+.pnpm-debug.log
+deps.local.edn

@@ -20,10 +20,6 @@ alias p=pnpm
 alias set-doom="echo \"doom\" > ~/.emacs-profile"
 alias set-spacemacs="echo \"spacemacs\" > ~/.emacs-profile"
 
-source <(kubectl completion zsh)
-echo 'alias k=kubectl' >>~/.zshrc
-echo 'complete -F __start_kubectl k' >>~/.zshrc
-
 [[ $EMACS = t ]] && unsetopt zle
 
 # Disable bi-weekly auto-update checks
@@ -44,7 +40,6 @@ function zle-line-init zle-keymap-select {
 }
 
 source $HOME/.aliases
-
 # Fix for vim-instant-markdown
 set shell=bash\ -i
 
@@ -68,6 +63,13 @@ if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
 
+source <(kubectl completion zsh)
+alias k=kubectl
+complete -F __start_kubectl k
+
+
+source ~/.private/privaterc
+
 export ANDROID_HOME=$HOME/Library/Android/sdk
 PATH=$PATH:$ANDROID_HOME/emulator
 PATH=$PATH:$ANDROID_HOME/tools
@@ -85,37 +87,3 @@ source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k
-alias k=kubectl
-complete -F __start_kubectl k

@@ -35,7 +35,6 @@
 ;; numbers are disabled. For relative line numbers, set this to `relative'.
 (setq display-line-numbers-type t)
 
-
 ;; Here are some additional functions/macros that could help you configure Doom:
 ;;
 ;; - `load!' for loading external *.el files relative to this one
@@ -61,25 +60,60 @@
 
 (setq doom-themes-treemacs-theme "doom-atom")
 
-(map! :map smartparens-mode-map
-      :leader :prefix ("k" . "lisp")
-      "b" #'sp-forward-barf-sexp
-      "s" #'sp-forward-slurp-sexp)
-
 (map! :leader
       :map lsp-mode-map
-      :prefix ("=" . "beautify")
+      :prefix ("=" . "format")
       "b" #'lsp-format-buffer)
 
 (setq lsp-ui-doc-enable nil)
 (setq lsp-signature-auto-activate nil)
 (setq lsp-modeline-diagnostics-enable t)
 
+;; -- Formatting
+(setq +format-with-lsp nil)
+
 ;; -- Clojure ----
 
-(setq cider-clojure-cli-global-options "-A:dev")
+(setq cider-clojure-cli-global-options "-A:dev:portal$(deps.local)")
 (setq cider-offer-to-open-cljs-app-in-browser nil)
 (setq cider-font-lock-reader-conditionals nil)
+
+(use-package! evil-lisp-state
+  :demand t
+  :init
+  (setq evil-lisp-state-cursor 'hollow)
+  (setq evil-lisp-state-global t)
+  :config
+  (evil-lisp-state-leader "SPC k"))
+
+;; -- Clojure [portal] ----
+(defun portal.api/open ()
+  (interactive)
+  (cider-nrepl-sync-request:eval
+   "(require 'portal.api) (portal.api/tap) (do (def user/portal (portal.api/open)))"))
+
+(defun portal.api/clear ()
+  (interactive)
+  (cider-nrepl-sync-request:eval "(portal.api/clear)"))
+
+(defun portal.api/close ()
+  (interactive)
+  (cider-nrepl-sync-request:eval "(portal.api/close)"))
+
+(map! :localleader
+      :map (clojure-mode-map clojurescript-mode-map)
+      :prefix ("V" . "Portal Viewer")
+      :n "o" #'portal.api/open
+      :n "l" #'portal.api/clear
+      :n "q" #'portal.api/close)
+
+(defadvice! alexisvincent/add-tap (fn &rest args)
+  :around #'cider-interactive-eval
+  (let* ((form (nth 0 args))
+         (bounds (nth 2 args))
+         (form  (or form (apply #'buffer-substring-no-properties bounds)))
+         (form (concat "(doto " form " tap>)")))
+    (apply fn form (cdr args))))
 
 ;; -- Private Config ----
 (load! "private/config.el")

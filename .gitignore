@@ -11,3 +11,4 @@ src/.vim/bundles/
 .cpcache
 .lsp
 /src/.oh-my-zsh-custom/plugins/zsh-autosuggestions/
+/src/.private/

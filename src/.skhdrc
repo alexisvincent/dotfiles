@@ -1,0 +1,2 @@
+cmd + ctrl - h : yabai -m window --space prev
+cmd + ctrl - l : yabai -m window --space next
