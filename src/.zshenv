@@ -7,10 +7,7 @@ export EDITOR='emacsclient -c'
 # Set vi mode switching to 100ms instead of default 400ms
 export KEYTIMEOUT=1
 
-# if
-#   type brew &
-#   >/dev/null
-# then
+# if type brew &>/dev/null; then
 #   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 # fi
 

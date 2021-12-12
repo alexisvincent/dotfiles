@@ -59,6 +59,8 @@ export BOOT_JVM_OPTIONS='
 	-XX:+CMSClassUnloadingEnabled
 	-Xverify:none'
 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
@@ -66,7 +68,6 @@ fi
 source <(kubectl completion zsh)
 alias k=kubectl
 complete -F __start_kubectl k
-
 
 source ~/.private/privaterc
 
