@@ -14,19 +14,13 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/.oh-my-zsh-custom
 # ZSH_THEME="lambda"
 
-alias kepler="clj -A:kepler-console -X:kepler-console :option"
-alias antq="clojure -Sdeps '{:deps {antq/antq {:mvn/version \"RELEASE\"}}}' -m antq.core"
-alias p=pnpm
-alias set-doom="echo \"doom\" > ~/.emacs-profile"
-alias set-spacemacs="echo \"spacemacs\" > ~/.emacs-profile"
-
 [[ $EMACS = t ]] && unsetopt zle
 
 # Disable bi-weekly auto-update checks
 DISABLE_AUTO_UPDATE="false"
 
 # Plugins
-plugins=(git-extras macos zsh-syntax-highlighting zsh-autosuggestions brew wd python vi-mode colorize docker docker-compose)
+plugins=(git-extras macos zsh-syntax-highlighting zsh-autosuggestions wd python vi-mode colorize docker docker-compose zsh-z)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -40,8 +34,8 @@ function zle-line-init zle-keymap-select {
 }
 
 source $HOME/.aliases
-# Fix for vim-instant-markdown
-set shell=bash\ -i
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 # The next line updates PATH for the Google Cloud SDK.
 source '/Users/alexisvincent/.local/google-cloud-sdk/path.zsh.inc'
@@ -49,24 +43,12 @@ source '/Users/alexisvincent/.local/google-cloud-sdk/path.zsh.inc'
 # The next line enables shell command completion for gcloud.
 source '/Users/alexisvincent/.local/google-cloud-sdk/completion.zsh.inc'
 
-export BOOT_CLOJURE_VERSION=1.9.0
-export BOOT_VERSION=2.8.0-SNAPSHOT
-export BOOT_JVM_OPTIONS='
-	-client
-	-XX:+TieredCompilation
-	-XX:TieredStopAtLevel=1
-	-Xmx2g
-	-XX:+CMSClassUnloadingEnabled
-	-Xverify:none'
-
-eval "$(/opt/homebrew/bin/brew shellenv)"
 
 if type brew &>/dev/null; then
   FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
 fi
 
 source <(kubectl completion zsh)
-alias k=kubectl
 complete -F __start_kubectl k
 
 source ~/.private/privaterc
@@ -86,5 +68,10 @@ export NVM_DIR="$HOME/.nvm"
 # export GOOGLE_APPLICATION_CREDENTIALS=$(gcloud auth application-default print-access-token)
 source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
 
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+eval "$(direnv hook zsh)"
+
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+

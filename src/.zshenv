@@ -88,4 +88,4 @@ export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # Use Java 8 by default
 # export JAVA_HOME=$(/usr/libexec/java_home -v 1.8)
-export JAVA_HOME=$(/usr/libexec/java_home -v 11)
+export JAVA_HOME=$(/usr/libexec/java_home -v 17)

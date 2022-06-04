@@ -1,45 +1,17 @@
-;; The deps.edn file describes the information needed to build a classpath.
-;;
-;; When using the `clojure` or `clj` script, there are several deps.edn files
-;; that are combined:
-;; - install-level
-;; - user level (this file)
-;; - project level (current directory when invoked)
-;;
-;; For all attributes other than :paths, these config files are merged left to right.
-;; Only the last :paths is kept and others are dropped.
-
-{
-  ;; Paths
-  ;;   Directories in the current project to include in the classpath
-
-  ;; :paths ["src"]
-
-  ;; External dependencies
- 
-  ;; :deps {
-  ;;   org.clojure/clojure {:mvn/version "1.10.3"}
-  ;; }
-
-  ;; Aliases
-	;;   resolve-deps aliases (-R) affect dependency resolution, options:
-	;;     :extra-deps - specifies extra deps to add to :deps
-	;;     :override-deps - specifies a coordinate to use instead of that in :deps
-	;;     :default-deps - specifies a coordinate to use for a lib if one isn't found
-	;;   make-classpath aliases (-C) affect the classpath generation, options:
-	;;     :extra-paths - vector of additional paths to add to the classpath
-	;;     :classpath-overrides - map of lib to path that overrides the result of resolving deps
-
- :aliases
+{:aliases
  {:deps {:extra-deps {org.clojure/tools.deps.alpha {:mvn/version "0.12.1067"}}}
   :test {:extra-paths ["test"]}
-  :cider {:extra-deps {cider/cider-nrepl {:mvn/version "0.27.2"}
-                       refactor-nrepl/refactor-nrepl {:mvn/version "3.0.0-alpha13"}}}}
-
-  ;; Provider attributes
-
-  ;; :mvn/repos {
-  ;;   "central" {:url "https://repo1.maven.org/maven2/"}
-  ;;   "clojars" {:url "https://repo.clojars.org/"}
-  ;; }
-}
+  :cider {:extra-deps {nrepl/nrepl {:mvn/version "0.9.0"}
+                       refactor-nrepl/refactor-nrepl {:mvn/version "3.5.2"}
+                       cider/cider-nrepl {:mvn/version "0.27.4"}}}
+  :portal {:extra-deps {djblue/portal {:mvn/version "0.18.1"}}}
+  :transit-platform/all.clj.local {:extra-deps {transit-platform/all.cljc {:local/root "/Users/alexisvincent/code/transit/platform/packages/all.clj"}}}
+  :gx.cljc.local {:extra-deps {kepler16/gx.cljc {:local/root "/Users/alexisvincent/code/kepler/gx"}}}
+  :fetch.cljc.local {:extra-deps {kepler16/fetch.cljc {:local/root "/Users/alexisvincent/code/kepler/fetch"}}}
+  :ki.cljc.local {:extra-deps {kepler16/ki.cljs {:local/root "/Users/alexisvincent/code/kepler/ki"}}}
+  :http.clj.local {:extra-deps {kepler16/http {:local/root "/Users/alexisvincent/code/kepler/http"}}}
+  :next.cljs.local {:extra-deps {kepler16/next.cljs {:local/root "/Users/alexisvincent/code/kepler/next-cljs"}}}
+  :authzed.clj.local {:extra-deps {kepler16/authzed.clj {:local/root "/Users/alexisvincent/code/kepler/authzed"}}}
+  :async.cljc.local {:extra-deps {kepler16/async.cljc {:local/root "/Users/alexisvincent/code/kepler/async"}}}
+  :entity.cljc.local {:extra-deps {kepler16/entity.cljc {:local/root "/Users/alexisvincent/code/kepler/entity.cljc"}}}
+  :token-vault.cljc.local {:extra-deps {kepler16/token-vault.cljc {:local/root "/Users/alexisvincent/code/kepler/token-vault"}}}}}

@@ -1,2 +1,3 @@
-cmd + ctrl - h : yabai -m window --space prev
-cmd + ctrl - l : yabai -m window --space next
+# Currently doesnt follow focus because of scripting additions issue. Consider trying yabai -m window --focus prev as well
+cmd + ctrl - h : yabai -m window --space prev && yabai -m space --focus prev
+cmd + ctrl - l : yabai -m window --space next && yabai -m space --focus next

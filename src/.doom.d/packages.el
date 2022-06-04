@@ -49,5 +49,14 @@
 ;; ...Or *all* packages (NOT RECOMMENDED; will likely break things)
 ;(unpin! t)
 
-(package! ob-http)
+(setq straight-vc-git-default-protocol 'ssh)
+
 (package! evil-lisp-state)
+
+(package! just-mode)
+(package! justl)
+
+(package! k16
+ :recipe (:host github :repo "kepler16/k16.el"))
+
+(package! map :pin "bb50dbaafc0f71743bd9ffd5784258a9fd682c20")
