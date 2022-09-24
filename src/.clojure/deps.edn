@@ -4,7 +4,7 @@
   :cider {:extra-deps {nrepl/nrepl {:mvn/version "0.9.0"}
                        refactor-nrepl/refactor-nrepl {:mvn/version "3.5.2"}
                        cider/cider-nrepl {:mvn/version "0.27.4"}}}
-  :portal {:extra-deps {djblue/portal {:mvn/version "0.18.1"}}}
+  :portal {:extra-deps {djblue/portal {:mvn/version "LATEST"}}}
   :transit-platform/all.clj.local {:extra-deps {transit-platform/all.cljc {:local/root "/Users/alexisvincent/code/transit/platform/packages/all.clj"}}}
   :gx.cljc.local {:extra-deps {kepler16/gx.cljc {:local/root "/Users/alexisvincent/code/kepler/gx"}}}
   :fetch.cljc.local {:extra-deps {kepler16/fetch.cljc {:local/root "/Users/alexisvincent/code/kepler/fetch"}}}

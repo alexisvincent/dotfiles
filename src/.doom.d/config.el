@@ -82,7 +82,7 @@
 ;; (with-eval-after-load 'doom-themes
 ;;   (doom-themes-treemacs-config))
 
-(setq doom-themes-treemacs-theme "doom-atom")
+;; (setq doom-themes-treemacs-theme "doom-atom")
 
 ;; (map! :leader
 ;;       :map lsp-mode-map
@@ -92,6 +92,11 @@
 (setq lsp-ui-doc-enable nil)
 (setq lsp-signature-auto-activate nil)
 (setq lsp-modeline-diagnostics-enable t)
+(setq lsp-enable-on-type-formatting t)
+(setq lsp-enable-indentation t)
+(setq lsp-enable-snippet t)
+(setq lsp-typescript-format-enable nil)
+(setq lsp-javascript-format-enable nil)
 
 ;; -- Formatting
 ;; (setq +format-with-lsp nil)
@@ -110,7 +115,6 @@
 (after! clojure-mode
   (setq clojure-toplevel-inside-comment-form t)
   (setq cider-jack-in-dependencies nil))
-
 ;; (define-format-all-formatter cljstyle
 ;;   (:executable . "cljstyle")
 ;;   (:install . "")
@@ -180,3 +184,6 @@
 
 ;; -- Private Config ----
 (load! "private/config.el")
+
+
+(pixel-scroll-precision-mode)

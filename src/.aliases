@@ -25,7 +25,7 @@ e() {
 }
 
 alias set-doom="echo \"doom\" > ~/.emacs-profile"
-alias set-spacemacs="echo \"spacemacs\" > ~/.emacs-profile"
+alias set-doom29="echo \"doom29\" > ~/.emacs-profile"
 
 alias cat=bat
 alias ls=exa
