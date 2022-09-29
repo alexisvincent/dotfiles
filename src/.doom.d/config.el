@@ -186,4 +186,4 @@
 (load! "private/config.el")
 
 
-(pixel-scroll-precision-mode)
+;; (pixel-scroll-precision-mode)

@@ -65,6 +65,18 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
+# pnpm
+export PNPM_HOME="/Users/alexisvincent/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
+# bun completions
+[ -s "/Users/alexisvincent/.bun/_bun" ] && source "/Users/alexisvincent/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
 # export GOOGLE_APPLICATION_CREDENTIALS="$(gcloud auth application-default print-access-token)"
 source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
 
@@ -75,8 +87,3 @@ eval "$(direnv hook zsh)"
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
-
-# pnpm
-export PNPM_HOME="/Users/alexisvincent/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end

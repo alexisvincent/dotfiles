@@ -40,24 +40,22 @@ PATH=$PATH:$ANDROID_HOME/tools/bin
 PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # JAVA ---
-export JAVA_GRAAL_HOME=:$(/usr/libexec/java_home -v 17.0.4)
-alias graal="export JAVA_HOME=$JAVA_GRAAL_HOME"
-PATH=$PATH:$JAVA_GRAAL_HOME/bin
+export GRAALVM_HOME=$(/usr/libexec/java_home -v 17.0.4)
+alias graal="export JAVA_HOME=$GRAALVM_HOME"
+export PATH=$PATH:$GRAALVM_HOME/bin
 
-export JAVA_17_HOME=:$(/usr/libexec/java_home -v 17.0.2)
+export JAVA_17_HOME=$(/usr/libexec/java_home -v 17.0.2)
 alias java17="export JAVA_HOME=$JAVA_17_HOME"
-PATH=$PATH:$JAVA_17_HOME/bin
 
-export JAVA_11_HOME=:$(/usr/libexec/java_home -v 11)
+export JAVA_11_HOME=$(/usr/libexec/java_home -v 11)
 alias java11="export JAVA_HOME=$JAVA_11_HOME"
-PATH=$PATH:$JAVA_11_HOME/bin
 
-export JAVA_8_HOME=:$(/usr/libexec/java_home -v 1.8)
+export JAVA_8_HOME=$(/usr/libexec/java_home -v 1.8)
 alias java8="export JAVA_HOME=$JAVA_8_HOME"
-PATH=$PATH:$JAVA_8_HOME/bin
 
 # set graal as active java
-graal
+# graal
+java17
 
 PATH=$PATH:$NVM_BIN
 export PATH=$PATH
