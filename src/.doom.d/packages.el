@@ -54,6 +54,12 @@
 (package! just-mode)
 (package! justl)
 
+(unpin! cider)
+;; (unpin! docker)
+
+;; (package! copilot
+;;   :recipe (:host github :repo "zerolfx/copilot.el" :files ("*.el" "dist")))
+
 (package! k16
  :recipe (:host github
           :repo "kepler16/k16.el"

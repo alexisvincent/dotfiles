@@ -21,8 +21,8 @@
 ;; See 'C-h v doom-font' for documentation and more examples of what they
 ;; accept. For example:
 ;;
-;;(setq doom-font (font-spec :family "Fira Code" :size 12 :weight 'semi-light)
-;;      doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
+(setq doom-font (font-spec :family "Fira Code" :size 15 :weight 'medium))
+      ;; doom-variable-pitch-font (font-spec :family "Fira Sans" :size 13))
 ;;
 ;; If you or Emacs can't find your font, use 'M-x describe-font' to look them
 ;; up, `M-x eval-region' to execute elisp code, and 'M-x doom/reload-font' to
@@ -78,6 +78,9 @@
 ;;(setq doom-themes-treemacs-theme "doom-atom")
 (setq doom-localleader-key ",")
 (setq evil-snipe-override-evil-repeat-keys nil)
+
+(when (= 29 emacs-major-version)
+  (pixel-scroll-precision-mode))
 
 ;; (with-eval-after-load 'doom-themes
 ;;   (doom-themes-treemacs-config))
@@ -156,6 +159,10 @@
       :map (clojure-mode-map clojurescript-mode-map)
       :n "!" #'k16.dev.system/reset)
 
+(map! :localleader
+      :map (clojure-mode-map clojurescript-mode-map)
+      :n "@" #'k16.dev/do)
+
 ;; -- Clojure - Portal ---
 
 (map! :localleader
@@ -185,5 +192,12 @@
 ;; -- Private Config ----
 (load! "private/config.el")
 
+;; accept completion from copilot and fallback to company
+;; (use-package! copilot
+;;   :hook (prog-mode . copilot-mode)
+;;   :bind (("C-TAB" . 'copilot-accept-completion-by-word)
+;;          ("C-<tab>" . 'copilot-accept-completion-by-word)
+;;          :map copilot-completion-map
+;;          ("<tab>" . 'copilot-accept-completion)
+;;          ("TAB" . 'copilot-accept-completion)))
 
-;; (pixel-scroll-precision-mode)

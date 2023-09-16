@@ -2,7 +2,7 @@
 # reason, evil evaluates it everytime you run dd or something similar
 
 # Make emacs the default editor.
-export EDITOR='emacsclient -c'
+export EDITOR='nvim'
 
 # Set vi mode switching to 100ms instead of default 400ms
 export KEYTIMEOUT=1
@@ -40,26 +40,30 @@ PATH=$PATH:$ANDROID_HOME/tools/bin
 PATH=$PATH:$ANDROID_HOME/platform-tools
 
 # JAVA ---
-export GRAALVM_HOME=$(/usr/libexec/java_home -v 17.0.4)
-alias graal="export JAVA_HOME=$GRAALVM_HOME"
-export PATH=$PATH:$GRAALVM_HOME/bin
+# export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Contents/Home"
+# alias graal="export JAVA_HOME=$GRAALVM_HOME"
+# export PATH=$PATH:$GRAALVM_HOME/bin
 
-export JAVA_17_HOME=$(/usr/libexec/java_home -v 17.0.2)
-alias java17="export JAVA_HOME=$JAVA_17_HOME"
+# export JAVA_17_HOME=$(/usr/libexec/java_home -v 17)
+# alias java17="export JAVA_HOME=$JAVA_17_HOME"
 
-export JAVA_11_HOME=$(/usr/libexec/java_home -v 11)
-alias java11="export JAVA_HOME=$JAVA_11_HOME"
+# export JAVA_11_HOME=$(/usr/libexec/java_home -v 11)
+# alias java11="export JAVA_HOME=$JAVA_11_HOME"
 
-export JAVA_8_HOME=$(/usr/libexec/java_home -v 1.8)
-alias java8="export JAVA_HOME=$JAVA_8_HOME"
+# export JAVA_8_HOME=$(/usr/libexec/java_home -v 1.8)
+# alias java8="export JAVA_HOME=$JAVA_8_HOME"
 
 # set graal as active java
 # graal
-java17
+# java17
+
+. /opt/homebrew/opt/asdf/libexec/asdf.sh
+. ~/.asdf/plugins/java/set-java-home.zsh
 
 PATH=$PATH:$NVM_BIN
 export PATH=$PATH
 
+export USE_GKE_GCLOUD_AUTH_PLUGIN=True
 export TELEPRESENCE_ROOT=/tmp/tel_root
 eval "$(/opt/homebrew/bin/brew shellenv)"
 # export NPM_CONFIG_PREFIX=$HOME/.npm-global

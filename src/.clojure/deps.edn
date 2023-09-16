@@ -1,9 +1,9 @@
 {:aliases
  {:deps {:extra-deps {org.clojure/tools.deps.alpha {:mvn/version "0.12.1067"}}}
   :test {:extra-paths ["test"]}
-  :cider {:extra-deps {nrepl/nrepl {:mvn/version "0.9.0"}
-                       refactor-nrepl/refactor-nrepl {:mvn/version "3.5.2"}
-                       cider/cider-nrepl {:mvn/version "0.27.4"}}}
+  :cider {:extra-deps {nrepl/nrepl {:mvn/version "1.0.0"}
+                       refactor-nrepl/refactor-nrepl {:mvn/version "3.6.0"}
+                       cider/cider-nrepl {:mvn/version "0.30.0"}}}
   :portal {:extra-deps {djblue/portal {:mvn/version "LATEST"}}}
   :transit-platform/all.clj.local {:extra-deps {transit-platform/all.cljc {:local/root "/Users/alexisvincent/code/transit/platform/packages/all.clj"}}}
   :gx.cljc.local {:extra-deps {kepler16/gx.cljc {:local/root "/Users/alexisvincent/code/kepler/gx"}}}
