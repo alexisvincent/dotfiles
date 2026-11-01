@@ -1,0 +1,6 @@
+[tools]
+java = "temurin-23.0.2+7"
+node = "26"
+
+[settings]
+idiomatic_version_file_enable_tools = ["node"]

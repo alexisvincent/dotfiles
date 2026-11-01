@@ -1,29 +1,9 @@
-# Compiled Python files
-*.pyc
-
-# Folder view configuration files
-.DS_Store
-Desktop.ini
-
-tags
-
-# Thumbnail cache files
-._*
-Thumbs.db
-
-# Files that might appear on external disks
-.Spotlight-V100
-.Trashes
-/.idea/
-
-.vim/bundle/Vundle.vim
-
-
-/config/idea
-
-.#*
-
-.pnpm-debug.log
-deps.local.edn
-
-**/.claude/settings.local.json
+# Opt-in: everything in src/ is ignored unless listed below.
+# (.private stays out: it holds secrets.)
+/*
+!/.gitignore
+!/.config
+!/.editorconfig
+!/.hushlogin
+!/.nrepl
+!/.zshenv

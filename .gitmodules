@@ -1,18 +1,9 @@
-[submodule "config/atom-one-dark-terminal"]
-	path = config/atom-one-dark-terminal
-	url = https://github.com/nathanbuchar/atom-one-dark-terminal.git
-[submodule "config/idea-one-dark-theme"]
-	path = config/idea-one-dark-theme
-	url = https://github.com/yurtaev/idea-one-dark-theme.git
-[submodule "src/.oh-my-zsh-custom/plugins/zsh-syntax-highlighting"]
-	path = src/.oh-my-zsh-custom/plugins/zsh-syntax-highlighting
+[submodule "src/.config/zsh/plugins/zsh-syntax-highlighting"]
+	path = src/.config/zsh/plugins/zsh-syntax-highlighting
 	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
-[submodule "config/gruvbox-idea"]
-	path = config/gruvbox-idea
-	url = https://github.com/caleb/gruvbox-idea
-[submodule "src/.hyper_plugins/local/hyperterm-gruvbox-dark"]
-	path = src/.hyper_plugins/local/hyperterm-gruvbox-dark
-	url = https://github.com/alexisvincent/hyperterm-gruvbox-dark.git
-[submodule "y"]
-	path = src/.oh-my-zsh-custom/plugins/zsh-completions
-	url = https://github.com/zsh-users/zsh-completions
+[submodule "src/.config/zsh/plugins/zsh-z"]
+	path = src/.config/zsh/plugins/zsh-z
+	url = https://github.com/agkozak/zsh-z
+[submodule "src/.config/zsh/plugins/zsh-autosuggestions"]
+	path = src/.config/zsh/plugins/zsh-autosuggestions
+	url = https://github.com/zsh-users/zsh-autosuggestions

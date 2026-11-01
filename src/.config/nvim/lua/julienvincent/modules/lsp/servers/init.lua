@@ -13,5 +13,4 @@ return {
   mod("rust_analyzer"),
   mod("harper"),
   mod("clangd"),
-  mod("nim"),
 }

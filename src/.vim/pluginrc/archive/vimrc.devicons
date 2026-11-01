@@ -1,6 +1,0 @@
-let g:webdevicons_enable = 1
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
-let g:airline_powerline_fonts = 0
-let g:webdevicons_enable_nerdtree = 0
-let g:WebDevIconsUnicodeGlyphDoubleWidth = 1

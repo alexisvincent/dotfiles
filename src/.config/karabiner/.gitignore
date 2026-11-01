@@ -1,0 +1,7 @@
+# Not automatic_backups/: Karabiner's own history.
+# Opt-in: everything here is ignored unless listed below.
+*
+!.gitignore
+!karabiner.json
+!assets/
+!assets/**

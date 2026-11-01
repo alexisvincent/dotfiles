@@ -1,0 +1,7 @@
+[user]
+name = "Alexis Vincent"
+email = "mail@alexisvincent.io"
+
+[ui]
+paginate = "auto"
+default-command = "log"

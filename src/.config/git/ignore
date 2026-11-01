@@ -1,0 +1,24 @@
+# Global ignores for every repository
+
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Desktop.ini
+Thumbs.db
+
+# Editors
+tags
+.#*
+/.idea/
+
+*.pyc
+.pnpm-debug.log
+deps.local.edn
+
+# Claude Code's per-machine files
+**/.claude/settings.local.json
+**/CLAUDE.local.md

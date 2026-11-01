@@ -3,18 +3,7 @@
 Desktop.ini
 /trash/
 
-src/.vim/bundle/*
-src/.vim/Fonts
-src/.vim/bundles/
-
-.clj-kondo
-.cpcache
-.lsp
-/src/.oh-my-zsh-custom/plugins/zsh-autosuggestions/
 /src/.private/
 
 # Clone of github.com/julienvincent/.config, kept here for reference
 /julien-config/
-
-# Compiled terminfo for WezTerm (term = "wezterm"); regenerate with tic if needed
-/src/.terminfo/

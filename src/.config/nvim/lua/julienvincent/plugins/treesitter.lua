@@ -1,6 +1,5 @@
 -- Parsers installed on startup (missing ones are built in the background).
 local parsers = {
-  "nim",
   "cpp",
   "bash",
   "fish",

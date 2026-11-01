@@ -14,6 +14,11 @@ for target in "$dotfiles"/src/*; do
   file=${target##*/}
   link="$HOME/$file"
 
+  # Finder's folder settings, not a dotfile
+  [ "$file" = .DS_Store ] && continue
+  # The repo's list of what to track, not a dotfile
+  [ "$file" = .gitignore ] && continue
+
   if [ -L "$link" ] && [ "$(readlink "$link")" = "$target" ]; then
     continue
   fi
@@ -26,4 +31,13 @@ for target in "$dotfiles"/src/*; do
 
   echo "Symlink ~/$file -> $target"
   ln -s "$target" "$link"
+done
+
+# Remove links left behind by files that were moved or deleted from src/
+for link in "$HOME"/.* "$HOME"/*; do
+  if [ -L "$link" ] && [ ! -e "$link" ]; then
+    case "$(readlink "$link")" in
+      "$dotfiles"/src/*) echo "Remove dead link ~/${link##*/}"; rm "$link" ;;
+    esac
+  fi
 done

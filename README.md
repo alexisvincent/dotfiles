@@ -2,51 +2,21 @@
 
 ## Installation
 
-### Using Git and the bootstrap script
-
-You can clone the repository wherever you want (I like to keep it in `~/.dotfiles`). The bootstrapper script will pull in the latest version and copy the files to your home folder.
+Clone the repository anywhere (I keep it in `~/Code/dotfiles`), then run the bootstrap script. It links everything in `src/` into your home folder. Anything already in the way is moved to `trash/` first, never deleted.
 
 ```bash
-cd ~
-git clone https://github.com/alexisvincent/dotfiles.git .dotfiles
-cd .dotfiles
-source bootstrap.sh
+git clone --recurse-submodules https://github.com/alexisvincent/dotfiles.git ~/Code/dotfiles
+~/Code/dotfiles/bootstrap.sh
 ```
 
-To update, `cd` into your local `dotfiles` repository and then:
+Run `bootstrap.sh` again after adding a new file to `src/`. Changes to files already linked apply straight away.
 
-```bash
-source bootstrap.sh
-```
+### Dependencies
 
+The zsh plugins (autosuggestions, syntax highlighting, z) are submodules, so `--recurse-submodules` fetches them. No plugin manager.
 
-### Install Dependencies
-```bash
-# Download oh-my-zsh (It will update itself)
-git clone git://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh
+Starship draws the prompt in zsh and fish. The terminal needs a [Nerd Font](https://github.com/ryanoasis/nerd-fonts).
 
-# Download Dein Plugin Manager (It will manage itself)
-git clone https://github.com/Shougo/dein.vim ~/.vim/bundle/repos/github.com/Shougo/dein.vim
-```
+### Private settings
 
-### Install Font
-Find your font at https://github.com/ryanoasis/nerd-fonts and download
-
-### Add custom commands without creating a new fork
-
-If `~/.extra` exists, it will be sourced along with the other files. You can use this to add a few custom commands without the need to fork this entire repository, or to add commands you don’t want to commit to a public repository.
-
-My `~/.extra` looks something like this:
-
-```bash
-# Git credentials
-# Not in the repository, to prevent people from accidentally committing under my name
-GIT_AUTHOR_NAME="Alexis Vincent"
-GIT_COMMITTER_NAME="$GIT_AUTHOR_NAME"
-git config --global user.name "$GIT_AUTHOR_NAME"
-GIT_AUTHOR_EMAIL="alexis@alexisvincent.io"
-GIT_COMMITTER_EMAIL="$GIT_AUTHOR_EMAIL"
-git config --global user.email "$GIT_AUTHOR_EMAIL"
-```
-
-You could also use `~/.extra` to override settings, functions and aliases from my dotfiles repository. It’s probably better to [fork this repository](https://github.com/alexisvincent/dotfiles/fork) instead, though.
+Secrets and anything personal go in `~/.private/` (`zshenv` and `privaterc`), which the shell configs read if present. It's never committed.
