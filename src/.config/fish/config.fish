@@ -6,7 +6,7 @@ set -g fish_greeting
 source $__fish_config_dir/aliases.fish
 
 # API keys, only for interactive shells
-test -f ~/.private/privaterc; and source ~/.private/privaterc
+test -f ~/.private/secrets; and source ~/.private/secrets
 
 # Vi mode: block cursor in normal mode, bar in insert mode. Force the
 # cursor shape in every terminal, and reset it for programs like nvim.

@@ -25,4 +25,4 @@ fish_add_path -g -m $REX_BIN_DIR ~/.krew/bin ~/.local/bin
 type -q mise; and mise activate fish | source
 
 # Private settings (AWS profile etc.), kept out of the public repo
-test -f ~/.private/zshenv; and source ~/.private/zshenv
+test -f ~/.private/env; and source ~/.private/env
