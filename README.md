@@ -17,4 +17,4 @@ The shell is fish, with Starship for the prompt and zoxide for `z`. The terminal
 
 ### Private settings
 
-Secrets and anything personal go in `~/.private/` (`env` for every shell, `secrets` for interactive ones), which fish reads if present. It's never committed.
+API keys go in `~/.private/secrets` (plain `export NAME=value` lines), which interactive fish reads if present. It's never committed.
