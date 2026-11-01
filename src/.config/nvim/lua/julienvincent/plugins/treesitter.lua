@@ -1,69 +1,92 @@
+-- Parsers installed on startup (missing ones are built in the background).
+local parsers = {
+  "nim",
+  "cpp",
+  "bash",
+  "fish",
+  "html",
+  "javascript",
+  "http",
+  "json",
+  "csv",
+  "lua",
+  "luadoc",
+  "luap",
+  "markdown",
+  "markdown_inline",
+  "kdl",
+  "mermaid",
+  "regex",
+  "tsx",
+  "typescript",
+  "vim",
+  "vimdoc",
+  "yaml",
+  "graphql",
+  "fennel",
+  "clojure",
+  "commonlisp",
+  "rust",
+  "go",
+  "wit",
+}
+
 return {
   {
     "nvim-treesitter/nvim-treesitter",
+    -- The main branch is the rewrite for Neovim 0.12 (master is frozen and
+    -- breaks on 0.12). It builds parsers with the tree-sitter CLI.
+    branch = "main",
     build = ":TSUpdate",
     lazy = false,
 
     config = function()
-      require("nvim-treesitter.configs").setup({
-        highlight = { enable = true },
-        indent = { enable = true },
-        ensure_installed = {
-          -- "authzed",
-          "nim",
-          "cpp",
-          "bash",
-          "html",
-          "javascript",
-          "http",
-          "json",
-          "csv",
-          "lua",
-          "luadoc",
-          "luap",
-          "markdown",
-          "markdown_inline",
-          "kdl",
-          "mermaid",
-          "regex",
-          "tsx",
-          "typescript",
-          "vim",
-          "vimdoc",
-          "yaml",
-          "graphql",
-          "fennel",
-          "clojure",
-          "commonlisp",
-          "rust",
-          "go",
-          "wit",
-        },
-      })
+      require("nvim-treesitter").setup({})
+      require("nvim-treesitter").install(parsers)
 
-      local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
+      local parser_configs = require("nvim-treesitter.parsers")
 
-      parser_config.spicedb = {
+      parser_configs.spicedb = {
         install_info = {
           url = "https://github.com/authzed/tree-sitter-spicedb",
-          files = { "src/parser.c" },
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
           branch = "main",
+          files = { "src/parser.c" },
         },
-        filetype = "authzed",
       }
+      vim.treesitter.language.register("spicedb", { "authzed" })
 
-      parser_config.numscript = {
+      parser_configs.numscript = {
         install_info = {
           url = "https://github.com/julienvincent/tree-sitter-numscript",
-          files = { "src/parser.c" },
-          generate_requires_npm = false,
-          requires_generate_from_grammar = false,
           branch = "master",
+          files = { "src/parser.c" },
         },
-        filetype = "numscript",
       }
+
+      -- Highlighting and indenting are no longer switched on by the plugin:
+      -- start them for every buffer whose language has a parser installed.
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "*" },
+        callback = function(event)
+          local file_size = vim.fn.getfsize(vim.api.nvim_buf_get_name(event.buf))
+          if file_size > 256 * 1024 then
+            return
+          end
+
+          local lang = vim.treesitter.language.get_lang(vim.bo[event.buf].filetype)
+          if not lang or not vim.treesitter.language.add(lang) then
+            return
+          end
+
+          local ok, err = pcall(vim.treesitter.start, event.buf, lang)
+          if not ok then
+            vim.notify("Failed to start treesitter parser for [" .. lang .. "]: " .. err, vim.log.levels.WARN)
+            return
+          end
+
+          vim.bo[event.buf].indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
+      })
     end,
   },
 

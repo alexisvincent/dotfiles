@@ -12,12 +12,11 @@ local function table_contains(table, elem)
 end
 
 local function get_node_at_cursor()
-  local ts = require("nvim-treesitter.ts_utils")
   -- Use current buffer and ignore injected languages.
   --
   -- Injected languages are ignored because the docstring might be injected as
   -- markdown in which case we would be traversing the wrong parser tree.
-  return ts.get_node_at_cursor(0, true)
+  return vim.treesitter.get_node({ bufnr = 0, ignore_injections = true })
 end
 
 local root_forms = { "defn", "defn-", "defmacro", "defprotocol" }
