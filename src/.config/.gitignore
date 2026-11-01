@@ -3,5 +3,6 @@
 !/kitty
 !/nvim
 !/fish
+!/starship.toml
 # fish's own state (universal variables), different on every machine
 /fish/fish_variables
