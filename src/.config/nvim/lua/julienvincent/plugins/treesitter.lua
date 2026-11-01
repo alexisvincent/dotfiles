@@ -42,7 +42,9 @@ return {
 
     config = function()
       require("nvim-treesitter").setup({})
-      require("nvim-treesitter").install(parsers)
+      -- Two at a time: building every parser at once on a fresh machine needs
+      -- well over 1 GiB of memory (the Rex machines got killed for it).
+      require("nvim-treesitter").install(parsers, { max_jobs = 2 })
 
       local parser_configs = require("nvim-treesitter.parsers")
 
