@@ -12,3 +12,9 @@ src/.vim/bundles/
 .lsp
 /src/.oh-my-zsh-custom/plugins/zsh-autosuggestions/
 /src/.private/
+
+# Clone of github.com/julienvincent/.config, kept here for reference
+/julien-config/
+
+# Compiled terminfo for WezTerm (term = "wezterm"); regenerate with tic if needed
+/src/.terminfo/

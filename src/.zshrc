@@ -1,9 +1,9 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
 # For zsh-completions
 autoload -U compinit && compinit
@@ -31,17 +31,16 @@ function zle-line-init zle-keymap-select {
     VIM_PROMPT="%{$fg_bold[green]%} [% NORMAL]% %{$reset_color%}"
     RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/}$EPS1"
     zle reset-prompt
+    # Set cursor: 2=steady block (normal), 6=steady bar (insert)
+    case $KEYMAP in
+        vicmd) printf '\e[2 q';;
+        *)     printf '\e[6 q';;
+    esac
 }
 
 source $HOME/.aliases
 
 eval "$(/opt/homebrew/bin/brew shellenv)"
-
-# The next line updates PATH for the Google Cloud SDK.
-source '/Users/alexisvincent/.local/google-cloud-sdk/path.zsh.inc'
-
-# The next line enables shell command completion for gcloud.
-source '/Users/alexisvincent/.local/google-cloud-sdk/completion.zsh.inc'
 
 
 if type brew &>/dev/null; then
@@ -53,32 +52,13 @@ complete -F __start_kubectl k
 
 source ~/.private/privaterc
 
-export ANDROID_HOME=$HOME/Library/Android/sdk
-PATH=$PATH:$ANDROID_HOME/emulator
-PATH=$PATH:$ANDROID_HOME/tools
-PATH=$PATH:$ANDROID_HOME/tools/bin
-PATH=$PATH:$HOME/.doom.emacs.d/bin
-export PATH=$PATH:$ANDROID_HOME/platform-tools
-# export PATH=$PATH:$(yarn global bin)
-#
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+alias tailscale="/Applications/Tailscale.app/Contents/MacOS/Tailscale"
 
-# pnpm
-export PNPM_HOME="/Users/alexisvincent/Library/pnpm"
-export PATH="$PNPM_HOME:$PATH"
-# pnpm end
 
 # bun completions
 [ -s "/Users/alexisvincent/.bun/_bun" ] && source "/Users/alexisvincent/.bun/_bun"
 
-# bun
-export BUN_INSTALL="$HOME/.bun"
-export PATH="$BUN_INSTALL/bin:$PATH"
-
 # export GOOGLE_APPLICATION_CREDENTIALS="$(gcloud auth application-default print-access-token)"
-source $(brew --prefix)/opt/powerlevel10k/powerlevel10k.zsh-theme
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
@@ -99,9 +79,38 @@ function nvims() {
   NVIM_APPNAME=$config nvim $@
 }
 
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/alexisvincent/.local/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/alexisvincent/.local/google-cloud-sdk/completion.zsh.inc'; fi
+
 bindkey -s ^a "nvims\n"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+# [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
+eval "$(starship init zsh)"
+
+
+
+
+alias claude="claude --allow-dangerously-skip-permissions"
+
+
+
+# Composio CLI
+export COMPOSIO_INSTALL_DIR=/Users/alexisvincent/.composio
+export PATH="/Users/alexisvincent/.composio:$PATH"
+
+# Added by Antigravity
+export PATH="/Users/alexisvincent/.antigravity/antigravity/bin:$PATH"
+
+# Added by LM Studio CLI (lms)
+export PATH="$PATH:/Users/alexisvincent/.lmstudio/bin"
+# End of LM Studio CLI section
+
+export PATH="$HOME/.local/bin:$PATH"
+
+if [ -n "$REX_BIN_DIR" ]; then
+    export PATH="$REX_BIN_DIR:$PATH"
+fi
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"

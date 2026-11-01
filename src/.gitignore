@@ -25,3 +25,5 @@ Thumbs.db
 
 .pnpm-debug.log
 deps.local.edn
+
+**/.claude/settings.local.json

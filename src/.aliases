@@ -28,7 +28,7 @@ alias set-doom="echo \"doom\" > ~/.emacs-profile"
 alias set-doom29="echo \"doom29\" > ~/.emacs-profile"
 
 alias cat=bat
-alias ls=exa
+alias ls=lsd
 alias g=git
 alias p=pnpm
 alias k=kubectl

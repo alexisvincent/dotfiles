@@ -39,6 +39,39 @@ PATH=$PATH:$ANDROID_HOME/tools
 PATH=$PATH:$ANDROID_HOME/tools/bin
 PATH=$PATH:$ANDROID_HOME/platform-tools
 
+export ANDROID_HOME=$HOME/Library/Android/sdk
+PATH=$PATH:$ANDROID_HOME/emulator
+PATH=$PATH:$ANDROID_HOME/tools
+PATH=$PATH:$ANDROID_HOME/tools/bin
+PATH=$PATH:$HOME/.doom.emacs.d/bin
+export PATH=$PATH:$ANDROID_HOME/platform-tools
+# export PATH=$PATH:$(yarn global bin)
+#
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# pnpm
+export PNPM_HOME="/Users/alexisvincent/Library/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+# pnpm end
+
+export PATH="~/.nimble/bin/:$PATH"
+
+export WASMTIME_HOME="$HOME/.wasmtime"
+
+export PATH="$WASMTIME_HOME/bin:$PATH"
+
+# Added by Windsurf
+export PATH="/Users/alexisvincent/.codeium/windsurf/bin:$PATH"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/alexisvincent/.local/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/alexisvincent/.local/google-cloud-sdk/path.zsh.inc'; fi
+
 # JAVA ---
 # export GRAALVM_HOME="/Library/Java/JavaVirtualMachines/graalvm-ce-java17-22.2.0/Contents/Home"
 # alias graal="export JAVA_HOME=$GRAALVM_HOME"
@@ -57,8 +90,6 @@ PATH=$PATH:$ANDROID_HOME/platform-tools
 # graal
 # java17
 
-. /opt/homebrew/opt/asdf/libexec/asdf.sh
-. ~/.asdf/plugins/java/set-java-home.zsh
 
 PATH=$PATH:$NVM_BIN
 export PATH=$PATH
@@ -104,3 +135,9 @@ DISABLE_AUTO_TITLE=true
 
 #Android Development
 export ANDROID_HOME=/usr/local/opt/android-sdk
+. "$HOME/.cargo/env"
+
+eval "$(mise activate zsh)"
+
+# Private settings (AWS profile etc.), kept out of the public repo.
+[ -f ~/.private/zshenv ] && source ~/.private/zshenv
