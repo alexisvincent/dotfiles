@@ -22,18 +22,22 @@ set -g fish_vi_force_cursor 1
 bind -M default ctrl-v edit_command_buffer
 bind -M insert ctrl-v edit_command_buffer
 
-# Completions that tools generate themselves, written once and loaded on
-# first use. Delete ~/.cache/fish/tool_completions to refresh them.
+# Completions that tools generate themselves, cached and loaded on first
+# use. A cache file is rebuilt when its tool is newer (after an update).
 set -l tool_completions ~/.cache/fish/tool_completions
 mkdir -p $tool_completions
 set -p fish_complete_path $tool_completions
-for tool in kubectl docker
-    if type -q $tool; and not test -s $tool_completions/$tool.fish
-        $tool completion fish >$tool_completions/$tool.fish
+for tool in kubectl docker rex jj
+    set -l bin (command -s $tool); or continue
+    set -l file $tool_completions/$tool.fish
+    if not test -s $file; or test $bin -nt $file
+        switch $tool
+            case jj
+                COMPLETE=fish jj >$file
+            case '*'
+                $tool completion fish >$file
+        end
     end
-end
-if type -q jj; and not test -s $tool_completions/jj.fish
-    COMPLETE=fish jj >$tool_completions/jj.fish
 end
 
 type -q fzf; and fzf --fish 2>/dev/null | source
