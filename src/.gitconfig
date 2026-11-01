@@ -108,7 +108,7 @@
 	trustctime = false
 
 	#G2 - https://github.com/orefalo/g2
-	editor = "emacsclient -c"
+	editor = nvim
 	autocrlf = input
 	safecrlf = warn
 
@@ -141,8 +141,6 @@
 	changed = green
 	untracked = cyan
 
-[credential]
-	helper = osxkeychain
 
 [diff]
 
