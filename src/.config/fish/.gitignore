@@ -3,6 +3,7 @@
 *
 !.gitignore
 !config.fish
+!aliases.fish
 !conf.d/
 !conf.d/**
 !functions/

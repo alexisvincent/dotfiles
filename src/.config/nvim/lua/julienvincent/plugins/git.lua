@@ -1,5 +1,7 @@
 return {
   { "avm99963/vim-jjdescription" },
+  -- jj resolve: two-sided conflict view in nvim (merge-editor in jj/config.toml)
+  { "rafikdraoui/jj-diffconflicts", cmd = { "JJDiffConflicts" } },
 
   {
     "julienvincent/hunk.nvim",

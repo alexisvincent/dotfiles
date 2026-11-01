@@ -1,9 +1,0 @@
-[submodule "src/.config/zsh/plugins/zsh-syntax-highlighting"]
-	path = src/.config/zsh/plugins/zsh-syntax-highlighting
-	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
-[submodule "src/.config/zsh/plugins/zsh-z"]
-	path = src/.config/zsh/plugins/zsh-z
-	url = https://github.com/agkozak/zsh-z
-[submodule "src/.config/zsh/plugins/zsh-autosuggestions"]
-	path = src/.config/zsh/plugins/zsh-autosuggestions
-	url = https://github.com/zsh-users/zsh-autosuggestions

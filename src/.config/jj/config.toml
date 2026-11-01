@@ -5,3 +5,15 @@ email = "mail@alexisvincent.io"
 [ui]
 paginate = "auto"
 default-command = "log"
+# Edit diffs (jj split, jj squash -i, ...) in nvim with hunk.nvim
+diff-editor = ["nvim", "-c", "DiffEditor $left $right $output"]
+# Resolve conflicts (jj resolve) in nvim with jj-diffconflicts
+merge-editor = "diffconflicts"
+
+[merge-tools.diffconflicts]
+program = "nvim"
+merge-args = [
+    "-c", "let g:jj_diffconflicts_marker_length=$marker_length",
+    "-c", "JJDiffConflicts!", "$output", "$base", "$left", "$right",
+]
+merge-tool-edits-conflict-markers = true

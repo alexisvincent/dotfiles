@@ -1,0 +1,8 @@
+# History stays on each machine: no account, nothing synced.
+auto_sync = false
+update_check = false
+
+# Ctrl-R opens a compact list, searching this folder's history first
+# (Ctrl-R again cycles: host, session, global).
+style = "compact"
+filter_mode = "directory"

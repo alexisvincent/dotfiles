@@ -21,6 +21,7 @@
   "hop.nvim": { "branch": "master", "commit": "08ddca799089ab96a6d1763db0b8adc5320bf050" },
   "hunk.nvim": { "branch": "master", "commit": "eb89245a66bdfce10436d15923bf4deb43d23c96" },
   "hydra.nvim": { "branch": "main", "commit": "7f5341643107d05a8d7d4fdea00b29af28517380" },
+  "jj-diffconflicts": { "branch": "main", "commit": "a2aa9a247b56d2c1a6f6be81bcf41c5450cc82ff" },
   "kulala.nvim": { "branch": "main", "commit": "0a52e1b7d7712daa7640cdb213cb1a781b419504" },
   "lazy.nvim": { "branch": "main", "commit": "37c7163f8d27243993ac07db8477e44cd5275027" },
   "litee-calltree.nvim": { "branch": "main", "commit": "b50c809d136ad479caf761a7f030da98c56c7976" },
