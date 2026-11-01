@@ -4,12 +4,13 @@
 set -gx XDG_CONFIG_HOME ~/.config
 set -gx EDITOR nvim
 set -gx VISUAL nvim
-set -gx LANG en_US.UTF-8
-set -gx LC_ALL en_US.UTF-8
 set -gx MANPAGER 'less -X'
 set -gx BUN_INSTALL ~/.bun
 
 if test (uname) = Darwin
+    # US English, UTF-8. (The Rex image sets C.UTF-8 and has no other locales.)
+    set -gx LANG en_US.UTF-8
+    set -gx LC_ALL en_US.UTF-8
     /opt/homebrew/bin/brew shellenv fish | source
     set -gx PNPM_HOME ~/Library/pnpm
     test -f ~/.local/google-cloud-sdk/path.fish.inc; and source ~/.local/google-cloud-sdk/path.fish.inc
