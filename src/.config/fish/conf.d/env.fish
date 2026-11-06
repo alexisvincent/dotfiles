@@ -20,7 +20,8 @@ end
 
 # Missing folders are skipped. -m moves entries that are already on PATH,
 # so the last line wins: these end up first.
-fish_add_path -g -m ~/.cargo/bin $PNPM_HOME $BUN_INSTALL/bin ~/.orbstack/bin
+# pnpm 11+ links global bins into $PNPM_HOME/bin; older ones sit in $PNPM_HOME.
+fish_add_path -g -m ~/.cargo/bin $PNPM_HOME/bin $PNPM_HOME $BUN_INSTALL/bin ~/.orbstack/bin
 fish_add_path -g -m $REX_BIN_DIR ~/.krew/bin ~/.local/bin
 
 type -q mise; and mise activate fish | source
