@@ -8,14 +8,14 @@
 #
 #   1. install the 1Password CLI
 #   2. store the 1Password service-account token
-#   3. clone the devbox repo to ~/Code/devbox
+#   3. clone the devbox repo to ~/code/devbox
 #   4. run its bootstrap.sh, passing NAME (the tailnet hostname) through
 #
 # The token comes from $DEVBOX_OP_TOKEN, or is used as it is if already at
 # ~/.config/devbox/op-token. No secrets live in this file.
 set -euo pipefail
 TOKEN="$HOME/.config/devbox/op-token"
-DIR="$HOME/Code/devbox"
+DIR="$HOME/code/devbox"
 
 # 1. 1Password CLI
 if ! command -v op >/dev/null; then

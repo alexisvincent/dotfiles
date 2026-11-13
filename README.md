@@ -21,7 +21,7 @@ API keys go in `~/.private/secrets` (plain `export NAME=value` lines), which int
 
 ### Dev boxes
 
-`install-devbox.sh` sets up a fresh Fly Sprite as a dev box. It installs the 1Password CLI, stores the service-account token, clones the private [devbox](https://github.com/alexisvincent/devbox) repo to `~/Code/devbox` and runs its `bootstrap.sh`, which does the rest (including cloning and linking these dotfiles).
+`install-devbox.sh` sets up a fresh Fly Sprite as a dev box. It installs the 1Password CLI, stores the service-account token, clones the private [devbox](https://github.com/alexisvincent/devbox) repo to `~/code/devbox` and runs its `bootstrap.sh`, which does the rest (including cloning these dotfiles to `~/code/dotfiles` and linking them).
 
 ```bash
 export DEVBOX_OP_TOKEN=...   # the 1Password service-account token
