@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+# Manage my dev boxes (Fly Sprites) from this machine.
+#
+#   devbox list               list the boxes
+#   devbox wake BOX           wake BOX and hold it awake for 1h
+#   devbox wake BOX DUR       hold for DUR instead (30m, 2h, 1d, forever)
+#   devbox wake BOX off       release the hold; the box pauses ~30s later
+#   devbox wake BOX status    show the hold
+#
+# How wake works: any `sprite exec` wakes a paused box. The command it runs is the box's own
+# `awake` (~/code/devbox/bin/awake), which takes the hold, so everything after BOX is passed
+# to it. The hold matters: Rex and tailnet traffic don't count as activity, so a box that is
+# only woken pauses again about 30 seconds later.
+#
+# Needs the sprite CLI, signed in (`sprite login`). Tab completion (fish) is in
+# ~/.config/fish/completions/devbox.fish; it gets the box names from `devbox names`.
+set -euo pipefail
+
+usage() { sed -n '2,16p' "$0" | sed 's/^# \{0,1\}//'; }
+
+cmd="${1:-help}"
+[ $# -gt 0 ] && shift
+
+case "$cmd" in
+  -h|--help|help) usage; exit 0 ;;
+  list|ls|wake|names) ;;
+  *) echo "devbox: unknown command '$cmd'" >&2; usage >&2; exit 2 ;;
+esac
+
+command -v sprite >/dev/null || { echo "devbox: the sprite CLI isn't installed (https://sprites.dev)" >&2; exit 1; }
+
+case "$cmd" in
+  list|ls)
+    exec sprite list
+    ;;
+  names)
+    # One name per line, for tab completion. Asking Sprites takes about a second, so the
+    # answer is kept for 5 minutes. Needs jq; prints nothing if anything goes wrong.
+    cache="${XDG_CACHE_HOME:-$HOME/.cache}/devbox/names"
+    if [ -z "$(find "$cache" -mmin -5 2>/dev/null)" ]; then
+      names=$(sprite --json list 2>/dev/null | jq -r '.sprites[].name' 2>/dev/null) || names=""
+      [ -n "$names" ] || exit 0
+      mkdir -p "$(dirname "$cache")"
+      printf '%s\n' "$names" > "$cache"
+    fi
+    cat "$cache"
+    ;;
+  wake)
+    [ $# -gt 0 ] || { echo "usage: devbox wake BOX [DUR|off|status]" >&2; exit 2; }
+    box="$1"; shift
+    # /.sprite/bin is where the box keeps sprite-env, which `awake` calls. On a box without
+    # the devbox setup there is no `awake`: it is still woken, just not held.
+    exec sprite exec -s "$box" --no-stdin -- bash -c '
+      PATH="/.sprite/bin:$PATH"
+      awake="$HOME/code/devbox/bin/awake"
+      if [ -x "$awake" ]; then exec "$awake" "$@"; fi
+      echo "devbox: woken, but not held: no $awake on this box" >&2
+    ' devbox "$@"
+    ;;
+esac

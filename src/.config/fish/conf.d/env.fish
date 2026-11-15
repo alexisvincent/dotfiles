@@ -23,5 +23,7 @@ end
 # pnpm 11+ links global bins into $PNPM_HOME/bin; older ones sit in $PNPM_HOME.
 fish_add_path -g -m ~/.cargo/bin $PNPM_HOME/bin $PNPM_HOME $BUN_INSTALL/bin ~/.orbstack/bin
 fish_add_path -g -m $REX_BIN_DIR ~/.krew/bin ~/.local/bin
+# My own scripts, kept in the dotfiles (devbox).
+fish_add_path -g -m ~/.config/bin
 
 type -q mise; and mise activate fish | source

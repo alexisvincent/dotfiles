@@ -27,3 +27,12 @@ API keys go in `~/.private/secrets` (plain `export NAME=value` lines), which int
 export DEVBOX_OP_TOKEN=...   # the 1Password service-account token
 curl -fsSL https://raw.githubusercontent.com/alexisvincent/dotfiles/master/install-devbox.sh | bash -s <name>
 ```
+
+`devbox` (in `src/.config/bin`, on the PATH) manages the boxes from the Mac. It needs the `sprite` CLI, signed in.
+
+```bash
+devbox list              # list the boxes
+devbox wake <name>       # wake it and hold it awake for 1h
+devbox wake <name> 4h    # or 30m, 1d, forever
+devbox wake <name> off   # let it pause again
+```
