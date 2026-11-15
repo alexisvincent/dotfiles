@@ -133,6 +133,10 @@ return {
       require("dressing").setup({
         select = {
           fzf_lua = {
+            -- fzf-lua hides pickers on <Esc> by default instead of aborting them. A hidden select never
+            -- calls back, and every later vim.ui.select (ie, neo-tree's delete confirmation) silently
+            -- does nothing until nvim is restarted.
+            no_hide = true,
             previewer = false,
             winopts = {
               preview = {
