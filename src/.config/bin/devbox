@@ -35,15 +35,10 @@ case "$cmd" in
     ;;
   names)
     # One name per line, for tab completion. Asking Sprites takes about a second, so the
-    # answer is kept for 5 minutes. Prints nothing if anything goes wrong.
+    # answer is kept for 5 minutes. Needs jq; prints nothing if anything goes wrong.
     cache="${XDG_CACHE_HOME:-$HOME/.cache}/devbox/names"
     if [ -z "$(find "$cache" -mmin -5 2>/dev/null)" ]; then
-      # Newer sprite CLIs have --json. Older ones don't, so fall back to the first column
-      # of the plain list, keeping only what looks like a box name (drops headings).
       names=$(sprite --json list 2>/dev/null | jq -r '.sprites[].name' 2>/dev/null) || names=""
-      if [ -z "$names" ]; then
-        names=$(sprite list 2>/dev/null </dev/null | awk '$1 ~ /^[a-z0-9][a-z0-9-]*$/ { print $1 }') || names=""
-      fi
       [ -n "$names" ] || exit 0
       mkdir -p "$(dirname "$cache")"
       printf '%s\n' "$names" > "$cache"
@@ -55,12 +50,11 @@ case "$cmd" in
     box="$1"; shift
     # /.sprite/bin is where the box keeps sprite-env, which `awake` calls. On a box without
     # the devbox setup there is no `awake`: it is still woken, just not held.
-    # stdin from /dev/null rather than --no-stdin, which older sprite CLIs don't have.
-    exec sprite exec -s "$box" -- bash -c '
+    exec sprite exec -s "$box" --no-stdin -- bash -c '
       PATH="/.sprite/bin:$PATH"
       awake="$HOME/code/devbox/bin/awake"
       if [ -x "$awake" ]; then exec "$awake" "$@"; fi
       echo "devbox: woken, but not held: no $awake on this box" >&2
-    ' devbox "$@" </dev/null
+    ' devbox "$@"
     ;;
 esac
