@@ -118,20 +118,27 @@ end
 local SELECT_LATER = [[
 sleep 0.3
 rex=$(command -v rex) || rex="$HOME/Library/Application Support/com.superlogical.rex/RexServer/Versions/Current/Rex Server.app/Contents/MacOS/rex"
-exec "$rex" -C "$1" do session.select session_id="$2" window_id="$3"
+if [ -n "$3" ]; then
+  exec "$rex" -C "$1" do session.select session_id="$2" window_id="$3"
+fi
+exec "$rex" -C "$1" do session.select session_id="$2"
 ]]
 
--- Open a new tab and show it. A queued session.select reaches the app before it has heard about the
--- new tab and does nothing, so ask from a detached rex call a moment later instead.
-local function open_tab(ctx, opts)
-  local created = check(rex.session.new_window(opts))
+-- Show something the app hasn't heard about yet. A queued session.select reaches the app before the
+-- news of a new tab or session does and is ignored, so ask from a detached rex call a moment later.
+local function select_later(ctx, session_id, window_id)
   local client_id = app_client_id(ctx)
-  if client_id and ctx.session_id then
+  if client_id and session_id then
     rex.exec.start(
-      { "/bin/sh", "-c", SELECT_LATER, "sh", client_id, ctx.session_id, created.window_id },
+      { "/bin/sh", "-c", SELECT_LATER, "sh", client_id, session_id, window_id or "" },
       { detach = true }
     )
   end
+end
+
+local function open_tab(ctx, opts)
+  local created = check(rex.session.new_window(opts))
+  select_later(ctx, ctx.session_id, created.window_id)
   return created
 end
 
@@ -201,3 +208,43 @@ rex.action({
 })
 
 rex.bind("cmd+e", "editor_toggle")
+
+-- Project sessions. Go to the session with this label from anywhere, creating it with a shell in
+-- its directory if it doesn't exist yet. Pressed from inside it, go to the first other session.
+rex.action({
+  name = "go_to_project",
+  title = "Go to Project Session",
+  description = "Switch to the session with this label (creating it in dir if needed), or away from it.",
+  args = { label = "string", dir = "string" },
+  run = function(ctx, args)
+    local listed = check(rex.call("session.list"))
+    local sessions = listed.sessions or {}
+    for _, session in ipairs(sessions) do
+      if session.label == args.label then
+        if session.session_id ~= ctx.session_id then
+          rex.client.queue("session.select", { session_id = session.session_id })
+          return
+        end
+        -- Already there: leave for the first other session, if there is one.
+        for _, other in ipairs(sessions) do
+          if other.session_id ~= session.session_id then
+            rex.client.queue("session.select", { session_id = other.session_id })
+            return
+          end
+        end
+        return
+      end
+    end
+
+    local dir = args.dir:gsub("^~", os.getenv("HOME"))
+    local created = check(rex.call("session.create", {
+      label = args.label,
+      initial_windows = {
+        { layout = rex.layout.block({ flavor = SHELL, options = { cwd = dir } }) },
+      },
+    }))
+    select_later(ctx, created.session_id)
+  end,
+})
+
+rex.bind("shift+cmd+c", "go_to_project", { label = "dotfiles", dir = "~/Code/dotfiles" })
