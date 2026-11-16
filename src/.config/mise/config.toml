@@ -1,8 +1,11 @@
 [tools]
+clojure = "latest"
+go = "latest"
 java = "temurin-23.0.2+7"
 kubectx = "latest"
 kubens = "latest"
 node = "26"
+ruby = "latest"
 
 [settings]
 idiomatic_version_file_enable_tools = ["node"]
