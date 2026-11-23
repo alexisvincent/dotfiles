@@ -9,7 +9,10 @@ after-login-command = []
 # You can use it to add commands that run after AeroSpace startup.
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = []
+#
+# AeroSpace forces tiles on the workspace focused at startup, whatever 'default-root-container-layout'
+# says (https://github.com/nikitabobko/AeroSpace/issues/568). This puts it back in accordion.
+after-startup-command = ['exec-and-forget /Users/alexisvincent/.config/aerospace/startup-accordion.sh']
 
 # Start AeroSpace at login
 start-at-login = true
