@@ -18,7 +18,7 @@ focused_bundle_id=$("$aerospace" list-windows --focused --format '%{app-bundle-i
 
 # Any focused Helium window counts, not just the first one.
 if [ "$focused_bundle_id" = "$helium_bundle_id" ]; then
-  exec "$aerospace" focus-back-and-forth
+  exec "$(dirname "$0")/focus-previous.sh" "$helium_bundle_id" com.superlogical.rex
 fi
 
 helium_window=$(helium_window_id)

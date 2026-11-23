@@ -22,7 +22,7 @@ rex_window=$(rex_window_id)
 focused_window=$("$aerospace" list-windows --focused --format '%{window-id}' 2>/dev/null || true)
 
 if [ -n "$rex_window" ] && [ "$focused_window" = "$rex_window" ]; then
-  exec "$aerospace" focus-back-and-forth
+  exec "$(dirname "$0")/focus-previous.sh" "$rex_bundle_id" net.imput.helium
 fi
 
 if [ -z "$rex_window" ]; then
