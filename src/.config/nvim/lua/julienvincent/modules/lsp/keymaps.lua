@@ -16,7 +16,7 @@ function M.setup_on_attach_keybinds(buf)
 
   map("gd", function()
     require("fzf-lua").lsp_definitions({
-      jump_to_single_result = true,
+      jump1 = true,
     })
   end, buf, "Go to definition")
   map("gD", ":vsp<CR><cmd>lua vim.lsp.buf.definition()<CR>", buf, "Go to definition vertical split")
