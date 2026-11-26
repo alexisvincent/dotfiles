@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Install my devbox setup on a fresh Fly Sprite.
+# Install my devbox setup on a fresh Fly Sprite, or on a Vercel sandbox (Ubuntu image).
 #
 #   curl -fsSL https://raw.githubusercontent.com/alexisvincent/dotfiles/master/install-devbox.sh | bash -s [NAME]
 #
@@ -13,9 +13,21 @@
 #
 # The token comes from $DEVBOX_OP_TOKEN, or is used as it is if already at
 # ~/.config/devbox/op-token. No secrets live in this file.
+#
+# DEVBOX_REF=<branch or tag> clones that ref of the devbox repo instead of its default branch.
+# On a bare image (Vercel's Ubuntu sandbox image has no curl): first run
+#   sudo apt-get update -qq && sudo apt-get install -y -qq curl ca-certificates
 set -euo pipefail
 TOKEN="$HOME/.config/devbox/op-token"
 DIR="$HOME/code/devbox"
+
+# 0. What the steps below call. A Sprite has all of it; a bare Ubuntu image has none.
+for c in git gpg curl; do
+  command -v "$c" >/dev/null && continue
+  sudo apt-get update -qq
+  sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq git gnupg curl ca-certificates >/dev/null
+  break
+done
 
 # 1. 1Password CLI
 if ! command -v op >/dev/null; then
@@ -49,7 +61,7 @@ EOF
   chmod 700 "$helper"
   mkdir -p "$(dirname "$DIR")"
   git -c credential.helper= -c credential.helper="$helper" \
-    clone -q https://github.com/alexisvincent/devbox.git "$DIR"
+    clone -q ${DEVBOX_REF:+--branch "$DEVBOX_REF"} https://github.com/alexisvincent/devbox.git "$DIR"
   rm -f "$helper"
 fi
 
