@@ -45,6 +45,12 @@ return {
       -- well over 1 GiB of memory (the Rex machines got killed for it).
       require("nvim-treesitter").install(parsers, { max_jobs = 2 })
 
+      -- The same install, but waiting until it is done: for scripts that set a
+      -- machine up (nvim --headless +TSInstallSync +qa).
+      vim.api.nvim_create_user_command("TSInstallSync", function()
+        require("nvim-treesitter").install(parsers, { max_jobs = 2 }):wait(15 * 60 * 1000)
+      end, { desc = "Install the configured treesitter parsers and wait for them" })
+
       local parser_configs = require("nvim-treesitter.parsers")
 
       parser_configs.spicedb = {
